@@ -1,0 +1,4552 @@
+[
+ {
+  "id": "I-hco3-heating-base",
+  "group": "I",
+  "anion": "HCO₃⁻",
+  "anionName": "bicarbonate",
+  "category": "general",
+  "reagent": "heating",
+  "reagentName": "heating",
+  "condition": null,
+  "observation": "Upon heating Bicarbonate (HCO₃⁻), it converts to Carbonate (CO₃²⁻) which is insoluble + the liberation of CO₂ gas",
+  "visual": {
+   "type": "gas",
+   "color": null,
+   "heat": true
+  },
+  "product": "CO₃²⁻ (carbonate) + CO₂ (carbon dioxide)",
+  "equation": null,
+  "solubility": "All Bicarbonates are soluble · all Carbonates are insoluble except Na₂CO₃, K₂CO₃ and (NH₄)₂CO₃",
+  "slideRef": "L01 · s9",
+  "flag": null
+ },
+ {
+  "id": "I-co32-dil-hcl-base",
+  "group": "I",
+  "anion": "CO₃²⁻",
+  "anionName": "carbonate",
+  "category": "dry",
+  "reagent": "dil. HCl",
+  "reagentName": "dilute hydrochloric acid",
+  "condition": null,
+  "observation": "Decomposition with effervescence due to the evolution of CO₂ gas",
+  "visual": {
+   "type": "gas",
+   "color": null
+  },
+  "product": "CO₂ (carbon dioxide)",
+  "equation": "CaCO₃ + 2HCl → CaCl₂ + CO₂↑ + H₂O",
+  "solubility": null,
+  "slideRef": "L01 · s10",
+  "flag": null
+ },
+ {
+  "id": "I-hco3-dil-hcl-base",
+  "group": "I",
+  "anion": "HCO₃⁻",
+  "anionName": "bicarbonate",
+  "category": "dry",
+  "reagent": "dil. HCl",
+  "reagentName": "dilute hydrochloric acid",
+  "condition": null,
+  "observation": "Decomposition with effervescence due to the evolution of CO₂ gas",
+  "visual": {
+   "type": "gas",
+   "color": null
+  },
+  "product": "CO₂ (carbon dioxide)",
+  "equation": "Ca(HCO₃)₂ + 2HCl → CaCl₂ + CO₂↑ + 2H₂O",
+  "solubility": null,
+  "slideRef": "L01 · s10",
+  "flag": {
+   "source": "extra",
+   "slide": "Ca(HCO₃)₂ + 2HCl → CaCl₂ + CO₂↑ + 2H₂O",
+   "correct": "Ca(HCO₃)₂ + 2HCl → CaCl₂ + 2CO₂↑ + 2H₂O",
+   "note": "الـ C والـ O مش متوازنين: Ca(HCO₃)₂ فيها 2 carbon"
+  }
+ },
+ {
+  "id": "I-co32-conc-h2so4-most-carbonates",
+  "group": "I",
+  "anion": "CO₃²⁻",
+  "anionName": "carbonate",
+  "category": "dry",
+  "reagent": "conc. H₂SO₄",
+  "reagentName": "concentrated sulphuric acid",
+  "condition": "most carbonates",
+  "observation": "The same as HCl: effervescence due to the evolution of CO₂ gas",
+  "visual": {
+   "type": "gas",
+   "color": null
+  },
+  "product": "CO₂ (carbon dioxide)",
+  "equation": null,
+  "solubility": null,
+  "slideRef": "L01 · s14",
+  "flag": null
+ },
+ {
+  "id": "I-co32-conc-h2so4-lead-or-barium-carbonate",
+  "group": "I",
+  "anion": "CO₃²⁻",
+  "anionName": "carbonate",
+  "category": "dry",
+  "reagent": "conc. H₂SO₄",
+  "reagentName": "concentrated sulphuric acid",
+  "condition": "lead or barium carbonate",
+  "observation": "The same as HCl but in case of lead or barium → ppt. is formed (white turbidity) + CO₂",
+  "visual": {
+   "type": "ppt",
+   "color": "white",
+   "style": "turbidity",
+   "bubbles": true
+  },
+  "product": "PbSO₄ (lead sulphate) or BaSO₄ (barium sulphate) + CO₂ (carbon dioxide)",
+  "equation": "PbCO₃ + H₂SO₄ → PbSO₄↓ + CO₂↑ + H₂O · BaCO₃ + H₂SO₄ → BaSO₄↓ + CO₂↑ + H₂O",
+  "solubility": null,
+  "slideRef": "L01 · s14",
+  "flag": null
+ },
+ {
+  "id": "I-hco3-conc-h2so4-base",
+  "group": "I",
+  "anion": "HCO₃⁻",
+  "anionName": "bicarbonate",
+  "category": "dry",
+  "reagent": "conc. H₂SO₄",
+  "reagentName": "concentrated sulphuric acid",
+  "condition": null,
+  "observation": "The same as HCl: effervescence due to the evolution of CO₂ gas",
+  "visual": {
+   "type": "gas",
+   "color": null
+  },
+  "product": "CO₂ (carbon dioxide)",
+  "equation": null,
+  "solubility": null,
+  "slideRef": "L01 · s14",
+  "flag": null
+ },
+ {
+  "id": "I-co32-lime-water-ca-oh-2-co2-passed-in",
+  "group": "I",
+  "anion": "CO₃²⁻",
+  "anionName": "carbonate",
+  "category": "confirm",
+  "reagent": "lime water Ca(OH)₂",
+  "reagentName": "lime water (calcium hydroxide)",
+  "condition": "CO₂ passed in",
+  "observation": "White turbidity (limestone): turbidity indicates carbonates or bicarbonates",
+  "visual": {
+   "type": "ppt",
+   "color": "white",
+   "style": "turbidity",
+   "bubbles": true,
+   "source": {
+    "kind": "transfer",
+    "label": "CO₃²⁻ + dil. HCl"
+   }
+  },
+  "product": "CaCO₃ (calcium carbonate, limestone)",
+  "equation": "CO₂ + Ca(OH)₂ → CaCO₃↓ + H₂O",
+  "solubility": null,
+  "slideRef": "L01 · s12",
+  "flag": null
+ },
+ {
+  "id": "I-co32-lime-water-ca-oh-2-prolonged-passage-of-co2",
+  "group": "I",
+  "anion": "CO₃²⁻",
+  "anionName": "carbonate",
+  "category": "confirm",
+  "reagent": "lime water Ca(OH)₂",
+  "reagentName": "lime water (calcium hydroxide)",
+  "condition": "prolonged passage of CO₂",
+  "observation": "The turbidity will disappear as a result of the formation of a soluble bicarbonate (ppt dissolves)",
+  "visual": {
+   "type": "ppt",
+   "color": "white",
+   "style": "turbidity",
+   "bubbles": true,
+   "dissolve": true,
+   "source": {
+    "kind": "transfer",
+    "label": "CO₃²⁻ + dil. HCl"
+   }
+  },
+  "product": "Ca(HCO₃)₂ (calcium bicarbonate, soluble)",
+  "equation": "CaCO₃↓ + H₂O + CO₂ ⇌ Ca(HCO₃)₂ (bubbling CO₂ → · ← boiling)",
+  "solubility": null,
+  "slideRef": "L01 · s13",
+  "flag": null
+ },
+ {
+  "id": "I-co32-baryta-water-ba-oh-2-co2-passed-in",
+  "group": "I",
+  "anion": "CO₃²⁻",
+  "anionName": "carbonate",
+  "category": "confirm",
+  "reagent": "baryta water Ba(OH)₂",
+  "reagentName": "baryta water (barium hydroxide)",
+  "condition": "CO₂ passed in",
+  "observation": "White turbidity",
+  "visual": {
+   "type": "ppt",
+   "color": "white",
+   "style": "turbidity",
+   "bubbles": true,
+   "source": {
+    "kind": "transfer",
+    "label": "CO₃²⁻ + dil. HCl"
+   }
+  },
+  "product": "BaCO₃ (barium carbonate)",
+  "equation": "CO₂ + Ba(OH)₂ → BaCO₃↓ + H₂O",
+  "solubility": null,
+  "slideRef": "L01 · s12",
+  "flag": null
+ },
+ {
+  "id": "I-hco3-lime-water-ca-oh-2-co2-passed-in",
+  "group": "I",
+  "anion": "HCO₃⁻",
+  "anionName": "bicarbonate",
+  "category": "confirm",
+  "reagent": "lime water Ca(OH)₂",
+  "reagentName": "lime water (calcium hydroxide)",
+  "condition": "CO₂ passed in",
+  "observation": "White turbidity (limestone): turbidity indicates carbonates or bicarbonates",
+  "visual": {
+   "type": "ppt",
+   "color": "white",
+   "style": "turbidity",
+   "bubbles": true,
+   "source": {
+    "kind": "transfer",
+    "label": "HCO₃⁻ + dil. HCl"
+   }
+  },
+  "product": "CaCO₃ (calcium carbonate, limestone)",
+  "equation": "CO₂ + Ca(OH)₂ → CaCO₃↓ + H₂O",
+  "solubility": null,
+  "slideRef": "L01 · s12",
+  "flag": null
+ },
+ {
+  "id": "I-hco3-lime-water-ca-oh-2-prolonged-passage-of-co2",
+  "group": "I",
+  "anion": "HCO₃⁻",
+  "anionName": "bicarbonate",
+  "category": "confirm",
+  "reagent": "lime water Ca(OH)₂",
+  "reagentName": "lime water (calcium hydroxide)",
+  "condition": "prolonged passage of CO₂",
+  "observation": "The turbidity will disappear as a result of the formation of a soluble bicarbonate (ppt dissolves)",
+  "visual": {
+   "type": "ppt",
+   "color": "white",
+   "style": "turbidity",
+   "bubbles": true,
+   "dissolve": true,
+   "source": {
+    "kind": "transfer",
+    "label": "HCO₃⁻ + dil. HCl"
+   }
+  },
+  "product": "Ca(HCO₃)₂ (calcium bicarbonate, soluble)",
+  "equation": "CaCO₃↓ + H₂O + CO₂ ⇌ Ca(HCO₃)₂ (bubbling CO₂ → · ← boiling)",
+  "solubility": null,
+  "slideRef": "L01 · s13",
+  "flag": null
+ },
+ {
+  "id": "I-hco3-baryta-water-ba-oh-2-co2-passed-in",
+  "group": "I",
+  "anion": "HCO₃⁻",
+  "anionName": "bicarbonate",
+  "category": "confirm",
+  "reagent": "baryta water Ba(OH)₂",
+  "reagentName": "baryta water (barium hydroxide)",
+  "condition": "CO₂ passed in",
+  "observation": "White turbidity",
+  "visual": {
+   "type": "ppt",
+   "color": "white",
+   "style": "turbidity",
+   "bubbles": true,
+   "source": {
+    "kind": "transfer",
+    "label": "HCO₃⁻ + dil. HCl"
+   }
+  },
+  "product": "BaCO₃ (barium carbonate)",
+  "equation": "CO₂ + Ba(OH)₂ → BaCO₃↓ + H₂O",
+  "solubility": null,
+  "slideRef": "L01 · s12",
+  "flag": null
+ },
+ {
+  "id": "I-co32-agno3-cold",
+  "group": "I",
+  "anion": "CO₃²⁻",
+  "anionName": "carbonate",
+  "category": "wet",
+  "reagent": "AgNO₃",
+  "reagentName": "silver nitrate",
+  "condition": "cold",
+  "observation": "A white precipitate of silver carbonate is immediately formed",
+  "visual": {
+   "type": "ppt",
+   "color": "white"
+  },
+  "product": "Ag₂CO₃ (silver carbonate)",
+  "equation": "CO₃²⁻ + 2Ag⁺ → Ag₂CO₃↓",
+  "solubility": "Soluble in mineral acids (nitric acid) and in ammonia: Ag₂CO₃ + 2HNO₃ → 2AgNO₃ + CO₂↑ + H₂O · Ag₂CO₃ + 4NH₃ → 2[Ag(NH₃)₂]⁺ + CO₃²⁻",
+  "slideRef": "L01 · s16",
+  "flag": null
+ },
+ {
+  "id": "I-co32-agno3-boiling",
+  "group": "I",
+  "anion": "CO₃²⁻",
+  "anionName": "carbonate",
+  "category": "wet",
+  "reagent": "AgNO₃",
+  "reagentName": "silver nitrate",
+  "condition": "boiling",
+  "observation": "The precipitate becomes Black if the mixture is boiled",
+  "visual": {
+   "type": "ppt",
+   "timeline": [
+    "white",
+    "black"
+   ],
+   "heat": true,
+   "bubbles": true,
+   "color": "black"
+  },
+  "product": "Ag₂O (silver oxide) + CO₂ (carbon dioxide)",
+  "equation": "CO₃²⁻ + 2Ag⁺ → Ag₂CO₃↓ (white turbidity) → (Boiling) Ag₂O↓ (black ppt.) + CO₂↑",
+  "solubility": null,
+  "slideRef": "L01 · s16",
+  "flag": null
+ },
+ {
+  "id": "I-hco3-agno3-cold",
+  "group": "I",
+  "anion": "HCO₃⁻",
+  "anionName": "bicarbonate",
+  "category": "wet",
+  "reagent": "AgNO₃",
+  "reagentName": "silver nitrate",
+  "condition": "cold",
+  "observation": "No ppt. on cold since all bicarbonates are soluble in water",
+  "visual": {
+   "type": "none"
+  },
+  "product": "AgHCO₃ (silver bicarbonate, soluble)",
+  "equation": "HCO₃⁻ + Ag⁺ → AgHCO₃ (soluble)",
+  "solubility": null,
+  "slideRef": "L01 · s16",
+  "flag": null
+ },
+ {
+  "id": "I-hco3-agno3-boiling",
+  "group": "I",
+  "anion": "HCO₃⁻",
+  "anionName": "bicarbonate",
+  "category": "wet",
+  "reagent": "AgNO₃",
+  "reagentName": "silver nitrate",
+  "condition": "boiling",
+  "observation": "But upon boiling a precipitation will be formed due to the formation of carbonates (white turbidity)",
+  "visual": {
+   "type": "ppt",
+   "color": "white",
+   "style": "turbidity",
+   "heat": true,
+   "bubbles": true
+  },
+  "product": "Ag₂CO₃ (silver carbonate) + CO₂ (carbon dioxide)",
+  "equation": "AgHCO₃ → (Boiling) Ag₂CO₃↓ + CO₂↑ + H₂O",
+  "solubility": null,
+  "slideRef": "L01 · s16",
+  "flag": {
+   "source": "extra",
+   "slide": "AgHCO₃ → (Boiling) Ag₂CO₃↓ + CO₂↑ + H₂O",
+   "correct": "2AgHCO₃ → (Boiling) Ag₂CO₃↓ + CO₂↑ + H₂O",
+   "note": "الـ Ag مش متوازن: محتاج 2AgHCO₃"
+  }
+ },
+ {
+  "id": "I-hco3-agno3-excess-boiling",
+  "group": "I",
+  "anion": "HCO₃⁻",
+  "anionName": "bicarbonate",
+  "category": "wet",
+  "reagent": "AgNO₃",
+  "reagentName": "silver nitrate",
+  "condition": "excess boiling",
+  "observation": "Excess boiling → black ppt. (Ag₂O)",
+  "visual": {
+   "type": "ppt",
+   "timeline": [
+    "white",
+    "black"
+   ],
+   "heat": true,
+   "bubbles": true,
+   "color": "black"
+  },
+  "product": "Ag₂O (silver oxide) + CO₂ (carbon dioxide)",
+  "equation": "Ag₂CO₃ → (Excess boiling) Ag₂O↓ (black ppt.) + CO₂",
+  "solubility": null,
+  "slideRef": "L01 · s16",
+  "flag": null
+ },
+ {
+  "id": "I-co32-bacl2-base",
+  "group": "I",
+  "anion": "CO₃²⁻",
+  "anionName": "carbonate",
+  "category": "wet",
+  "reagent": "BaCl₂",
+  "reagentName": "barium chloride",
+  "condition": null,
+  "observation": "A white precipitate of Barium Carbonate is immediately formed (white turbidity)",
+  "visual": {
+   "type": "ppt",
+   "color": "white",
+   "style": "turbidity"
+  },
+  "product": "BaCO₃ (barium carbonate)",
+  "equation": "CO₃²⁻ + BaCl₂ → BaCO₃↓ + 2Cl⁻",
+  "solubility": "The precipitate is soluble in mineral acids (nitric acid): BaCO₃ + 2HNO₃ → 2BaNO₃ + CO₂↑ + H₂O",
+  "slideRef": "L01 · s17",
+  "flag": {
+   "source": "doc",
+   "slide": "BaCO₃ + 2HNO₃ → 2BaNO₃ + CO₂↑ + H₂O",
+   "correct": "BaCO₃ + 2HNO₃ → Ba(NO₃)₂ + CO₂↑ + H₂O",
+   "note": "الصيغة غلط، الأيون +2"
+  }
+ },
+ {
+  "id": "I-co32-cacl2-base",
+  "group": "I",
+  "anion": "CO₃²⁻",
+  "anionName": "carbonate",
+  "category": "wet",
+  "reagent": "CaCl₂",
+  "reagentName": "calcium chloride",
+  "condition": null,
+  "observation": "A white precipitate of Calcium Carbonate is immediately formed (white turbidity)",
+  "visual": {
+   "type": "ppt",
+   "color": "white",
+   "style": "turbidity"
+  },
+  "product": "CaCO₃ (calcium carbonate)",
+  "equation": "CO₃²⁻ + CaCl₂ → CaCO₃↓ + 2Cl⁻",
+  "solubility": "The precipitate is soluble in mineral acids (nitric acid): CaCO₃ + 2HNO₃ → 2CaNO₃ + CO₂↑ + H₂O",
+  "slideRef": "L01 · s17",
+  "flag": {
+   "source": "doc",
+   "slide": "CaCO₃ + 2HNO₃ → 2CaNO₃ + CO₂↑ + H₂O",
+   "correct": "CaCO₃ + 2HNO₃ → Ca(NO₃)₂ + CO₂↑ + H₂O",
+   "note": "الصيغة غلط، الأيون +2"
+  }
+ },
+ {
+  "id": "I-co32-mgso4-base",
+  "group": "I",
+  "anion": "CO₃²⁻",
+  "anionName": "carbonate",
+  "category": "wet",
+  "reagent": "MgSO₄",
+  "reagentName": "magnesium sulphate",
+  "condition": null,
+  "observation": "A white precipitate of Magnesium Carbonate is immediately formed (white turbidity)",
+  "visual": {
+   "type": "ppt",
+   "color": "white",
+   "style": "turbidity"
+  },
+  "product": "MgCO₃ (magnesium carbonate)",
+  "equation": "CO₃²⁻ + MgSO₄ → MgCO₃↓ + SO₄²⁻",
+  "solubility": "The precipitate is soluble in mineral acids (nitric acid): MgCO₃ + 2HNO₃ → 2MgNO₃ + CO₂↑ + H₂O",
+  "slideRef": "L01 · s17",
+  "flag": {
+   "source": "doc",
+   "slide": "MgCO₃ + 2HNO₃ → 2MgNO₃ + CO₂↑ + H₂O",
+   "correct": "MgCO₃ + 2HNO₃ → Mg(NO₃)₂ + CO₂↑ + H₂O",
+   "note": "الصيغة غلط، الأيون +2"
+  }
+ },
+ {
+  "id": "I-hco3-bacl2-cold",
+  "group": "I",
+  "anion": "HCO₃⁻",
+  "anionName": "bicarbonate",
+  "category": "wet",
+  "reagent": "BaCl₂",
+  "reagentName": "barium chloride",
+  "condition": "cold",
+  "observation": "No ppt. on cold since all bicarbonates are soluble in water",
+  "visual": {
+   "type": "none"
+  },
+  "product": "Ba(HCO₃)₂ (barium bicarbonate, soluble)",
+  "equation": "2HCO₃⁻ + BaCl₂ → Ba(HCO₃)₂ + 2Cl⁻ (soluble)",
+  "solubility": null,
+  "slideRef": "L01 · s17",
+  "flag": null
+ },
+ {
+  "id": "I-hco3-cacl2-cold",
+  "group": "I",
+  "anion": "HCO₃⁻",
+  "anionName": "bicarbonate",
+  "category": "wet",
+  "reagent": "CaCl₂",
+  "reagentName": "calcium chloride",
+  "condition": "cold",
+  "observation": "No ppt. on cold since all bicarbonates are soluble in water",
+  "visual": {
+   "type": "none"
+  },
+  "product": "Ca(HCO₃)₂ (calcium bicarbonate, soluble)",
+  "equation": "2HCO₃⁻ + CaCl₂ → Ca(HCO₃)₂ + 2Cl⁻ (soluble)",
+  "solubility": null,
+  "slideRef": "L01 · s17",
+  "flag": null
+ },
+ {
+  "id": "I-hco3-mgso4-cold",
+  "group": "I",
+  "anion": "HCO₃⁻",
+  "anionName": "bicarbonate",
+  "category": "wet",
+  "reagent": "MgSO₄",
+  "reagentName": "magnesium sulphate",
+  "condition": "cold",
+  "observation": "No ppt. on cold since all bicarbonates are soluble in water",
+  "visual": {
+   "type": "none"
+  },
+  "product": "Mg(HCO₃)₂ (magnesium bicarbonate, soluble)",
+  "equation": "2HCO₃⁻ + MgSO₄ → Mg(HCO₃)₂ + 2SO₄²⁻ (soluble)",
+  "solubility": null,
+  "slideRef": "L01 · s17",
+  "flag": {
+   "source": "extra",
+   "slide": "2HCO₃⁻ + MgSO₄ → Mg(HCO₃)₂ + 2SO₄²⁻",
+   "correct": "2HCO₃⁻ + MgSO₄ → Mg(HCO₃)₂ + SO₄²⁻",
+   "note": "فيه SO₄ واحدة بس في الشمال"
+  }
+ },
+ {
+  "id": "I-hco3-bacl2-boiling",
+  "group": "I",
+  "anion": "HCO₃⁻",
+  "anionName": "bicarbonate",
+  "category": "wet",
+  "reagent": "BaCl₂",
+  "reagentName": "barium chloride",
+  "condition": "boiling",
+  "observation": "But upon boiling a precipitation will be formed due to the formation of carbonates + CO₂ + H₂O (white turbidity)",
+  "visual": {
+   "type": "ppt",
+   "color": "white",
+   "style": "turbidity",
+   "heat": true,
+   "bubbles": true
+  },
+  "product": "BaCO₃ (barium carbonate) + CO₂ (carbon dioxide)",
+  "equation": "Ba(HCO₃)₂ → (Boiling) BaCO₃↓ + CO₂↑ + H₂O",
+  "solubility": null,
+  "slideRef": "L01 · s17",
+  "flag": null
+ },
+ {
+  "id": "I-hco3-cacl2-boiling",
+  "group": "I",
+  "anion": "HCO₃⁻",
+  "anionName": "bicarbonate",
+  "category": "wet",
+  "reagent": "CaCl₂",
+  "reagentName": "calcium chloride",
+  "condition": "boiling",
+  "observation": "But upon boiling a precipitation will be formed due to the formation of carbonates + CO₂ + H₂O (white turbidity)",
+  "visual": {
+   "type": "ppt",
+   "color": "white",
+   "style": "turbidity",
+   "heat": true,
+   "bubbles": true
+  },
+  "product": "CaCO₃ (calcium carbonate) + CO₂ (carbon dioxide)",
+  "equation": "(Boiling) → CaCO₃↓ (white turbidity) + CO₂ + H₂O",
+  "solubility": null,
+  "slideRef": "L01 · s17",
+  "flag": null
+ },
+ {
+  "id": "I-hco3-mgso4-boiling",
+  "group": "I",
+  "anion": "HCO₃⁻",
+  "anionName": "bicarbonate",
+  "category": "wet",
+  "reagent": "MgSO₄",
+  "reagentName": "magnesium sulphate",
+  "condition": "boiling",
+  "observation": "But upon boiling a precipitation will be formed due to the formation of carbonates + CO₂ + H₂O (white turbidity)",
+  "visual": {
+   "type": "ppt",
+   "color": "white",
+   "style": "turbidity",
+   "heat": true,
+   "bubbles": true
+  },
+  "product": "MgCO₃ (magnesium carbonate) + CO₂ (carbon dioxide)",
+  "equation": "(Boiling) → MgCO₃↓ (white turbidity) + CO₂ + H₂O",
+  "solubility": null,
+  "slideRef": "L01 · s17",
+  "flag": null
+ },
+ {
+  "id": "II-s2-heating-the-parent-acid-h2s",
+  "group": "II",
+  "anion": "S²⁻",
+  "anionName": "sulphide",
+  "category": "general",
+  "reagent": "heating the parent acid",
+  "reagentName": "heating the parent acid",
+  "condition": "H₂S",
+  "observation": "Volatilizes (H₂S, hydrogen sulphide: rotten egg odor)",
+  "visual": {
+   "type": "gas",
+   "color": null,
+   "odor": "rotten egg odor",
+   "heat": true
+  },
+  "product": "H₂S (hydrogen sulphide)",
+  "equation": null,
+  "solubility": null,
+  "slideRef": "L01 · s19",
+  "flag": null
+ },
+ {
+  "id": "II-so32-heating-the-parent-acid-h2so3",
+  "group": "II",
+  "anion": "SO₃²⁻",
+  "anionName": "sulphite",
+  "category": "general",
+  "reagent": "heating the parent acid",
+  "reagentName": "heating the parent acid",
+  "condition": "H₂SO₃",
+  "observation": "H₂O + SO₂↑ (burnt Sulphur odor)",
+  "visual": {
+   "type": "gas",
+   "color": null,
+   "odor": "burnt Sulphur odor",
+   "heat": true
+  },
+  "product": "SO₂ (sulphur dioxide)",
+  "equation": "H₂SO₃ → (Heating) H₂O + SO₂↑",
+  "solubility": null,
+  "slideRef": "L01 · s19",
+  "flag": null
+ },
+ {
+  "id": "II-s2o32-heating-the-parent-acid-h2s2o3",
+  "group": "II",
+  "anion": "S₂O₃²⁻",
+  "anionName": "thiosulphate",
+  "category": "general",
+  "reagent": "heating the parent acid",
+  "reagentName": "heating the parent acid",
+  "condition": "H₂S₂O₃",
+  "observation": "H₂O + SO₂↑ (burnt Sulphur odor) + S⁰↓ (yellow ppt)",
+  "visual": {
+   "type": "gas",
+   "color": null,
+   "odor": "burnt Sulphur odor",
+   "heat": true,
+   "ppt": {
+    "color": "yellow",
+    "style": "colloidal"
+   }
+  },
+  "product": "SO₂ (sulphur dioxide) + S⁰ (sulphur, yellow ppt)",
+  "equation": "H₂S₂O₃ → (Heating) H₂O + SO₂↑ + S⁰↓",
+  "solubility": null,
+  "slideRef": "L01 · s19",
+  "flag": null
+ },
+ {
+  "id": "II-so42-heating-the-parent-acid-h2so4",
+  "group": "II",
+  "anion": "SO₄²⁻",
+  "anionName": "sulphate",
+  "category": "general",
+  "reagent": "heating the parent acid",
+  "reagentName": "heating the parent acid",
+  "condition": "H₂SO₄",
+  "observation": "No effect (Non-volatile)",
+  "visual": {
+   "type": "none"
+  },
+  "product": null,
+  "equation": null,
+  "solubility": null,
+  "slideRef": "L01 · s19",
+  "flag": null
+ },
+ {
+  "id": "II-s2-i2-base",
+  "group": "II",
+  "anion": "S²⁻",
+  "anionName": "sulphide",
+  "category": "general",
+  "reagent": "I₂",
+  "reagentName": "iodine",
+  "condition": null,
+  "observation": "Decolorization of iodine color solution: brown → colorless, with yellow turbidity (S⁰)",
+  "visual": {
+   "type": "solution",
+   "timeline": [
+    "brown",
+    "colorless"
+   ],
+   "ppt": {
+    "color": "yellow",
+    "style": "turbidity"
+   },
+   "color": "colorless"
+  },
+  "product": "I⁻ (iodide) + S⁰ (sulphur)",
+  "equation": "I₂ (brown) + S²⁻ → 2I⁻ (colorless) + S⁰ (yellow turbidity)",
+  "solubility": "The two gases H₂S and SO₂ are reducing: the same color change is used as a confirmatory test for the gases (L01 · s26)",
+  "slideRef": "L01 · s20",
+  "flag": null
+ },
+ {
+  "id": "II-so32-i2-base",
+  "group": "II",
+  "anion": "SO₃²⁻",
+  "anionName": "sulphite",
+  "category": "general",
+  "reagent": "I₂",
+  "reagentName": "iodine",
+  "condition": null,
+  "observation": "Decolorization of iodine color solution: brown → colorless",
+  "visual": {
+   "type": "solution",
+   "timeline": [
+    "brown",
+    "colorless"
+   ],
+   "color": "colorless"
+  },
+  "product": "I⁻ (iodide) + SO₄²⁻ (sulphate)",
+  "equation": "I₂ (brown) + SO₃²⁻ + H₂O → 2I⁻ (colorless) + 2H⁺ + SO₄²⁻",
+  "solubility": "The two gases H₂S and SO₂ are reducing: the same color change is used as a confirmatory test for the gases (L01 · s26)",
+  "slideRef": "L01 · s20",
+  "flag": null
+ },
+ {
+  "id": "II-s2o32-i2-base",
+  "group": "II",
+  "anion": "S₂O₃²⁻",
+  "anionName": "thiosulphate",
+  "category": "general",
+  "reagent": "I₂",
+  "reagentName": "iodine",
+  "condition": null,
+  "observation": "Decolorization of iodine color solution: brown → colorless",
+  "visual": {
+   "type": "solution",
+   "timeline": [
+    "brown",
+    "colorless"
+   ],
+   "color": "colorless"
+  },
+  "product": "I⁻ (iodide) + S₄O₆²⁻ (tetrathionate)",
+  "equation": "I₂ (brown) + 2S₂O₃²⁻ → 2I⁻ (colorless) + S₄O₆²⁻",
+  "solubility": "The two gases H₂S and SO₂ are reducing: the same color change is used as a confirmatory test for the gases (L01 · s26)",
+  "slideRef": "L01 · s20",
+  "flag": null
+ },
+ {
+  "id": "II-s2-mno4-base",
+  "group": "II",
+  "anion": "S²⁻",
+  "anionName": "sulphide",
+  "category": "general",
+  "reagent": "MnO₄⁻",
+  "reagentName": "permanganate",
+  "condition": null,
+  "observation": "Decolorization of permanganate pink color due to the formation of manganous ion (Mn²⁺)",
+  "visual": {
+   "type": "solution",
+   "timeline": [
+    "pink",
+    "colorless"
+   ],
+   "color": "colorless"
+  },
+  "product": "Mn²⁺ (manganous ion) + S⁰ (sulphur)",
+  "equation": "2MnO₄⁻ (pink) + 5S²⁻ + 16H⁺ → 2Mn²⁺ (colorless) + 5S⁰ + 8H₂O",
+  "solubility": "The two gases H₂S and SO₂ are reducing: the same color change is used as a confirmatory test for the gases (L01 · s26)",
+  "slideRef": "L01 · s21",
+  "flag": null
+ },
+ {
+  "id": "II-so32-mno4-base",
+  "group": "II",
+  "anion": "SO₃²⁻",
+  "anionName": "sulphite",
+  "category": "general",
+  "reagent": "MnO₄⁻",
+  "reagentName": "permanganate",
+  "condition": null,
+  "observation": "Decolorization of permanganate pink color due to the formation of manganous ion (Mn²⁺)",
+  "visual": {
+   "type": "solution",
+   "timeline": [
+    "pink",
+    "colorless"
+   ],
+   "color": "colorless"
+  },
+  "product": "Mn²⁺ (manganous ion) + SO₄²⁻ (sulphate)",
+  "equation": "2MnO₄⁻ (pink) + 5SO₃²⁻ + 6H⁺ → 2Mn²⁺ (colorless) + 5SO₄²⁻ + 3H₂O",
+  "solubility": "The two gases H₂S and SO₂ are reducing: the same color change is used as a confirmatory test for the gases (L01 · s26)",
+  "slideRef": "L01 · s21",
+  "flag": null
+ },
+ {
+  "id": "II-s2o32-mno4-base",
+  "group": "II",
+  "anion": "S₂O₃²⁻",
+  "anionName": "thiosulphate",
+  "category": "general",
+  "reagent": "MnO₄⁻",
+  "reagentName": "permanganate",
+  "condition": null,
+  "observation": "Decolorization of permanganate pink color due to the formation of manganous ion (Mn²⁺)",
+  "visual": {
+   "type": "solution",
+   "timeline": [
+    "pink",
+    "colorless"
+   ],
+   "color": "colorless"
+  },
+  "product": "Mn²⁺ (manganous ion) + SO₄²⁻ (sulphate)",
+  "equation": "2MnO₄⁻ (pink) + 5S₂O₃²⁻ + 14H⁺ → 2Mn²⁺ (colorless) + 10SO₄²⁻ + 7H₂O",
+  "solubility": "The two gases H₂S and SO₂ are reducing: the same color change is used as a confirmatory test for the gases (L01 · s26)",
+  "slideRef": "L01 · s21",
+  "flag": {
+   "source": "doc",
+   "slide": "2MnO₄⁻ + 5S₂O₃²⁻ + 14H⁺ → 2Mn²⁺ + 10SO₄²⁻ + 7H₂O",
+   "correct": "8MnO₄⁻ + 5S₂O₃²⁻ + 14H⁺ → 8Mn²⁺ + 10SO₄²⁻ + 7H₂O",
+   "note": "مش متوازنة (O والشحنة)"
+  }
+ },
+ {
+  "id": "II-s2-cr2o72-base",
+  "group": "II",
+  "anion": "S²⁻",
+  "anionName": "sulphide",
+  "category": "general",
+  "reagent": "Cr₂O₇²⁻",
+  "reagentName": "dichromate",
+  "condition": null,
+  "observation": "Change the color from orange to green due to the formation of chromium ion (Cr³⁺)",
+  "visual": {
+   "type": "solution",
+   "timeline": [
+    "orange",
+    "green"
+   ],
+   "color": "green"
+  },
+  "product": "Cr³⁺ (chromium ion) + S⁰ (sulphur)",
+  "equation": "Cr₂O₇²⁻ (orange) + 3S²⁻ + 14H⁺ → 2Cr³⁺ (green) + 3S⁰ + 7H₂O",
+  "solubility": "The two gases H₂S and SO₂ are reducing: the same color change is used as a confirmatory test for the gases (L01 · s26)",
+  "slideRef": "L01 · s22",
+  "flag": null
+ },
+ {
+  "id": "II-so32-cr2o72-base",
+  "group": "II",
+  "anion": "SO₃²⁻",
+  "anionName": "sulphite",
+  "category": "general",
+  "reagent": "Cr₂O₇²⁻",
+  "reagentName": "dichromate",
+  "condition": null,
+  "observation": "Change the color from orange to green due to the formation of chromium ion (Cr³⁺)",
+  "visual": {
+   "type": "solution",
+   "timeline": [
+    "orange",
+    "green"
+   ],
+   "color": "green"
+  },
+  "product": "Cr³⁺ (chromium ion) + SO₄²⁻ (sulphate)",
+  "equation": "Cr₂O₇²⁻ (orange) + 3SO₃²⁻ + 8H⁺ → 2Cr³⁺ (green) + 3SO₄²⁻ + 4H₂O",
+  "solubility": "The two gases H₂S and SO₂ are reducing: the same color change is used as a confirmatory test for the gases (L01 · s26)",
+  "slideRef": "L01 · s22",
+  "flag": null
+ },
+ {
+  "id": "II-s2o32-cr2o72-base",
+  "group": "II",
+  "anion": "S₂O₃²⁻",
+  "anionName": "thiosulphate",
+  "category": "general",
+  "reagent": "Cr₂O₇²⁻",
+  "reagentName": "dichromate",
+  "condition": null,
+  "observation": "Change the color from orange to green due to the formation of chromium ion (Cr³⁺)",
+  "visual": {
+   "type": "solution",
+   "timeline": [
+    "orange",
+    "green"
+   ],
+   "color": "green"
+  },
+  "product": "Cr³⁺ (chromium ion) + SO₄²⁻ (sulphate)",
+  "equation": "Cr₂O₇²⁻ (orange) + 3S₂O₃²⁻ + 26H⁺ → 2Cr³⁺ (green) + 3SO₄²⁻ + 13H₂O",
+  "solubility": "The two gases H₂S and SO₂ are reducing: the same color change is used as a confirmatory test for the gases (L01 · s26)",
+  "slideRef": "L01 · s22",
+  "flag": {
+   "source": "doc",
+   "slide": "Cr₂O₇²⁻ + 3S₂O₃²⁻ + 26H⁺ → 2Cr³⁺ + 3SO₄²⁻ + 13H₂O",
+   "correct": "4Cr₂O₇²⁻ + 3S₂O₃²⁻ + 26H⁺ → 8Cr³⁺ + 6SO₄²⁻ + 13H₂O",
+   "note": "مش متوازنة (S و O والشحنة)"
+  }
+ },
+ {
+  "id": "II-s2-dil-hcl-heating",
+  "group": "II",
+  "anion": "S²⁻",
+  "anionName": "sulphide",
+  "category": "dry",
+  "reagent": "dil. HCl",
+  "reagentName": "dilute hydrochloric acid",
+  "condition": "heating",
+  "observation": "Evolution of H₂S gas → rotten egg odor",
+  "visual": {
+   "type": "gas",
+   "color": null,
+   "odor": "rotten egg odor",
+   "heat": true
+  },
+  "product": "H₂S (hydrogen sulphide)",
+  "equation": "S²⁻ + 2H⁺ → (Heating) H₂S↑ (egg odor)",
+  "solubility": null,
+  "slideRef": "L01 · s25",
+  "flag": null
+ },
+ {
+  "id": "II-so32-dil-hcl-heating",
+  "group": "II",
+  "anion": "SO₃²⁻",
+  "anionName": "sulphite",
+  "category": "dry",
+  "reagent": "dil. HCl",
+  "reagentName": "dilute hydrochloric acid",
+  "condition": "heating",
+  "observation": "Evolution of SO₂ gas → burnt Sulphur odor",
+  "visual": {
+   "type": "gas",
+   "color": null,
+   "odor": "burnt Sulphur odor",
+   "heat": true
+  },
+  "product": "SO₂ (sulphur dioxide)",
+  "equation": "SO₃²⁻ + 2H⁺ → H₂SO₃ → (Heating) H₂O + SO₂↑",
+  "solubility": null,
+  "slideRef": "L01 · s25",
+  "flag": null
+ },
+ {
+  "id": "II-s2o32-dil-hcl-heating",
+  "group": "II",
+  "anion": "S₂O₃²⁻",
+  "anionName": "thiosulphate",
+  "category": "dry",
+  "reagent": "dil. HCl",
+  "reagentName": "dilute hydrochloric acid",
+  "condition": "heating",
+  "observation": "Evolution of SO₂ gas → burnt Sulphur odor + colloidal yellow ppt",
+  "visual": {
+   "type": "gas",
+   "color": null,
+   "odor": "burnt Sulphur odor",
+   "heat": true,
+   "ppt": {
+    "color": "yellow",
+    "style": "colloidal"
+   }
+  },
+  "product": "SO₂ (sulphur dioxide) + S⁰ (sulphur, yellow ppt.)",
+  "equation": "S₂O₃²⁻ + 2H⁺ → H₂S₂O₃ → (Heating, causing decomposition) S⁰↓ (yellow ppt.) + H₂O + SO₂↑",
+  "solubility": null,
+  "slideRef": "L01 · s25",
+  "flag": null
+ },
+ {
+  "id": "II-so42-dil-hcl-base",
+  "group": "II",
+  "anion": "SO₄²⁻",
+  "anionName": "sulphate",
+  "category": "dry",
+  "reagent": "dil. HCl",
+  "reagentName": "dilute hydrochloric acid",
+  "condition": null,
+  "observation": "No. reaction",
+  "visual": {
+   "type": "none"
+  },
+  "product": null,
+  "equation": null,
+  "solubility": null,
+  "slideRef": "L01 · s25",
+  "flag": null
+ },
+ {
+  "id": "II-s2-lead-acetate-h2s-gas",
+  "group": "II",
+  "anion": "S²⁻",
+  "anionName": "sulphide",
+  "category": "confirm",
+  "reagent": "lead acetate",
+  "reagentName": "lead acetate (Pb²⁺)",
+  "condition": "H₂S gas",
+  "observation": "H₂S gas turns the color of lead acetate to black",
+  "visual": {
+   "type": "ppt",
+   "color": "black",
+   "source": {
+    "kind": "transfer",
+    "label": "S²⁻ + dil. HCl"
+   }
+  },
+  "product": "PbS (lead sulphide)",
+  "equation": "H₂S + Pb²⁺ → PbS↓ (black ppt.)",
+  "solubility": null,
+  "slideRef": "L01 · s26",
+  "flag": null
+ },
+ {
+  "id": "II-s2-cadmium-acetate-h2s-gas",
+  "group": "II",
+  "anion": "S²⁻",
+  "anionName": "sulphide",
+  "category": "confirm",
+  "reagent": "cadmium acetate",
+  "reagentName": "cadmium acetate (Cd²⁺)",
+  "condition": "H₂S gas",
+  "observation": "H₂S turns the color of cadmium acetate to yellow",
+  "visual": {
+   "type": "ppt",
+   "color": "yellow",
+   "source": {
+    "kind": "transfer",
+    "label": "S²⁻ + dil. HCl"
+   }
+  },
+  "product": "CdS (cadmium sulphide)",
+  "equation": "H₂S + Cd²⁺ → CdS↓ (yellow ppt.)",
+  "solubility": null,
+  "slideRef": "L01 · s26",
+  "flag": null
+ },
+ {
+  "id": "II-so32-lime-water-ca-oh-2-so2-passed-in",
+  "group": "II",
+  "anion": "SO₃²⁻",
+  "anionName": "sulphite",
+  "category": "confirm",
+  "reagent": "lime water Ca(OH)₂",
+  "reagentName": "lime water (calcium hydroxide)",
+  "condition": "SO₂ passed in",
+  "observation": "SO₂ gas → turbid lime water (like CO₂) due to the formation of the insoluble CaSO₃",
+  "visual": {
+   "type": "ppt",
+   "color": "white",
+   "style": "turbidity",
+   "bubbles": true,
+   "source": {
+    "kind": "transfer",
+    "label": "SO₃²⁻ + dil. HCl"
+   }
+  },
+  "product": "CaSO₃ (calcium sulphite)",
+  "equation": "Ca(OH)₂ + SO₂ → CaSO₃↓ + H₂O",
+  "solubility": null,
+  "slideRef": "L01 · s26",
+  "flag": null
+ },
+ {
+  "id": "II-so32-lime-water-ca-oh-2-prolonged-passage-of-so2",
+  "group": "II",
+  "anion": "SO₃²⁻",
+  "anionName": "sulphite",
+  "category": "confirm",
+  "reagent": "lime water Ca(OH)₂",
+  "reagentName": "lime water (calcium hydroxide)",
+  "condition": "prolonged passage of SO₂",
+  "observation": "CaSO₃ is soluble upon prolonged passage of SO₂ due to the formation of soluble calcium bisulphite",
+  "visual": {
+   "type": "ppt",
+   "color": "white",
+   "style": "turbidity",
+   "bubbles": true,
+   "dissolve": true,
+   "source": {
+    "kind": "transfer",
+    "label": "SO₃²⁻ + dil. HCl"
+   }
+  },
+  "product": "Ca(HSO₃)₂ (calcium bisulphite, soluble)",
+  "equation": "CaSO₃ + SO₂ + H₂O → Ca(HSO₃)₂",
+  "solubility": null,
+  "slideRef": "L01 · s26",
+  "flag": null
+ },
+ {
+  "id": "II-s2o32-lime-water-ca-oh-2-so2-passed-in",
+  "group": "II",
+  "anion": "S₂O₃²⁻",
+  "anionName": "thiosulphate",
+  "category": "confirm",
+  "reagent": "lime water Ca(OH)₂",
+  "reagentName": "lime water (calcium hydroxide)",
+  "condition": "SO₂ passed in",
+  "observation": "Thiosulphate has the same action of sulphite with HCl (SO₂ → turbid lime water) in addition to formation of yellow colloidal precipitate upon warming",
+  "visual": {
+   "type": "ppt",
+   "color": "white",
+   "style": "turbidity",
+   "bubbles": true,
+   "source": {
+    "kind": "transfer",
+    "label": "S₂O₃²⁻ + dil. HCl",
+    "ppt": "yellow"
+   }
+  },
+  "product": "CaSO₃ (calcium sulphite)",
+  "equation": "Ca(OH)₂ + SO₂ → CaSO₃↓ + H₂O",
+  "solubility": null,
+  "slideRef": "L01 · s26",
+  "flag": null
+ },
+ {
+  "id": "II-s2-agno3-base",
+  "group": "II",
+  "anion": "S²⁻",
+  "anionName": "sulphide",
+  "category": "wet",
+  "reagent": "AgNO₃",
+  "reagentName": "silver nitrate",
+  "condition": null,
+  "observation": "Black ppt",
+  "visual": {
+   "type": "ppt",
+   "color": "black"
+  },
+  "product": "Ag₂S (silver sulphide)",
+  "equation": "2Ag⁺ + S²⁻ → Ag₂S↓ (black ppt.)",
+  "solubility": "Soluble in hot dil. HNO₃ · Insoluble in Ammonia and KCN solutions",
+  "slideRef": "L01 · s28",
+  "flag": null
+ },
+ {
+  "id": "II-so32-agno3-cold",
+  "group": "II",
+  "anion": "SO₃²⁻",
+  "anionName": "sulphite",
+  "category": "wet",
+  "reagent": "AgNO₃",
+  "reagentName": "silver nitrate",
+  "condition": "cold",
+  "observation": "White crystalline ppt",
+  "visual": {
+   "type": "ppt",
+   "color": "white",
+   "style": "crystalline"
+  },
+  "product": "Ag₂SO₃ (silver sulphite)",
+  "equation": "2Ag⁺ + SO₃²⁻ → Ag₂SO₃↓ (white ppt.)",
+  "solubility": "Soluble in dil. HNO₃, Ammonia and Excess SO₃²⁻",
+  "slideRef": "L01 · s28",
+  "flag": null
+ },
+ {
+  "id": "II-so32-agno3-boiling",
+  "group": "II",
+  "anion": "SO₃²⁻",
+  "anionName": "sulphite",
+  "category": "wet",
+  "reagent": "AgNO₃",
+  "reagentName": "silver nitrate",
+  "condition": "boiling",
+  "observation": "Upon boiling gives grey ppt. of metallic silver (Ag⁰)",
+  "visual": {
+   "type": "ppt",
+   "timeline": [
+    "white",
+    "grey"
+   ],
+   "heat": true,
+   "color": "grey"
+  },
+  "product": "Ag⁰ (metallic silver)",
+  "equation": "Ag₂SO₃↓ → (Boiling) SO₂ + 2Ag₂SO₄²⁻ + 2Ag⁰↓ (grey ppt.)",
+  "solubility": null,
+  "slideRef": "L01 · s28",
+  "flag": {
+   "source": "doc",
+   "slide": "Ag₂SO₃ → (Boiling) SO₂ + 2Ag₂SO₄²⁻ + 2Ag⁰",
+   "correct": "2Ag₂SO₃ → (Boiling) 2Ag⁰↓ (grey) + Ag₂SO₄ + SO₂↑",
+   "note": "المعادلة متلخبطة"
+  }
+ },
+ {
+  "id": "II-s2o32-agno3-standing",
+  "group": "II",
+  "anion": "S₂O₃²⁻",
+  "anionName": "thiosulphate",
+  "category": "wet",
+  "reagent": "AgNO₃",
+  "reagentName": "silver nitrate",
+  "condition": "standing",
+  "observation": "White ppt; color changes on standing to yellow, brown and finally black, due to the formation of Ag₂S",
+  "visual": {
+   "type": "ppt",
+   "timeline": [
+    "white",
+    "yellow",
+    "brown",
+    "black"
+   ],
+   "color": "black"
+  },
+  "product": "Ag₂S₂O₃ (silver thiosulphate) → Ag₂S (silver sulphide)",
+  "equation": "2Ag⁺ + S₂O₃²⁻ → Ag₂S₂O₃↓ (white ppt.) → (Standing) Ag₂S↓ (black ppt.)",
+  "solubility": "Soluble in dil. HNO₃, Ammonia and Excess S₂O₃²⁻",
+  "slideRef": "L01 · s28",
+  "flag": null
+ },
+ {
+  "id": "II-so42-agno3-base",
+  "group": "II",
+  "anion": "SO₄²⁻",
+  "anionName": "sulphate",
+  "category": "wet",
+  "reagent": "AgNO₃",
+  "reagentName": "silver nitrate",
+  "condition": null,
+  "observation": "No. reaction",
+  "visual": {
+   "type": "none"
+  },
+  "product": null,
+  "equation": null,
+  "solubility": null,
+  "slideRef": "L01 · s28",
+  "flag": null
+ },
+ {
+  "id": "II-s2-bacl2-base",
+  "group": "II",
+  "anion": "S²⁻",
+  "anionName": "sulphide",
+  "category": "wet",
+  "reagent": "BaCl₂",
+  "reagentName": "barium chloride",
+  "condition": null,
+  "observation": "No. ppt",
+  "visual": {
+   "type": "none"
+  },
+  "product": null,
+  "equation": null,
+  "solubility": null,
+  "slideRef": "L01 · s29",
+  "flag": null
+ },
+ {
+  "id": "II-so32-bacl2-base",
+  "group": "II",
+  "anion": "SO₃²⁻",
+  "anionName": "sulphite",
+  "category": "wet",
+  "reagent": "BaCl₂",
+  "reagentName": "barium chloride",
+  "condition": null,
+  "observation": "White ppt",
+  "visual": {
+   "type": "ppt",
+   "color": "white"
+  },
+  "product": "BaSO₃ (barium sulphite)",
+  "equation": "Ba²⁺ + SO₃²⁻ → BaSO₃↓ (white ppt.)",
+  "solubility": "Soluble in dil HCl and excess SO₃²⁻",
+  "slideRef": "L01 · s29",
+  "flag": null
+ },
+ {
+  "id": "II-so32-bacl2-dil-hcl",
+  "group": "II",
+  "anion": "SO₃²⁻",
+  "anionName": "sulphite",
+  "category": "wet",
+  "reagent": "BaCl₂",
+  "reagentName": "barium chloride",
+  "condition": "+ dil HCl",
+  "observation": "White ppt is soluble in dil HCl (ppt dissolves)",
+  "visual": {
+   "type": "ppt",
+   "color": "white",
+   "dissolve": true
+  },
+  "product": "BaSO₃ (barium sulphite) dissolves",
+  "equation": "Ba²⁺ + SO₃²⁻ → BaSO₃↓ (white ppt.)",
+  "solubility": "Soluble in dil HCl and excess SO₃²⁻",
+  "slideRef": "L01 · s29",
+  "flag": null
+ },
+ {
+  "id": "II-so32-bacl2-h2o2-then-dil-hcl",
+  "group": "II",
+  "anion": "SO₃²⁻",
+  "anionName": "sulphite",
+  "category": "wet",
+  "reagent": "BaCl₂",
+  "reagentName": "barium chloride",
+  "condition": "+ H₂O₂, then dil HCl",
+  "observation": "Upon adding H₂O₂ the SO₃²⁻ is oxidized to SO₄²⁻ and become insoluble in dil HCl",
+  "visual": {
+   "type": "ppt",
+   "color": "white"
+  },
+  "product": "BaSO₄ (barium sulphate)",
+  "equation": "SO₃²⁻ → (H₂O₂) SO₄²⁻ ; Ba²⁺ + SO₄²⁻ → BaSO₄↓",
+  "solubility": "Insoluble in dil HCl",
+  "slideRef": "L01 · s29",
+  "flag": null
+ },
+ {
+  "id": "II-s2o32-bacl2-base",
+  "group": "II",
+  "anion": "S₂O₃²⁻",
+  "anionName": "thiosulphate",
+  "category": "wet",
+  "reagent": "BaCl₂",
+  "reagentName": "barium chloride",
+  "condition": null,
+  "observation": "No. ppt",
+  "visual": {
+   "type": "none"
+  },
+  "product": null,
+  "equation": null,
+  "solubility": null,
+  "slideRef": "L01 · s29",
+  "flag": null
+ },
+ {
+  "id": "II-so42-bacl2-hcl-added-before-bacl2",
+  "group": "II",
+  "anion": "SO₄²⁻",
+  "anionName": "sulphate",
+  "category": "wet",
+  "reagent": "BaCl₂",
+  "reagentName": "barium chloride",
+  "condition": "HCl added before BaCl₂",
+  "observation": "White ppt",
+  "visual": {
+   "type": "ppt",
+   "color": "white"
+  },
+  "product": "BaSO₄ (barium sulphate)",
+  "equation": "Ba²⁺ + SO₄²⁻ → BaSO₄↓ (white ppt.)",
+  "solubility": "Insoluble in excess SO₄²⁻ and dil HCl even with boiling",
+  "slideRef": "L01 · s29",
+  "flag": null
+ },
+ {
+  "id": "II-s2-cdco3-shake-with-cdco3-powder",
+  "group": "II",
+  "anion": "S²⁻",
+  "anionName": "sulphide",
+  "category": "special",
+  "reagent": "CdCO₃",
+  "reagentName": "cadmium carbonate",
+  "condition": "shake with CdCO₃ powder",
+  "observation": "A canary yellow ppt. of CdS is produced (Cadmium carbonate test)",
+  "visual": {
+   "type": "ppt",
+   "color": "canary yellow"
+  },
+  "product": "CdS (cadmium sulphide)",
+  "equation": "CdCO₃ + S²⁻ → CdS↓ (canary yellow ppt.) + CO₃²⁻",
+  "solubility": "Used for identification and separation of S²⁻ in a mixture with other sulphur containing anions",
+  "slideRef": "L01 · s30",
+  "flag": null
+ },
+ {
+  "id": "II-s2-sodium-nitroprusside-in-naoh-solution",
+  "group": "II",
+  "anion": "S²⁻",
+  "anionName": "sulphide",
+  "category": "special",
+  "reagent": "sodium nitroprusside",
+  "reagentName": "sodium nitroprusside, Na₂[Fe(CN)₅NO]",
+  "condition": "in NaOH solution",
+  "observation": "A Purple color of Sulphide nitroprusside [Fe(CN)₅NOS]⁴⁻ is produced",
+  "visual": {
+   "type": "solution",
+   "color": "purple"
+  },
+  "product": "[Fe(CN)₅NOS]⁴⁻ (sulphide nitroprusside)",
+  "equation": "Na₂[Fe(CN)₅NO] + S²⁻ → [Fe(CN)₅NOS]⁴⁻ (purple color) + 2Na⁺",
+  "solubility": null,
+  "slideRef": "L01 · s31",
+  "flag": null
+ },
+ {
+  "id": "II-so32-zinc-nitroprusside-base",
+  "group": "II",
+  "anion": "SO₃²⁻",
+  "anionName": "sulphite",
+  "category": "special",
+  "reagent": "zinc nitroprusside",
+  "reagentName": "ZnSO₄ + K₄[Fe(CN)₆] + 1% sodium nitroprusside",
+  "condition": null,
+  "observation": "A Red ppt. of zinc or sulphite nitroprusside is formed",
+  "visual": {
+   "type": "ppt",
+   "color": "red"
+  },
+  "product": "ZnNa₂[Fe(CN)₅NOSO₃] (zinc sulphite nitroprusside)",
+  "equation": "ZnSO₄ + Na₂[Fe(CN)₅NO] + SO₃²⁻ → ZnNa₂[Fe(CN)₅NOSO₃] (red ppt.)",
+  "solubility": null,
+  "slideRef": "L01 · s32",
+  "flag": null
+ },
+ {
+  "id": "II-s2o32-kcn-naoh-boil-hcl-fecl3-boil-cool-acidify-fecl3",
+  "group": "II",
+  "anion": "S₂O₃²⁻",
+  "anionName": "thiosulphate",
+  "category": "special",
+  "reagent": "KCN / NaOH, boil → HCl → FeCl₃",
+  "reagentName": "potassium cyanide, then ferric chloride",
+  "condition": "boil → cool → acidify → FeCl₃",
+  "observation": "A Blood red color of ferric thiocyanate complex is produced (formation of thiocyanate test)",
+  "visual": {
+   "type": "solution",
+   "color": "blood red",
+   "heat": true
+  },
+  "product": "KSCN (potassium thiocyanate) → [Fe(SCN)]²⁺ (ferric thiocyanate complex)",
+  "equation": "S₂O₃²⁻ + CN⁻ → (OH⁻, boil) KSCN + SO₃²⁻ · KSCN + Fe³⁺ → (Cool, H⁺) [Fe(SCN)]²⁺ (blood red color) + K⁺",
+  "solubility": null,
+  "slideRef": "L01 · s33",
+  "flag": null
+ },
+ {
+  "id": "II-so42-hepar-test-na2co3-c-fusion-silver-coin-fusion-on-charcoal-silver-coin-water",
+  "group": "II",
+  "anion": "SO₄²⁻",
+  "anionName": "sulphate",
+  "category": "special",
+  "reagent": "Hepar test (Na₂CO₃ + C, fusion → silver coin)",
+  "reagentName": "sodium carbonate + charcoal, then a silver coin",
+  "condition": "fusion on charcoal → silver coin + water",
+  "observation": "A Brownish black stain of Ag₂S is produced on the silver coin",
+  "visual": {
+   "type": "stain",
+   "color": "brownish black",
+   "surface": "coin"
+  },
+  "product": "Ag₂S (silver sulphide)",
+  "equation": "SO₄²⁻ + Na₂CO₃ → (Fusion) Na₂SO₄ + CO₃²⁻ · Na₂SO₄ + C → Na₂S + 4CO · Na₂S + 2H₂O → 2NaOH + H₂S · H₂S + 2Ag⁰ → Ag₂S↓ + H₂",
+  "solubility": null,
+  "slideRef": "L01 · s34",
+  "flag": {
+   "source": "doc",
+   "slide": "Na₂SO₄ + C → Na₂S + 4CO",
+   "correct": "Na₂SO₄ + 4C → Na₂S + 4CO",
+   "note": "الـ carbon ناقص"
+  }
+ },
+ {
+  "id": "III-i-parent-acid-hi-standing-on-standing",
+  "group": "III",
+  "anion": "I⁻",
+  "anionName": "iodide",
+  "category": "general",
+  "reagent": "parent acid HI (standing)",
+  "reagentName": "hydroiodic acid solution left standing",
+  "condition": "on standing",
+  "observation": "HI solution turns brown on standing due to the liberated iodine (I₂)",
+  "visual": {
+   "type": "solution",
+   "timeline": [
+    "colorless",
+    "brown"
+   ],
+   "color": "brown"
+  },
+  "product": "I₂ (iodine)",
+  "equation": null,
+  "solubility": null,
+  "slideRef": "L02 · s4",
+  "flag": null
+ },
+ {
+  "id": "III-f-dil-hcl-even-on-heating",
+  "group": "III",
+  "anion": "F⁻",
+  "anionName": "fluoride",
+  "category": "dry",
+  "reagent": "dil. HCl",
+  "reagentName": "dilute hydrochloric acid",
+  "condition": "even on heating",
+  "observation": "No reaction with all halides even on heating",
+  "visual": {
+   "type": "none"
+  },
+  "product": null,
+  "equation": null,
+  "solubility": null,
+  "slideRef": "L02 · s6",
+  "flag": null
+ },
+ {
+  "id": "III-cl-dil-hcl-even-on-heating",
+  "group": "III",
+  "anion": "Cl⁻",
+  "anionName": "chloride",
+  "category": "dry",
+  "reagent": "dil. HCl",
+  "reagentName": "dilute hydrochloric acid",
+  "condition": "even on heating",
+  "observation": "No reaction with all halides even on heating",
+  "visual": {
+   "type": "none"
+  },
+  "product": null,
+  "equation": null,
+  "solubility": null,
+  "slideRef": "L02 · s6",
+  "flag": null
+ },
+ {
+  "id": "III-br-dil-hcl-even-on-heating",
+  "group": "III",
+  "anion": "Br⁻",
+  "anionName": "bromide",
+  "category": "dry",
+  "reagent": "dil. HCl",
+  "reagentName": "dilute hydrochloric acid",
+  "condition": "even on heating",
+  "observation": "No reaction with all halides even on heating",
+  "visual": {
+   "type": "none"
+  },
+  "product": null,
+  "equation": null,
+  "solubility": null,
+  "slideRef": "L02 · s6",
+  "flag": null
+ },
+ {
+  "id": "III-i-dil-hcl-even-on-heating",
+  "group": "III",
+  "anion": "I⁻",
+  "anionName": "iodide",
+  "category": "dry",
+  "reagent": "dil. HCl",
+  "reagentName": "dilute hydrochloric acid",
+  "condition": "even on heating",
+  "observation": "No reaction with all halides even on heating",
+  "visual": {
+   "type": "none"
+  },
+  "product": null,
+  "equation": null,
+  "solubility": null,
+  "slideRef": "L02 · s6",
+  "flag": null
+ },
+ {
+  "id": "III-f-conc-h2so4-base",
+  "group": "III",
+  "anion": "F⁻",
+  "anionName": "fluoride",
+  "category": "dry",
+  "reagent": "conc. H₂SO₄",
+  "reagentName": "concentrated sulphuric acid",
+  "condition": null,
+  "observation": "HF↑: irritant, corrosive and itching colorless gas which fumes with moist air",
+  "visual": {
+   "type": "gas",
+   "color": "colorless",
+   "odor": "irritant, corrosive and itching"
+  },
+  "product": "HF (hydrogen fluoride, hydrofluoric acid)",
+  "equation": "2X⁻ + H₂SO₄ → 2HX↑ + SO₄²⁻ (X = F⁻)",
+  "solubility": null,
+  "slideRef": "L02 · s7",
+  "flag": null
+ },
+ {
+  "id": "III-cl-conc-h2so4-base",
+  "group": "III",
+  "anion": "Cl⁻",
+  "anionName": "chloride",
+  "category": "dry",
+  "reagent": "conc. H₂SO₄",
+  "reagentName": "concentrated sulphuric acid",
+  "condition": null,
+  "observation": "HCl↑: irritant colorless gas with pungent odor",
+  "visual": {
+   "type": "gas",
+   "color": "colorless",
+   "odor": "pungent odor"
+  },
+  "product": "HCl (hydrogen chloride)",
+  "equation": "2X⁻ + H₂SO₄ → 2HX↑ + SO₄²⁻ (X = Cl⁻)",
+  "solubility": null,
+  "slideRef": "L02 · s7",
+  "flag": null
+ },
+ {
+  "id": "III-br-conc-h2so4-base",
+  "group": "III",
+  "anion": "Br⁻",
+  "anionName": "bromide",
+  "category": "dry",
+  "reagent": "conc. H₂SO₄",
+  "reagentName": "concentrated sulphuric acid",
+  "condition": null,
+  "observation": "HBr↑ + Br₂: Brown fumes. Conc. H₂SO₄ oxidize HBr to free Br₂, in the same time H₂SO₄ is reduced into SO₂",
+  "visual": {
+   "type": "fumes",
+   "color": "brown"
+  },
+  "product": "HBr (hydrogen bromide) + Br₂ (bromine)",
+  "equation": "2X⁻ + H₂SO₄ → 2HX↑ + SO₄²⁻ (X = Br⁻) → HBr oxidized to Br₂",
+  "solubility": null,
+  "slideRef": "L02 · s7",
+  "flag": null
+ },
+ {
+  "id": "III-i-conc-h2so4-base",
+  "group": "III",
+  "anion": "I⁻",
+  "anionName": "iodide",
+  "category": "dry",
+  "reagent": "conc. H₂SO₄",
+  "reagentName": "concentrated sulphuric acid",
+  "condition": null,
+  "observation": "HI↑ + I₂: Violet fumes. Conc. H₂SO₄ oxidize HI to free I₂, in the same time H₂SO₄ is reduced into SO₂, S⁰ and H₂S",
+  "visual": {
+   "type": "fumes",
+   "color": "violet"
+  },
+  "product": "HI (hydrogen iodide) + I₂ (iodine)",
+  "equation": "2X⁻ + H₂SO₄ → 2HX↑ + SO₄²⁻ (X = I⁻) → HI oxidized to I₂",
+  "solubility": null,
+  "slideRef": "L02 · s7",
+  "flag": null
+ },
+ {
+  "id": "III-f-water-drop-on-a-glass-rod-hf-gas",
+  "group": "III",
+  "anion": "F⁻",
+  "anionName": "fluoride",
+  "category": "confirm",
+  "reagent": "water drop on a glass rod",
+  "reagentName": "a drop of water held by a glass rod",
+  "condition": "HF gas",
+  "observation": "Appearance of oily gelatinous mass, due to reaction of HF with glass (SiO₂) to give SiF₄; water hydrolyzes SiF₄ to give H₂SiO₃ and H₂SiF₆",
+  "visual": {
+   "type": "stain",
+   "color": null,
+   "surface": "rod",
+   "source": {
+    "kind": "over",
+    "label": "F⁻ + conc. H₂SO₄"
+   }
+  },
+  "product": "SiF₄ (silicon tetrafluoride) → H₂SiO₃ (silicic acid) + H₂SiF₆ (hydrofluorosilicic acid)",
+  "equation": null,
+  "solubility": null,
+  "slideRef": "L02 · s7",
+  "flag": null
+ },
+ {
+  "id": "III-cl-moist-air-hcl-gas",
+  "group": "III",
+  "anion": "Cl⁻",
+  "anionName": "chloride",
+  "category": "confirm",
+  "reagent": "moist air",
+  "reagentName": "moist air",
+  "condition": "HCl gas",
+  "observation": "Formation of white fumes with moist air",
+  "visual": {
+   "type": "fumes",
+   "color": "white"
+  },
+  "product": "HCl (hydrogen chloride)",
+  "equation": null,
+  "solubility": null,
+  "slideRef": "L02 · s7",
+  "flag": null
+ },
+ {
+  "id": "III-cl-glass-rod-moistened-with-nh4oh-hcl-gas",
+  "group": "III",
+  "anion": "Cl⁻",
+  "anionName": "chloride",
+  "category": "confirm",
+  "reagent": "glass rod moistened with NH₄OH",
+  "reagentName": "glass rod moistened with ammonium hydroxide",
+  "condition": "HCl gas",
+  "observation": "Formation of white clouds of NH₄Cl when a glass rod moistened with NH₄OH solution is exposed to the evolved gas",
+  "visual": {
+   "type": "fumes",
+   "color": "white",
+   "source": {
+    "kind": "over",
+    "label": "Cl⁻ + conc. H₂SO₄"
+   }
+  },
+  "product": "NH₄Cl (ammonium chloride)",
+  "equation": null,
+  "solubility": null,
+  "slideRef": "L02 · s7",
+  "flag": null
+ },
+ {
+  "id": "III-br-starch-iodide-paper-br2-fumes",
+  "group": "III",
+  "anion": "Br⁻",
+  "anionName": "bromide",
+  "category": "confirm",
+  "reagent": "starch-iodide paper",
+  "reagentName": "starch-iodide paper",
+  "condition": "Br₂ fumes",
+  "observation": "Turn starch-iodide paper into blue",
+  "visual": {
+   "type": "stain",
+   "color": "blue",
+   "surface": "paper",
+   "source": {
+    "kind": "over",
+    "label": "Br⁻ + conc. H₂SO₄",
+    "fumes": "brown"
+   }
+  },
+  "product": null,
+  "equation": null,
+  "solubility": null,
+  "slideRef": "L02 · s7",
+  "flag": null
+ },
+ {
+  "id": "III-i-starch-paper-i2-fumes",
+  "group": "III",
+  "anion": "I⁻",
+  "anionName": "iodide",
+  "category": "confirm",
+  "reagent": "starch paper",
+  "reagentName": "starch paper",
+  "condition": "I₂ fumes",
+  "observation": "Turn starch paper into blue",
+  "visual": {
+   "type": "stain",
+   "color": "blue",
+   "surface": "paper",
+   "source": {
+    "kind": "over",
+    "label": "I⁻ + conc. H₂SO₄",
+    "fumes": "violet"
+   }
+  },
+  "product": null,
+  "equation": null,
+  "solubility": null,
+  "slideRef": "L02 · s7",
+  "flag": null
+ },
+ {
+  "id": "III-f-agno3-s-s-dil-hno3-agno3",
+  "group": "III",
+  "anion": "F⁻",
+  "anionName": "fluoride",
+  "category": "wet",
+  "reagent": "AgNO₃",
+  "reagentName": "silver nitrate",
+  "condition": "S.S + dil. HNO₃ + AgNO₃",
+  "observation": "No ppt. since AgF is soluble in water",
+  "visual": {
+   "type": "none"
+  },
+  "product": "AgF (silver fluoride, soluble)",
+  "equation": null,
+  "solubility": null,
+  "slideRef": "L02 · s9",
+  "flag": null
+ },
+ {
+  "id": "III-cl-agno3-s-s-dil-hno3-agno3",
+  "group": "III",
+  "anion": "Cl⁻",
+  "anionName": "chloride",
+  "category": "wet",
+  "reagent": "AgNO₃",
+  "reagentName": "silver nitrate",
+  "condition": "S.S + dil. HNO₃ + AgNO₃",
+  "observation": "White ppt.",
+  "visual": {
+   "type": "ppt",
+   "color": "white"
+  },
+  "product": "AgCl (silver chloride)",
+  "equation": "Ag⁺ + Cl⁻ → AgCl↓",
+  "solubility": "Insoluble in dil HNO₃ · Soluble in dil. ammonia solution to give silver ammine complex",
+  "slideRef": "L02 · s9",
+  "flag": null
+ },
+ {
+  "id": "III-cl-agno3-dil-ammonia",
+  "group": "III",
+  "anion": "Cl⁻",
+  "anionName": "chloride",
+  "category": "wet",
+  "reagent": "AgNO₃",
+  "reagentName": "silver nitrate",
+  "condition": "+ dil. ammonia",
+  "observation": "Soluble in dil. ammonia solution to give silver ammine complex (ppt dissolves)",
+  "visual": {
+   "type": "ppt",
+   "color": "white",
+   "dissolve": true
+  },
+  "product": "[Ag(NH₃)₂]Cl (silver amine chloride)",
+  "equation": "AgCl + 2NH₃ → [Ag(NH₃)₂]Cl",
+  "solubility": null,
+  "slideRef": "L02 · s9",
+  "flag": null
+ },
+ {
+  "id": "III-cl-agno3-ammine-complex-acid",
+  "group": "III",
+  "anion": "Cl⁻",
+  "anionName": "chloride",
+  "category": "wet",
+  "reagent": "AgNO₃",
+  "reagentName": "silver nitrate",
+  "condition": "ammine complex + acid",
+  "observation": "AgCl is reprecipitated upon treatment of the ammine complex with acid",
+  "visual": {
+   "type": "ppt",
+   "color": "white"
+  },
+  "product": "AgCl (silver chloride)",
+  "equation": "[Ag(NH₃)₂]Cl + 2H⁺ → 2NH₄⁺ + AgCl↓",
+  "solubility": null,
+  "slideRef": "L02 · s9",
+  "flag": null
+ },
+ {
+  "id": "III-br-agno3-s-s-dil-hno3-agno3",
+  "group": "III",
+  "anion": "Br⁻",
+  "anionName": "bromide",
+  "category": "wet",
+  "reagent": "AgNO₃",
+  "reagentName": "silver nitrate",
+  "condition": "S.S + dil. HNO₃ + AgNO₃",
+  "observation": "Yellowish-white ppt. (Creamy ppt)",
+  "visual": {
+   "type": "ppt",
+   "color": "yellowish-white"
+  },
+  "product": "AgBr (silver bromide)",
+  "equation": "Ag⁺ + Br⁻ → AgBr↓",
+  "solubility": "Insoluble in dil HNO₃ · Sparingly soluble in dil. ammonia solution but soluble in Conc. ammonia solution",
+  "slideRef": "L02 · s9",
+  "flag": null
+ },
+ {
+  "id": "III-br-agno3-dil-ammonia",
+  "group": "III",
+  "anion": "Br⁻",
+  "anionName": "bromide",
+  "category": "wet",
+  "reagent": "AgNO₃",
+  "reagentName": "silver nitrate",
+  "condition": "+ dil. ammonia",
+  "observation": "Sparingly soluble in dil. ammonia solution",
+  "visual": {
+   "type": "ppt",
+   "color": "yellowish-white"
+  },
+  "product": "AgBr (silver bromide)",
+  "equation": null,
+  "solubility": null,
+  "slideRef": "L02 · s9",
+  "flag": null
+ },
+ {
+  "id": "III-br-agno3-conc-ammonia",
+  "group": "III",
+  "anion": "Br⁻",
+  "anionName": "bromide",
+  "category": "wet",
+  "reagent": "AgNO₃",
+  "reagentName": "silver nitrate",
+  "condition": "+ conc. ammonia",
+  "observation": "Soluble in Conc. ammonia solution (ppt dissolves)",
+  "visual": {
+   "type": "ppt",
+   "color": "yellowish-white",
+   "dissolve": true
+  },
+  "product": "[Ag(NH₃)₂]Br (silver amine bromide)",
+  "equation": "AgBr + 2NH₃ → [Ag(NH₃)₂]Br",
+  "solubility": null,
+  "slideRef": "L02 · s9",
+  "flag": null
+ },
+ {
+  "id": "III-i-agno3-s-s-dil-hno3-agno3",
+  "group": "III",
+  "anion": "I⁻",
+  "anionName": "iodide",
+  "category": "wet",
+  "reagent": "AgNO₃",
+  "reagentName": "silver nitrate",
+  "condition": "S.S + dil. HNO₃ + AgNO₃",
+  "observation": "Yellow ppt.",
+  "visual": {
+   "type": "ppt",
+   "color": "yellow"
+  },
+  "product": "AgI (silver iodide)",
+  "equation": "Ag⁺ + I⁻ → AgI↓",
+  "solubility": "Insoluble in dil HNO₃ · Insoluble in dil. ammonia solution but very slightly soluble in Conc. ammonia solution",
+  "slideRef": "L02 · s9",
+  "flag": null
+ },
+ {
+  "id": "III-i-agno3-dil-ammonia",
+  "group": "III",
+  "anion": "I⁻",
+  "anionName": "iodide",
+  "category": "wet",
+  "reagent": "AgNO₃",
+  "reagentName": "silver nitrate",
+  "condition": "+ dil. ammonia",
+  "observation": "Insoluble in dil. ammonia solution",
+  "visual": {
+   "type": "ppt",
+   "color": "yellow"
+  },
+  "product": "AgI (silver iodide)",
+  "equation": null,
+  "solubility": null,
+  "slideRef": "L02 · s9",
+  "flag": null
+ },
+ {
+  "id": "III-i-agno3-conc-ammonia",
+  "group": "III",
+  "anion": "I⁻",
+  "anionName": "iodide",
+  "category": "wet",
+  "reagent": "AgNO₃",
+  "reagentName": "silver nitrate",
+  "condition": "+ conc. ammonia",
+  "observation": "Very slightly soluble in Conc. ammonia solution",
+  "visual": {
+   "type": "ppt",
+   "color": "yellow"
+  },
+  "product": "AgI (silver iodide)",
+  "equation": null,
+  "solubility": null,
+  "slideRef": "L02 · s9",
+  "flag": null
+ },
+ {
+  "id": "III-cl-agno3-cyanide-cn",
+  "group": "III",
+  "anion": "Cl⁻",
+  "anionName": "chloride",
+  "category": "wet",
+  "reagent": "AgNO₃",
+  "reagentName": "silver nitrate",
+  "condition": "+ cyanide (CN⁻)",
+  "observation": "All silver halides are soluble in cyanide (CN⁻) due to the formation of soluble argento cyanide complex (ppt dissolves)",
+  "visual": {
+   "type": "ppt",
+   "color": "white",
+   "dissolve": true
+  },
+  "product": "(Ag(CN)₂)⁻ (argento cyanide, soluble complex)",
+  "equation": "AgCN + CN⁻ → (Ag(CN)₂)⁻ (soluble complex)",
+  "solubility": null,
+  "slideRef": "L02 · s10",
+  "flag": null
+ },
+ {
+  "id": "III-cl-agno3-thiosulphate-s2o32",
+  "group": "III",
+  "anion": "Cl⁻",
+  "anionName": "chloride",
+  "category": "wet",
+  "reagent": "AgNO₃",
+  "reagentName": "silver nitrate",
+  "condition": "+ thiosulphate (S₂O₃²⁻)",
+  "observation": "All silver halides are soluble in thiosulphate (S₂O₃²⁻) due to the formation of soluble silver thiosulphate complex (ppt dissolves)",
+  "visual": {
+   "type": "ppt",
+   "color": "white",
+   "dissolve": true
+  },
+  "product": "(Ag(S₂O₃)₂)³⁻ (silver thiosulphate complex, soluble)",
+  "equation": "AgX + S₂O₃²⁻ → (Ag(S₂O₃)₂)³⁻ + X⁻",
+  "solubility": null,
+  "slideRef": "L02 · s10",
+  "flag": {
+   "source": "doc",
+   "slide": "AgX + S₂O₃²⁻ → [Ag(S₂O₃)₂]³⁻ + X⁻",
+   "correct": "AgX + 2S₂O₃²⁻ → [Ag(S₂O₃)₂]³⁻ + X⁻",
+   "note": "محتاجة 2 thiosulphate"
+  }
+ },
+ {
+  "id": "III-br-agno3-cyanide-cn",
+  "group": "III",
+  "anion": "Br⁻",
+  "anionName": "bromide",
+  "category": "wet",
+  "reagent": "AgNO₃",
+  "reagentName": "silver nitrate",
+  "condition": "+ cyanide (CN⁻)",
+  "observation": "All silver halides are soluble in cyanide (CN⁻) due to the formation of soluble argento cyanide complex (ppt dissolves)",
+  "visual": {
+   "type": "ppt",
+   "color": "yellowish-white",
+   "dissolve": true
+  },
+  "product": "(Ag(CN)₂)⁻ (argento cyanide, soluble complex)",
+  "equation": "AgCN + CN⁻ → (Ag(CN)₂)⁻ (soluble complex)",
+  "solubility": null,
+  "slideRef": "L02 · s10",
+  "flag": null
+ },
+ {
+  "id": "III-br-agno3-thiosulphate-s2o32",
+  "group": "III",
+  "anion": "Br⁻",
+  "anionName": "bromide",
+  "category": "wet",
+  "reagent": "AgNO₃",
+  "reagentName": "silver nitrate",
+  "condition": "+ thiosulphate (S₂O₃²⁻)",
+  "observation": "All silver halides are soluble in thiosulphate (S₂O₃²⁻) due to the formation of soluble silver thiosulphate complex (ppt dissolves)",
+  "visual": {
+   "type": "ppt",
+   "color": "yellowish-white",
+   "dissolve": true
+  },
+  "product": "(Ag(S₂O₃)₂)³⁻ (silver thiosulphate complex, soluble)",
+  "equation": "AgX + S₂O₃²⁻ → (Ag(S₂O₃)₂)³⁻ + X⁻",
+  "solubility": null,
+  "slideRef": "L02 · s10",
+  "flag": {
+   "source": "doc",
+   "slide": "AgX + S₂O₃²⁻ → [Ag(S₂O₃)₂]³⁻ + X⁻",
+   "correct": "AgX + 2S₂O₃²⁻ → [Ag(S₂O₃)₂]³⁻ + X⁻",
+   "note": "محتاجة 2 thiosulphate"
+  }
+ },
+ {
+  "id": "III-i-agno3-cyanide-cn",
+  "group": "III",
+  "anion": "I⁻",
+  "anionName": "iodide",
+  "category": "wet",
+  "reagent": "AgNO₃",
+  "reagentName": "silver nitrate",
+  "condition": "+ cyanide (CN⁻)",
+  "observation": "All silver halides are soluble in cyanide (CN⁻) due to the formation of soluble argento cyanide complex (ppt dissolves)",
+  "visual": {
+   "type": "ppt",
+   "color": "yellow",
+   "dissolve": true
+  },
+  "product": "(Ag(CN)₂)⁻ (argento cyanide, soluble complex)",
+  "equation": "AgCN + CN⁻ → (Ag(CN)₂)⁻ (soluble complex)",
+  "solubility": null,
+  "slideRef": "L02 · s10",
+  "flag": null
+ },
+ {
+  "id": "III-i-agno3-thiosulphate-s2o32",
+  "group": "III",
+  "anion": "I⁻",
+  "anionName": "iodide",
+  "category": "wet",
+  "reagent": "AgNO₃",
+  "reagentName": "silver nitrate",
+  "condition": "+ thiosulphate (S₂O₃²⁻)",
+  "observation": "All silver halides are soluble in thiosulphate (S₂O₃²⁻) due to the formation of soluble silver thiosulphate complex (ppt dissolves)",
+  "visual": {
+   "type": "ppt",
+   "color": "yellow",
+   "dissolve": true
+  },
+  "product": "(Ag(S₂O₃)₂)³⁻ (silver thiosulphate complex, soluble)",
+  "equation": "AgX + S₂O₃²⁻ → (Ag(S₂O₃)₂)³⁻ + X⁻",
+  "solubility": null,
+  "slideRef": "L02 · s10",
+  "flag": {
+   "source": "doc",
+   "slide": "AgX + S₂O₃²⁻ → [Ag(S₂O₃)₂]³⁻ + X⁻",
+   "correct": "AgX + 2S₂O₃²⁻ → [Ag(S₂O₃)₂]³⁻ + X⁻",
+   "note": "محتاجة 2 thiosulphate"
+  }
+ },
+ {
+  "id": "III-f-bacl2-base",
+  "group": "III",
+  "anion": "F⁻",
+  "anionName": "fluoride",
+  "category": "wet",
+  "reagent": "BaCl₂",
+  "reagentName": "barium chloride",
+  "condition": null,
+  "observation": "White gelatinous ppt.",
+  "visual": {
+   "type": "ppt",
+   "color": "white",
+   "style": "gelatinous"
+  },
+  "product": "BaF₂ (barium fluoride)",
+  "equation": "Ba²⁺ + 2F⁻ → BaF₂↓",
+  "solubility": "Partially soluble in dil. HCl or HNO₃ · Insoluble in acetic acid",
+  "slideRef": "L02 · s12",
+  "flag": null
+ },
+ {
+  "id": "III-cl-bacl2-base",
+  "group": "III",
+  "anion": "Cl⁻",
+  "anionName": "chloride",
+  "category": "wet",
+  "reagent": "BaCl₂",
+  "reagentName": "barium chloride",
+  "condition": null,
+  "observation": "No ppt",
+  "visual": {
+   "type": "none"
+  },
+  "product": null,
+  "equation": null,
+  "solubility": null,
+  "slideRef": "L02 · s12",
+  "flag": null
+ },
+ {
+  "id": "III-br-bacl2-base",
+  "group": "III",
+  "anion": "Br⁻",
+  "anionName": "bromide",
+  "category": "wet",
+  "reagent": "BaCl₂",
+  "reagentName": "barium chloride",
+  "condition": null,
+  "observation": "No ppt",
+  "visual": {
+   "type": "none"
+  },
+  "product": null,
+  "equation": null,
+  "solubility": null,
+  "slideRef": "L02 · s12",
+  "flag": null
+ },
+ {
+  "id": "III-i-bacl2-base",
+  "group": "III",
+  "anion": "I⁻",
+  "anionName": "iodide",
+  "category": "wet",
+  "reagent": "BaCl₂",
+  "reagentName": "barium chloride",
+  "condition": null,
+  "observation": "No ppt",
+  "visual": {
+   "type": "none"
+  },
+  "product": null,
+  "equation": null,
+  "solubility": null,
+  "slideRef": "L02 · s12",
+  "flag": null
+ },
+ {
+  "id": "III-f-chlorine-water-chcl3-base",
+  "group": "III",
+  "anion": "F⁻",
+  "anionName": "fluoride",
+  "category": "wet",
+  "reagent": "chlorine water + CHCl₃",
+  "reagentName": "chlorine water, extracted with chloroform",
+  "condition": null,
+  "observation": "No Rx",
+  "visual": {
+   "type": "none"
+  },
+  "product": null,
+  "equation": null,
+  "solubility": null,
+  "slideRef": "L02 · s13",
+  "flag": null
+ },
+ {
+  "id": "III-cl-chlorine-water-chcl3-base",
+  "group": "III",
+  "anion": "Cl⁻",
+  "anionName": "chloride",
+  "category": "wet",
+  "reagent": "chlorine water + CHCl₃",
+  "reagentName": "chlorine water, extracted with chloroform",
+  "condition": null,
+  "observation": "No Rx",
+  "visual": {
+   "type": "none"
+  },
+  "product": null,
+  "equation": null,
+  "solubility": null,
+  "slideRef": "L02 · s13",
+  "flag": null
+ },
+ {
+  "id": "III-br-chlorine-water-chcl3-chlorine-water",
+  "group": "III",
+  "anion": "Br⁻",
+  "anionName": "bromide",
+  "category": "wet",
+  "reagent": "chlorine water + CHCl₃",
+  "reagentName": "chlorine water, extracted with chloroform",
+  "condition": "chlorine water",
+  "observation": "Orange or yellow or brown color — due to liberation of Br₂ in chloroform layer",
+  "visual": {
+   "type": "layer",
+   "layer": {
+    "organic": "CHCl₃",
+    "position": "bottom",
+    "color": "orange",
+    "aqueous": "colorless"
+   }
+  },
+  "product": "Br₂ (bromine)",
+  "equation": null,
+  "solubility": "Iodide react first with chlorine water before bromide as it has more reducing character",
+  "slideRef": "L02 · s13",
+  "flag": null
+ },
+ {
+  "id": "III-br-chlorine-water-chcl3-excess-chlorine-water",
+  "group": "III",
+  "anion": "Br⁻",
+  "anionName": "bromide",
+  "category": "wet",
+  "reagent": "chlorine water + CHCl₃",
+  "reagentName": "chlorine water, extracted with chloroform",
+  "condition": "excess chlorine water",
+  "observation": "The color disappears on excess chlorine water due to the formation of bromic acid (HBrO₃)",
+  "visual": {
+   "type": "layer",
+   "layer": {
+    "organic": "CHCl₃",
+    "position": "bottom",
+    "timeline": [
+     "orange",
+     "colorless"
+    ],
+    "aqueous": "colorless"
+   }
+  },
+  "product": "HBrO₃ (bromic acid)",
+  "equation": null,
+  "solubility": null,
+  "slideRef": "L02 · s13",
+  "flag": null
+ },
+ {
+  "id": "III-i-chlorine-water-chcl3-chlorine-water",
+  "group": "III",
+  "anion": "I⁻",
+  "anionName": "iodide",
+  "category": "wet",
+  "reagent": "chlorine water + CHCl₃",
+  "reagentName": "chlorine water, extracted with chloroform",
+  "condition": "chlorine water",
+  "observation": "Pink or violet color — due to liberation of I₂ in chloroform layer",
+  "visual": {
+   "type": "layer",
+   "layer": {
+    "organic": "CHCl₃",
+    "position": "bottom",
+    "color": "violet",
+    "aqueous": "colorless"
+   }
+  },
+  "product": "I₂ (iodine)",
+  "equation": null,
+  "solubility": "Iodide react first with chlorine water before bromide as it has more reducing character",
+  "slideRef": "L02 · s13",
+  "flag": null
+ },
+ {
+  "id": "III-i-chlorine-water-chcl3-excess-chlorine-water",
+  "group": "III",
+  "anion": "I⁻",
+  "anionName": "iodide",
+  "category": "wet",
+  "reagent": "chlorine water + CHCl₃",
+  "reagentName": "chlorine water, extracted with chloroform",
+  "condition": "excess chlorine water",
+  "observation": "Excess chlorine water oxidize I₂ to colorless iodic acid (HIO₃)",
+  "visual": {
+   "type": "layer",
+   "layer": {
+    "organic": "CHCl₃",
+    "position": "bottom",
+    "timeline": [
+     "violet",
+     "colorless"
+    ],
+    "aqueous": "colorless"
+   }
+  },
+  "product": "HIO₃ (iodic acid)",
+  "equation": null,
+  "solubility": null,
+  "slideRef": "L02 · s13",
+  "flag": null
+ },
+ {
+  "id": "III-f-borax-conc-h2so4-flame-base",
+  "group": "III",
+  "anion": "F⁻",
+  "anionName": "fluoride",
+  "category": "special",
+  "reagent": "borax + conc. H₂SO₄ → flame",
+  "reagentName": "borax (Na₂B₄O₇) + concentrated sulphuric acid, Bunsen flame",
+  "condition": null,
+  "observation": "Boron fluoride gas (BF₃) turns the Bunsen flame into green (Boron fluoride test)",
+  "visual": {
+   "type": "flame",
+   "color": "green"
+  },
+  "product": "BF₃ (boron fluoride gas)",
+  "equation": "H₃BO₃ (boric acid) + 3HF (hydrofluoric acid) → BF₃↑ (boron fluoride gas) + 3H₂O",
+  "solubility": null,
+  "slideRef": "L02 · s14",
+  "flag": null
+ },
+ {
+  "id": "III-cl-k2cr2o7-conc-h2so4-chromyl-chloride-test-solid-cl-in-t-t",
+  "group": "III",
+  "anion": "Cl⁻",
+  "anionName": "chloride",
+  "category": "special",
+  "reagent": "K₂Cr₂O₇ + conc. H₂SO₄ (chromyl chloride test)",
+  "reagentName": "potassium dichromate + concentrated sulphuric acid",
+  "condition": "solid Cl⁻ in T.T",
+  "observation": "Brown to red fumes (brownish red fumes) of chromyl chloride (CrO₂Cl₂) are evolved",
+  "visual": {
+   "type": "fumes",
+   "color": "brownish red"
+  },
+  "product": "CrO₂Cl₂ (chromyl chloride)",
+  "equation": null,
+  "solubility": "Specific test for chloride even in the presence of other halides · classified as a dry reaction",
+  "slideRef": "L02 · s15",
+  "flag": null
+ },
+ {
+  "id": "III-cl-fumes-naoh-chromyl-chloride-fumes",
+  "group": "III",
+  "anion": "Cl⁻",
+  "anionName": "chloride",
+  "category": "special",
+  "reagent": "fumes → NaOH",
+  "reagentName": "fumes passed into sodium hydroxide",
+  "condition": "chromyl chloride fumes",
+  "observation": "Formation of yellow ppt. of sodium chromate (CrO₄²⁻)",
+  "visual": {
+   "type": "ppt",
+   "color": "yellow",
+   "source": {
+    "kind": "transfer",
+    "label": "Cl⁻ + K₂Cr₂O₇ + conc. H₂SO₄",
+    "fumes": "brownish red"
+   }
+  },
+  "product": "Na₂CrO₄ (sodium chromate)",
+  "equation": null,
+  "solubility": null,
+  "slideRef": "L02 · s15",
+  "flag": {
+   "source": "doc",
+   "slide": "yellow ppt. of sodium chromate",
+   "correct": "yellow solution of Na₂CrO₄ (sodium chromate) — الـ ppt الأصفر الحقيقي هو PbCrO₄ في الـ confirmation",
+   "note": "Na₂CrO₄ soluble، وصورة السلايد نفسها محلول أصفر"
+  }
+ },
+ {
+  "id": "III-cl-chromate-acid-lead-acetate-base",
+  "group": "III",
+  "anion": "Cl⁻",
+  "anionName": "chloride",
+  "category": "special",
+  "reagent": "chromate + acid + lead acetate",
+  "reagentName": "chromate + acid + lead acetate",
+  "condition": null,
+  "observation": "Yellow ppt. of lead chromate (PbCrO₄)",
+  "visual": {
+   "type": "ppt",
+   "color": "yellow"
+  },
+  "product": "PbCrO₄ (lead chromate)",
+  "equation": "CrO₄²⁻ + Pb²⁺ → PbCrO₄↓ (yellow ppt)",
+  "solubility": null,
+  "slideRef": "L02 · s16",
+  "flag": null
+ },
+ {
+  "id": "III-cl-chromate-dil-h2so4-ether-h2o2-perchromic-acid-test-base",
+  "group": "III",
+  "anion": "Cl⁻",
+  "anionName": "chloride",
+  "category": "special",
+  "reagent": "chromate + dil. H₂SO₄ + ether + H₂O₂ (perchromic acid test)",
+  "reagentName": "chromate + dilute sulphuric acid + alcohol or ether + hydrogen peroxide",
+  "condition": null,
+  "observation": "Blue color in the organic layer (perchromic acid, CrO₈³⁻)",
+  "visual": {
+   "type": "layer",
+   "layer": {
+    "organic": "ether",
+    "position": "top",
+    "color": "blue",
+    "aqueous": "colorless"
+   }
+  },
+  "product": "CrO₈³⁻ (perchromic acid)",
+  "equation": "2CrO₄²⁻ + 2H⁺ → Cr₂O₇²⁻ (dichromate) + H₂O · Cr₂O₇²⁻ + 7H₂O₂ → 2CrO₈³⁻ (perchromic acid, blue color in organic layer) + 5H₂O + 4H⁺",
+  "solubility": null,
+  "slideRef": "L02 · s16",
+  "flag": null
+ },
+ {
+  "id": "III-f-k2cr2o7-conc-h2so4-chromyl-chloride-test-base",
+  "group": "III",
+  "anion": "F⁻",
+  "anionName": "fluoride",
+  "category": "special",
+  "reagent": "K₂Cr₂O₇ + conc. H₂SO₄ (chromyl chloride test)",
+  "reagentName": "potassium dichromate + concentrated sulphuric acid",
+  "condition": null,
+  "observation": "Fluorides produce chromyl fluoride fumes (CrO₂F₂) giving the same results as chloride, thus should be absent or removed",
+  "visual": {
+   "type": "fumes",
+   "color": "brownish red"
+  },
+  "product": "CrO₂F₂ (chromyl fluoride)",
+  "equation": null,
+  "solubility": null,
+  "slideRef": "L02 · s17",
+  "flag": null
+ },
+ {
+  "id": "III-br-k2cr2o7-conc-h2so4-chromyl-chloride-test-base",
+  "group": "III",
+  "anion": "Br⁻",
+  "anionName": "bromide",
+  "category": "special",
+  "reagent": "K₂Cr₂O₇ + conc. H₂SO₄ (chromyl chloride test)",
+  "reagentName": "potassium dichromate + concentrated sulphuric acid",
+  "condition": null,
+  "observation": "Bromides do not interfere: give rise to free Br₂ which yields a colorless solution with NaOH",
+  "visual": {
+   "type": "none"
+  },
+  "product": "Br₂ (bromine) → OBr⁻ (hypobromite)",
+  "equation": "6Br⁻ + Cr₂O₇²⁻ + 14H⁺ → 2Cr³⁺ + 3Br₂ + 7H₂O · Br₂ + 2OH⁻ → OBr⁻ (hypo bromite) + Br⁻ + H₂O",
+  "solubility": null,
+  "slideRef": "L02 · s17",
+  "flag": null
+ },
+ {
+  "id": "III-i-k2cr2o7-conc-h2so4-chromyl-chloride-test-base",
+  "group": "III",
+  "anion": "I⁻",
+  "anionName": "iodide",
+  "category": "special",
+  "reagent": "K₂Cr₂O₇ + conc. H₂SO₄ (chromyl chloride test)",
+  "reagentName": "potassium dichromate + concentrated sulphuric acid",
+  "condition": null,
+  "observation": "Iodides do not interfere: give rise to free I₂ which yields a colorless solution with NaOH",
+  "visual": {
+   "type": "none"
+  },
+  "product": "I₂ (iodine) → OI⁻ (hypoiodite)",
+  "equation": "6I⁻ + Cr₂O₇²⁻ + 14H⁺ → 2Cr³⁺ + 3I₂ + 7H₂O · I₂ + 2OH⁻ → OI⁻ (hypo iodite) + I⁻ + H₂O",
+  "solubility": null,
+  "slideRef": "L02 · s17",
+  "flag": null
+ },
+ {
+  "id": "III-cl-k2cr2o7-conc-h2so4-chromyl-chloride-test-covalent-chloride-hgcl2-sbcl3-sncl2",
+  "group": "III",
+  "anion": "Cl⁻",
+  "anionName": "chloride",
+  "category": "special",
+  "reagent": "K₂Cr₂O₇ + conc. H₂SO₄ (chromyl chloride test)",
+  "reagentName": "potassium dichromate + concentrated sulphuric acid",
+  "condition": "covalent chloride (HgCl₂, SbCl₃, SnCl₂)",
+  "observation": "No results with covalent chloride like HgCl₂, SbCl₃, SnCl₂ etc → owing to their slight ionization → No Cl⁻",
+  "visual": {
+   "type": "none"
+  },
+  "product": null,
+  "equation": null,
+  "solubility": null,
+  "slideRef": "L02 · s17",
+  "flag": null
+ },
+ {
+  "id": "III-f-fecl3-base",
+  "group": "III",
+  "anion": "F⁻",
+  "anionName": "fluoride",
+  "category": "wet",
+  "reagent": "FeCl₃",
+  "reagentName": "ferric chloride",
+  "condition": null,
+  "observation": "F⁻ reacts with iron to form stable complex (FeF₆)³⁻ — bleaches the color of the SCN⁻ / FeCl₃ test",
+  "visual": {
+   "type": "none"
+  },
+  "product": "(FeF₆)³⁻ (stable iron fluoride complex)",
+  "equation": "6F⁻ + Fe³⁺ → (FeF₆)³⁻",
+  "solubility": "F⁻, PO₄³⁻, oxalate and tartrate must be absent in the SCN⁻ test",
+  "slideRef": "L02 · s27",
+  "flag": null
+ },
+ {
+  "id": "III-i-dil-h2so4-no2-or-h2o2-or-fecl3-base",
+  "group": "III",
+  "anion": "I⁻",
+  "anionName": "iodide",
+  "category": "special",
+  "reagent": "dil. H₂SO₄ + NO₂⁻ or H₂O₂ or FeCl₃",
+  "reagentName": "dilute sulphuric acid + nitrite or hydrogen peroxide or ferric chloride",
+  "condition": null,
+  "observation": "I⁻ is oxidized to I₂",
+  "visual": {
+   "type": "solution",
+   "color": "brown"
+  },
+  "product": "I₂ (iodine)",
+  "equation": null,
+  "solubility": null,
+  "slideRef": "L02 · s18",
+  "flag": null
+ },
+ {
+  "id": "III-i-cuso4-base",
+  "group": "III",
+  "anion": "I⁻",
+  "anionName": "iodide",
+  "category": "special",
+  "reagent": "CuSO₄",
+  "reagentName": "copper sulphate (Cu²⁺)",
+  "condition": null,
+  "observation": "White ppt. of copper iodide (Cu₂I₂) + I₂ — white ppt. in brown solution",
+  "visual": {
+   "type": "ppt",
+   "color": "white",
+   "solution": "brown"
+  },
+  "product": "Cu₂I₂ (copper iodide) + I₂ (iodine)",
+  "equation": null,
+  "solubility": null,
+  "slideRef": "L02 · s18",
+  "flag": null
+ },
+ {
+  "id": "III-i-hgcl2-base",
+  "group": "III",
+  "anion": "I⁻",
+  "anionName": "iodide",
+  "category": "special",
+  "reagent": "HgCl₂",
+  "reagentName": "mercuric chloride",
+  "condition": null,
+  "observation": "Yellow-scarlet red ppt. of mercuric iodide (HgI₂)",
+  "visual": {
+   "type": "ppt",
+   "color": "yellow-scarlet red"
+  },
+  "product": "HgI₂ (mercuric iodide)",
+  "equation": "HgCl₂ + 2I⁻ → HgI₂↓ (yellow-scarlet red ppt.) + 2Cl⁻",
+  "solubility": null,
+  "slideRef": "L02 · s18",
+  "flag": null
+ },
+ {
+  "id": "III-i-hgcl2-excess-iodide",
+  "group": "III",
+  "anion": "I⁻",
+  "anionName": "iodide",
+  "category": "special",
+  "reagent": "HgCl₂",
+  "reagentName": "mercuric chloride",
+  "condition": "excess iodide",
+  "observation": "Excess iodide → dissolves forming soluble colorless complex (HgI₄)²⁻ (Nessler reagent)",
+  "visual": {
+   "type": "ppt",
+   "color": "yellow-scarlet red",
+   "dissolve": true
+  },
+  "product": "(HgI₄)²⁻ (soluble complex, Nessler reagent)",
+  "equation": "HgCl₂ + 2I⁻ → HgI₂↓ + 2Cl⁻ → (Excess I⁻) (HgI₄)²⁻",
+  "solubility": null,
+  "slideRef": "L02 · s18",
+  "flag": null
+ },
+ {
+  "id": "III-i-fecl3-base",
+  "group": "III",
+  "anion": "I⁻",
+  "anionName": "iodide",
+  "category": "wet",
+  "reagent": "FeCl₃",
+  "reagentName": "ferric chloride",
+  "condition": null,
+  "observation": "Iodides are oxidized by Fe³⁺ into the brown color I₂",
+  "visual": {
+   "type": "solution",
+   "color": "brown"
+  },
+  "product": "I₂ (iodine) + Fe²⁺ (ferrous ion)",
+  "equation": "2I⁻ + 2Fe³⁺ → (H⁺) I₂ + 2Fe²⁺",
+  "solubility": "This is why iodides interfere with the SCN⁻ / FeCl₃ test",
+  "slideRef": "L02 · s27",
+  "flag": null
+ },
+ {
+  "id": "IV-cn-co2-passed-into-cn-solution-base",
+  "group": "IV",
+  "anion": "CN⁻",
+  "anionName": "cyanide",
+  "category": "general",
+  "reagent": "CO₂ passed into CN⁻ solution",
+  "reagentName": "carbon dioxide passed into the cyanide solution",
+  "condition": null,
+  "observation": "On passing CO₂ to CN⁻ solution → HCN is produced with HCO₃⁻",
+  "visual": {
+   "type": "gas",
+   "color": null,
+   "odor": "bitter almonds odor",
+   "bubbles": true
+  },
+  "product": "HCN (hydrocyanic acid) + HCO₃⁻ (bicarbonate)",
+  "equation": "CN⁻ + CO₂ + H₂O → HCN + HCO₃⁻",
+  "solubility": null,
+  "slideRef": "L02 · s20",
+  "flag": null
+ },
+ {
+  "id": "IV-cn-k2cr2o7-conc-h2so4-chromyl-chloride-test-base",
+  "group": "IV",
+  "anion": "CN⁻",
+  "anionName": "cyanide",
+  "category": "special",
+  "reagent": "K₂Cr₂O₇ + conc. H₂SO₄ (chromyl chloride test)",
+  "reagentName": "potassium dichromate + concentrated sulphuric acid",
+  "condition": null,
+  "observation": "Cyanides (CN⁻) do not interfere with the (chromyl chloride) test",
+  "visual": {
+   "type": "none"
+  },
+  "product": null,
+  "equation": null,
+  "solubility": null,
+  "slideRef": "L02 · s17",
+  "flag": null
+ },
+ {
+  "id": "IV-cn-dil-hcl-base",
+  "group": "IV",
+  "anion": "CN⁻",
+  "anionName": "cyanide",
+  "category": "dry",
+  "reagent": "dil. HCl",
+  "reagentName": "dilute hydrochloric acid",
+  "condition": null,
+  "observation": "Evolution of hydrogen cyanide gas (HCN) with characteristic bitter almond odor",
+  "visual": {
+   "type": "gas",
+   "color": null,
+   "odor": "bitter almond odor"
+  },
+  "product": "HCN (hydrogen cyanide, hydrocyanic acid)",
+  "equation": null,
+  "solubility": null,
+  "slideRef": "L02 · s22",
+  "flag": null
+ },
+ {
+  "id": "IV-scn-dil-hcl-base",
+  "group": "IV",
+  "anion": "SCN⁻",
+  "anionName": "thiocyanate",
+  "category": "dry",
+  "reagent": "dil. HCl",
+  "reagentName": "dilute hydrochloric acid",
+  "condition": null,
+  "observation": "No reaction",
+  "visual": {
+   "type": "none"
+  },
+  "product": null,
+  "equation": null,
+  "solubility": null,
+  "slideRef": "L02 · s22",
+  "flag": null
+ },
+ {
+  "id": "IV-fe-cn-6-4-dil-hcl-base",
+  "group": "IV",
+  "anion": "[Fe(CN)₆]⁴⁻",
+  "anionName": "ferrocyanide",
+  "category": "dry",
+  "reagent": "dil. HCl",
+  "reagentName": "dilute hydrochloric acid",
+  "condition": null,
+  "observation": "No reaction",
+  "visual": {
+   "type": "none"
+  },
+  "product": null,
+  "equation": null,
+  "solubility": null,
+  "slideRef": "L02 · s22",
+  "flag": null
+ },
+ {
+  "id": "IV-fe-cn-6-3-dil-hcl-base",
+  "group": "IV",
+  "anion": "[Fe(CN)₆]³⁻",
+  "anionName": "ferricyanide",
+  "category": "dry",
+  "reagent": "dil. HCl",
+  "reagentName": "dilute hydrochloric acid",
+  "condition": null,
+  "observation": "No reaction",
+  "visual": {
+   "type": "none"
+  },
+  "product": null,
+  "equation": null,
+  "solubility": null,
+  "slideRef": "L02 · s22",
+  "flag": null
+ },
+ {
+  "id": "IV-cn-hcn-gas-ammonium-polysulphide-or-s2o32-oh-boil-dil-hcl-fecl3-base",
+  "group": "IV",
+  "anion": "CN⁻",
+  "anionName": "cyanide",
+  "category": "confirm",
+  "reagent": "HCN gas → ammonium polysulphide or S₂O₃²⁻ (OH⁻, boil) → dil. HCl + FeCl₃",
+  "reagentName": "ammonium polysulphide or thiosulphate, then ferric chloride",
+  "condition": null,
+  "observation": "Convert HCN into SCN⁻ (iron thiocyanate test) → add dil. HCl + a drop of FeCl₃ solution → blood red color",
+  "visual": {
+   "type": "solution",
+   "color": "blood red",
+   "source": {
+    "kind": "transfer",
+    "label": "CN⁻ + dil. HCl"
+   }
+  },
+  "product": "SCN⁻ (thiocyanate) → ferric thiocyanate",
+  "equation": null,
+  "solubility": null,
+  "slideRef": "L02 · s23",
+  "flag": null
+ },
+ {
+  "id": "IV-cn-hcn-gas-agno3-solution-base",
+  "group": "IV",
+  "anion": "CN⁻",
+  "anionName": "cyanide",
+  "category": "confirm",
+  "reagent": "HCN gas → AgNO₃ solution",
+  "reagentName": "silver nitrate solution",
+  "condition": null,
+  "observation": "White ppt. of silver cyanide (AgCN) is formed → soluble in ammonia",
+  "visual": {
+   "type": "ppt",
+   "color": "white",
+   "source": {
+    "kind": "transfer",
+    "label": "CN⁻ + dil. HCl"
+   }
+  },
+  "product": "AgCN (silver cyanide)",
+  "equation": "HCN + AgNO₃ → AgCN↓ (white ppt.) → (2NH₃) (Ag(NH₃)₂)CN (soluble)",
+  "solubility": "Soluble in ammonia",
+  "slideRef": "L02 · s23",
+  "flag": null
+ },
+ {
+  "id": "IV-cn-hcn-gas-naoh-feso4-boil-fecl3-prussian-blue-test-base",
+  "group": "IV",
+  "anion": "CN⁻",
+  "anionName": "cyanide",
+  "category": "confirm",
+  "reagent": "HCN gas → NaOH + FeSO₄, boil → FeCl₃ (Prussian blue test)",
+  "reagentName": "sodium hydroxide + ferrous sulphate, then ferric chloride",
+  "condition": null,
+  "observation": "Ferrocyanide produced → add FeCl₃ → Prussian blue ppt.",
+  "visual": {
+   "type": "ppt",
+   "color": "Prussian blue",
+   "heat": true,
+   "source": {
+    "kind": "transfer",
+    "label": "CN⁻ + dil. HCl"
+   }
+  },
+  "product": "ferrocyanide → Fe₄[Fe(CN)₆]₃ (Prussian blue)",
+  "equation": null,
+  "solubility": null,
+  "slideRef": "L02 · s23",
+  "flag": null
+ },
+ {
+  "id": "IV-cn-bacl2-base",
+  "group": "IV",
+  "anion": "CN⁻",
+  "anionName": "cyanide",
+  "category": "wet",
+  "reagent": "BaCl₂",
+  "reagentName": "barium chloride",
+  "condition": null,
+  "observation": "No observed results for all the Cyanogens with BaCl₂",
+  "visual": {
+   "type": "none"
+  },
+  "product": null,
+  "equation": null,
+  "solubility": null,
+  "slideRef": "L02 · s24",
+  "flag": null
+ },
+ {
+  "id": "IV-scn-bacl2-base",
+  "group": "IV",
+  "anion": "SCN⁻",
+  "anionName": "thiocyanate",
+  "category": "wet",
+  "reagent": "BaCl₂",
+  "reagentName": "barium chloride",
+  "condition": null,
+  "observation": "No observed results for all the Cyanogens with BaCl₂",
+  "visual": {
+   "type": "none"
+  },
+  "product": null,
+  "equation": null,
+  "solubility": null,
+  "slideRef": "L02 · s24",
+  "flag": null
+ },
+ {
+  "id": "IV-fe-cn-6-4-bacl2-base",
+  "group": "IV",
+  "anion": "[Fe(CN)₆]⁴⁻",
+  "anionName": "ferrocyanide",
+  "category": "wet",
+  "reagent": "BaCl₂",
+  "reagentName": "barium chloride",
+  "condition": null,
+  "observation": "No observed results for all the Cyanogens with BaCl₂",
+  "visual": {
+   "type": "none"
+  },
+  "product": null,
+  "equation": null,
+  "solubility": null,
+  "slideRef": "L02 · s24",
+  "flag": null
+ },
+ {
+  "id": "IV-fe-cn-6-3-bacl2-base",
+  "group": "IV",
+  "anion": "[Fe(CN)₆]³⁻",
+  "anionName": "ferricyanide",
+  "category": "wet",
+  "reagent": "BaCl₂",
+  "reagentName": "barium chloride",
+  "condition": null,
+  "observation": "No observed results for all the Cyanogens with BaCl₂",
+  "visual": {
+   "type": "none"
+  },
+  "product": null,
+  "equation": null,
+  "solubility": null,
+  "slideRef": "L02 · s24",
+  "flag": null
+ },
+ {
+  "id": "IV-cn-agno3-base",
+  "group": "IV",
+  "anion": "CN⁻",
+  "anionName": "cyanide",
+  "category": "wet",
+  "reagent": "AgNO₃",
+  "reagentName": "silver nitrate",
+  "condition": null,
+  "observation": "White ppt",
+  "visual": {
+   "type": "ppt",
+   "color": "white"
+  },
+  "product": "AgCN (silver cyanide)",
+  "equation": "Ag⁺ + CN⁻ → AgCN↓",
+  "solubility": "Soluble in excess CN⁻ and ammonia solution",
+  "slideRef": "L02 · s25",
+  "flag": null
+ },
+ {
+  "id": "IV-cn-agno3-excess-cn",
+  "group": "IV",
+  "anion": "CN⁻",
+  "anionName": "cyanide",
+  "category": "wet",
+  "reagent": "AgNO₃",
+  "reagentName": "silver nitrate",
+  "condition": "excess CN⁻",
+  "observation": "Soluble in excess CN⁻ → (Ag(CN)₂)⁻ soluble complex (ppt dissolves)",
+  "visual": {
+   "type": "ppt",
+   "color": "white",
+   "dissolve": true
+  },
+  "product": "(Ag(CN)₂)⁻ (argento cyanide, soluble complex)",
+  "equation": "Ag⁺ + CN⁻ → AgCN↓ → (Exx. CN⁻) (Ag(CN)₂)⁻ → (H⁺) HCN + AgCN",
+  "solubility": null,
+  "slideRef": "L02 · s25",
+  "flag": null
+ },
+ {
+  "id": "IV-scn-agno3-base",
+  "group": "IV",
+  "anion": "SCN⁻",
+  "anionName": "thiocyanate",
+  "category": "wet",
+  "reagent": "AgNO₃",
+  "reagentName": "silver nitrate",
+  "condition": null,
+  "observation": "White ppt",
+  "visual": {
+   "type": "ppt",
+   "color": "white"
+  },
+  "product": "AgSCN (silver thiocyanate)",
+  "equation": "Ag⁺ + SCN⁻ → AgSCN↓",
+  "solubility": null,
+  "slideRef": "L02 · s25",
+  "flag": null
+ },
+ {
+  "id": "IV-fe-cn-6-4-agno3-base",
+  "group": "IV",
+  "anion": "[Fe(CN)₆]⁴⁻",
+  "anionName": "ferrocyanide",
+  "category": "wet",
+  "reagent": "AgNO₃",
+  "reagentName": "silver nitrate",
+  "condition": null,
+  "observation": "White ppt",
+  "visual": {
+   "type": "ppt",
+   "color": "white"
+  },
+  "product": "Ag₄[Fe(CN)₆] (silver ferrocyanide)",
+  "equation": null,
+  "solubility": "Insoluble in dil. HNO₃ and dil. ammonia",
+  "slideRef": "L02 · s25",
+  "flag": null
+ },
+ {
+  "id": "IV-fe-cn-6-4-agno3-dil-ammonia",
+  "group": "IV",
+  "anion": "[Fe(CN)₆]⁴⁻",
+  "anionName": "ferrocyanide",
+  "category": "wet",
+  "reagent": "AgNO₃",
+  "reagentName": "silver nitrate",
+  "condition": "+ dil. ammonia",
+  "observation": "Insoluble in dil. ammonia (white ppt stays)",
+  "visual": {
+   "type": "ppt",
+   "color": "white"
+  },
+  "product": "Ag₄[Fe(CN)₆] (silver ferrocyanide)",
+  "equation": null,
+  "solubility": "The solubility of silver ferricyanide ppt. in ammonia can be used for the separation of ferrocyanide and ferricyanide",
+  "slideRef": "L02 · s25",
+  "flag": null
+ },
+ {
+  "id": "IV-fe-cn-6-4-agno3-warm-with-few-drops-of-conc-hno3",
+  "group": "IV",
+  "anion": "[Fe(CN)₆]⁴⁻",
+  "anionName": "ferrocyanide",
+  "category": "wet",
+  "reagent": "AgNO₃",
+  "reagentName": "silver nitrate",
+  "condition": "warm with few drops of conc. HNO₃",
+  "observation": "Oxidation of the white ppt. of Ag₄[Fe(CN)₆] by warming with few drops of Conc. HNO₃ → orange red ppt. of Ag₃[Fe(CN)₆]",
+  "visual": {
+   "type": "ppt",
+   "timeline": [
+    "white",
+    "orange red"
+   ],
+   "heat": true,
+   "color": "orange red"
+  },
+  "product": "Ag₃[Fe(CN)₆] (silver ferricyanide)",
+  "equation": null,
+  "solubility": "Soluble in dil. ammonia solution",
+  "slideRef": "L02 · s25",
+  "flag": null
+ },
+ {
+  "id": "IV-fe-cn-6-3-agno3-base",
+  "group": "IV",
+  "anion": "[Fe(CN)₆]³⁻",
+  "anionName": "ferricyanide",
+  "category": "wet",
+  "reagent": "AgNO₃",
+  "reagentName": "silver nitrate",
+  "condition": null,
+  "observation": "Orange red ppt",
+  "visual": {
+   "type": "ppt",
+   "color": "orange red"
+  },
+  "product": "Ag₃[Fe(CN)₆] (silver ferricyanide)",
+  "equation": null,
+  "solubility": "Insoluble in dil. HNO₃ but soluble in dil. ammonia",
+  "slideRef": "L02 · s25",
+  "flag": null
+ },
+ {
+  "id": "IV-fe-cn-6-3-agno3-dil-ammonia",
+  "group": "IV",
+  "anion": "[Fe(CN)₆]³⁻",
+  "anionName": "ferricyanide",
+  "category": "wet",
+  "reagent": "AgNO₃",
+  "reagentName": "silver nitrate",
+  "condition": "+ dil. ammonia",
+  "observation": "Soluble in dil. ammonia (ppt dissolves)",
+  "visual": {
+   "type": "ppt",
+   "color": "orange red",
+   "dissolve": true
+  },
+  "product": "Ag₃[Fe(CN)₆] (silver ferricyanide) dissolves",
+  "equation": null,
+  "solubility": "Used for the separation of ferrocyanide and ferricyanide when present in a mixture",
+  "slideRef": "L02 · s25",
+  "flag": null
+ },
+ {
+  "id": "IV-cn-fecl3-base",
+  "group": "IV",
+  "anion": "CN⁻",
+  "anionName": "cyanide",
+  "category": "wet",
+  "reagent": "FeCl₃",
+  "reagentName": "ferric chloride",
+  "condition": null,
+  "observation": "White ppt",
+  "visual": {
+   "type": "ppt",
+   "color": "white"
+  },
+  "product": "Fe(CN)₃ (iron (III) cyanide)",
+  "equation": "Fe³⁺ + 3CN⁻ → Fe(CN)₃↓",
+  "solubility": "Soluble in excess CN⁻ forming ferricyanide",
+  "slideRef": "L02 · s26",
+  "flag": null
+ },
+ {
+  "id": "IV-cn-fecl3-excess-cn",
+  "group": "IV",
+  "anion": "CN⁻",
+  "anionName": "cyanide",
+  "category": "wet",
+  "reagent": "FeCl₃",
+  "reagentName": "ferric chloride",
+  "condition": "excess CN⁻",
+  "observation": "Soluble in excess CN⁻ forming ferricyanide (ppt dissolves)",
+  "visual": {
+   "type": "ppt",
+   "color": "white",
+   "dissolve": true
+  },
+  "product": "[Fe(CN)₆]³⁻ (ferricyanide)",
+  "equation": "Fe³⁺ + 3CN⁻ → Fe(CN)₃↓ → (Exx. CN⁻) [Fe(CN)₆]³⁻",
+  "solubility": null,
+  "slideRef": "L02 · s26",
+  "flag": null
+ },
+ {
+  "id": "IV-scn-fecl3-base",
+  "group": "IV",
+  "anion": "SCN⁻",
+  "anionName": "thiocyanate",
+  "category": "wet",
+  "reagent": "FeCl₃",
+  "reagentName": "ferric chloride",
+  "condition": null,
+  "observation": "Blood red color",
+  "visual": {
+   "type": "solution",
+   "color": "blood red"
+  },
+  "product": "Fe(SCN)₃ (ferric thiocyanate)",
+  "equation": null,
+  "solubility": "Extractable with ether",
+  "slideRef": "L02 · s26",
+  "flag": null
+ },
+ {
+  "id": "IV-scn-fecl3-ether",
+  "group": "IV",
+  "anion": "SCN⁻",
+  "anionName": "thiocyanate",
+  "category": "wet",
+  "reagent": "FeCl₃",
+  "reagentName": "ferric chloride",
+  "condition": "+ ether",
+  "observation": "Blood red color — extractable with ether",
+  "visual": {
+   "type": "layer",
+   "layer": {
+    "organic": "ether",
+    "position": "top",
+    "color": "blood red",
+    "aqueous": "colorless"
+   }
+  },
+  "product": "Fe(SCN)₃ (ferric thiocyanate)",
+  "equation": null,
+  "solubility": null,
+  "slideRef": "L02 · s26",
+  "flag": null
+ },
+ {
+  "id": "IV-scn-fecl3-f-po43-oxalate-or-tartrate",
+  "group": "IV",
+  "anion": "SCN⁻",
+  "anionName": "thiocyanate",
+  "category": "wet",
+  "reagent": "FeCl₃",
+  "reagentName": "ferric chloride",
+  "condition": "+ F⁻, PO₄³⁻, oxalate or tartrate",
+  "observation": "F⁻, PO₄³⁻, oxalate and tartrate bleach the color as they form complex with ferric → must be absent",
+  "visual": {
+   "type": "solution",
+   "timeline": [
+    "blood red",
+    "colorless"
+   ],
+   "color": "colorless"
+  },
+  "product": "(FeF₆)³⁻ (iron fluoride complex)",
+  "equation": "6F⁻ + Fe³⁺ → (FeF₆)³⁻",
+  "solubility": "Precautions: ensure iron in the Fe³⁺ state · acidify with dil. HCl · cool before testing · remove interfering ions",
+  "slideRef": "L02 · s27",
+  "flag": null
+ },
+ {
+  "id": "IV-scn-fecl3-hg2-present",
+  "group": "IV",
+  "anion": "SCN⁻",
+  "anionName": "thiocyanate",
+  "category": "wet",
+  "reagent": "FeCl₃",
+  "reagentName": "ferric chloride",
+  "condition": "Hg²⁺ present",
+  "observation": "Hg²⁺ reacts with SCN⁻ → forming unionized Hg(SCN)₂ which is colorless",
+  "visual": {
+   "type": "solution",
+   "color": "colorless"
+  },
+  "product": "Hg(SCN)₂ (mercuric thiocyanate, unionized)",
+  "equation": null,
+  "solubility": null,
+  "slideRef": "L02 · s27",
+  "flag": null
+ },
+ {
+  "id": "IV-fe-cn-6-4-fecl3-base",
+  "group": "IV",
+  "anion": "[Fe(CN)₆]⁴⁻",
+  "anionName": "ferrocyanide",
+  "category": "wet",
+  "reagent": "FeCl₃",
+  "reagentName": "ferric chloride",
+  "condition": null,
+  "observation": "Prussian blue ppt",
+  "visual": {
+   "type": "ppt",
+   "color": "Prussian blue"
+  },
+  "product": "Fe₄[Fe(CN)₆]₃ (ferric ferrocyanide, Prussian blue)",
+  "equation": null,
+  "solubility": null,
+  "slideRef": "L02 · s26",
+  "flag": null
+ },
+ {
+  "id": "IV-fe-cn-6-3-fecl3-base",
+  "group": "IV",
+  "anion": "[Fe(CN)₆]³⁻",
+  "anionName": "ferricyanide",
+  "category": "wet",
+  "reagent": "FeCl₃",
+  "reagentName": "ferric chloride",
+  "condition": null,
+  "observation": "Brown color",
+  "visual": {
+   "type": "solution",
+   "color": "brown"
+  },
+  "product": "Fe[Fe(CN)₆] (ferric ferricyanide)",
+  "equation": null,
+  "solubility": null,
+  "slideRef": "L02 · s26",
+  "flag": null
+ },
+ {
+  "id": "IV-cn-co-no3-2-base",
+  "group": "IV",
+  "anion": "CN⁻",
+  "anionName": "cyanide",
+  "category": "wet",
+  "reagent": "Co(NO₃)₂",
+  "reagentName": "cobalt nitrate",
+  "condition": null,
+  "observation": "Buff ppt",
+  "visual": {
+   "type": "ppt",
+   "color": "buff"
+  },
+  "product": "Co(CN)₂·2H₂O (cobaltous cyanide dihydrate)",
+  "equation": null,
+  "solubility": null,
+  "slideRef": "L02 · s28",
+  "flag": null
+ },
+ {
+  "id": "IV-scn-co-no3-2-vogel-s-reaction-dil-h2so4-sncl2-ether-nh4scn",
+  "group": "IV",
+  "anion": "SCN⁻",
+  "anionName": "thiocyanate",
+  "category": "wet",
+  "reagent": "Co(NO₃)₂",
+  "reagentName": "cobalt nitrate",
+  "condition": "Vogel's reaction (+ dil. H₂SO₄ + SnCl₂ + ether + NH₄SCN)",
+  "observation": "Blue color of [Co(SCN)₄]²⁻ in ether layer",
+  "visual": {
+   "type": "layer",
+   "layer": {
+    "organic": "ether",
+    "position": "top",
+    "color": "blue",
+    "aqueous": "colorless"
+   }
+  },
+  "product": "[Co(SCN)₄]²⁻ (cobalt thiocyanate complex)",
+  "equation": null,
+  "solubility": "H₂SO₄ contains traces of Fe³⁺ (blood red with SCN⁻) → add SnCl₂ to reduce Fe³⁺ into Fe²⁺, OR add F⁻ or PO₄³⁻ to form complex with Fe³⁺",
+  "slideRef": "L02 · s28",
+  "flag": null
+ },
+ {
+  "id": "IV-fe-cn-6-4-co-no3-2-base",
+  "group": "IV",
+  "anion": "[Fe(CN)₆]⁴⁻",
+  "anionName": "ferrocyanide",
+  "category": "wet",
+  "reagent": "Co(NO₃)₂",
+  "reagentName": "cobalt nitrate",
+  "condition": null,
+  "observation": "Greyish green ppt",
+  "visual": {
+   "type": "ppt",
+   "color": "greyish green"
+  },
+  "product": "Co₂[Fe(CN)₆] (cobalt ferrocyanide)",
+  "equation": null,
+  "solubility": null,
+  "slideRef": "L02 · s28",
+  "flag": null
+ },
+ {
+  "id": "IV-fe-cn-6-3-co-no3-2-base",
+  "group": "IV",
+  "anion": "[Fe(CN)₆]³⁻",
+  "anionName": "ferricyanide",
+  "category": "wet",
+  "reagent": "Co(NO₃)₂",
+  "reagentName": "cobalt nitrate",
+  "condition": null,
+  "observation": "Red ppt",
+  "visual": {
+   "type": "ppt",
+   "color": "red"
+  },
+  "product": "Co₃[Fe(CN)₆]₂ (cobalt ferricyanide)",
+  "equation": null,
+  "solubility": null,
+  "slideRef": "L02 · s28",
+  "flag": null
+ },
+ {
+  "id": "IV-cn-prussian-blue-test-cn-ferrocyanide-fecl3-base",
+  "group": "IV",
+  "anion": "CN⁻",
+  "anionName": "cyanide",
+  "category": "special",
+  "reagent": "Prussian blue test (CN⁻ → ferrocyanide → FeCl₃)",
+  "reagentName": "convert to ferrocyanide, then ferric chloride",
+  "condition": null,
+  "observation": "Convert CN⁻ into ferrocyanide → add FeCl₃ → Prussian blue ppt.",
+  "visual": {
+   "type": "ppt",
+   "color": "Prussian blue"
+  },
+  "product": "Fe₄[Fe(CN)₆]₃ (Prussian blue)",
+  "equation": null,
+  "solubility": "If SCN⁻ is present, CN⁻ must be isolated first by precipitation e.g. as zinc cyanide",
+  "slideRef": "L02 · s29",
+  "flag": null
+ },
+ {
+  "id": "IV-cn-iron-thiocyanate-test-cn-scn-fecl3-base",
+  "group": "IV",
+  "anion": "CN⁻",
+  "anionName": "cyanide",
+  "category": "special",
+  "reagent": "Iron thiocyanate test (CN⁻ → SCN⁻ → FeCl₃)",
+  "reagentName": "convert to thiocyanate, then ferric chloride",
+  "condition": null,
+  "observation": "Convert CN⁻ into SCN⁻ → add FeCl₃ → blood red color is extractable with ether",
+  "visual": {
+   "type": "solution",
+   "color": "blood red"
+  },
+  "product": "ferric thiocyanate",
+  "equation": null,
+  "solubility": "If SCN⁻ is present, CN⁻ must be isolated first by precipitation e.g. as zinc cyanide",
+  "slideRef": "L02 · s29",
+  "flag": null
+ },
+ {
+  "id": "IV-scn-reduction-test-zn-dil-acid-base",
+  "group": "IV",
+  "anion": "SCN⁻",
+  "anionName": "thiocyanate",
+  "category": "special",
+  "reagent": "Reduction test (Zn + dil. acid)",
+  "reagentName": "metallic zinc + dilute acid",
+  "condition": null,
+  "observation": "Reduction of SCN⁻ with metallic zinc and dil. acid → giving H₂S and HCN which can be tested",
+  "visual": {
+   "type": "gas",
+   "color": null
+  },
+  "product": "H₂S (hydrogen sulphide) + HCN (hydrogen cyanide)",
+  "equation": null,
+  "solubility": null,
+  "slideRef": "L02 · s29",
+  "flag": null
+ },
+ {
+  "id": "IV-fe-cn-6-4-oxidation-test-mno4-no3-h2o2-cl2-base",
+  "group": "IV",
+  "anion": "[Fe(CN)₆]⁴⁻",
+  "anionName": "ferrocyanide",
+  "category": "special",
+  "reagent": "Oxidation test (MnO₄⁻, NO₃⁻, H₂O₂, Cl₂)",
+  "reagentName": "oxidizing agents",
+  "condition": null,
+  "observation": "Oxidized to ferricyanide by oxidizing agents, such as MnO₄⁻, NO₃⁻, H₂O₂ and Cl₂",
+  "visual": {
+   "type": "none"
+  },
+  "product": "[Fe(CN)₆]³⁻ (ferricyanide)",
+  "equation": null,
+  "solubility": "Ferrocyanide has mild reducing effect",
+  "slideRef": "L02 · s29",
+  "flag": null
+ },
+ {
+  "id": "IV-fe-cn-6-3-reduction-test-i-i2-base",
+  "group": "IV",
+  "anion": "[Fe(CN)₆]³⁻",
+  "anionName": "ferricyanide",
+  "category": "special",
+  "reagent": "Reduction test (I⁻ → I₂)",
+  "reagentName": "iodide",
+  "condition": null,
+  "observation": "Oxidizes I⁻ into I₂ (brown colored) → identified by starch or CHCl₃",
+  "visual": {
+   "type": "solution",
+   "color": "brown"
+  },
+  "product": "I₂ (iodine)",
+  "equation": null,
+  "solubility": "Ferricyanide has oxidizing effect",
+  "slideRef": "L02 · s29",
+  "flag": null
+ },
+ {
+  "id": "V-aso43-dil-hcl-base",
+  "group": "V",
+  "anion": "AsO₄³⁻",
+  "anionName": "arsenate",
+  "category": "dry",
+  "reagent": "dil. HCl",
+  "reagentName": "dilute hydrochloric acid",
+  "condition": null,
+  "observation": "No RX.",
+  "visual": {
+   "type": "none"
+  },
+  "product": null,
+  "equation": null,
+  "solubility": null,
+  "slideRef": "L03 · s5",
+  "flag": null
+ },
+ {
+  "id": "V-aso33-dil-hcl-base",
+  "group": "V",
+  "anion": "AsO₃³⁻",
+  "anionName": "arsenite",
+  "category": "dry",
+  "reagent": "dil. HCl",
+  "reagentName": "dilute hydrochloric acid",
+  "condition": null,
+  "observation": "No RX.",
+  "visual": {
+   "type": "none"
+  },
+  "product": null,
+  "equation": null,
+  "solubility": null,
+  "slideRef": "L03 · s5",
+  "flag": null
+ },
+ {
+  "id": "V-po43-dil-hcl-base",
+  "group": "V",
+  "anion": "PO₄³⁻",
+  "anionName": "phosphate",
+  "category": "dry",
+  "reagent": "dil. HCl",
+  "reagentName": "dilute hydrochloric acid",
+  "condition": null,
+  "observation": "No RX.",
+  "visual": {
+   "type": "none"
+  },
+  "product": null,
+  "equation": null,
+  "solubility": null,
+  "slideRef": "L03 · s5",
+  "flag": null
+ },
+ {
+  "id": "V-aso43-conc-hcl-boiling",
+  "group": "V",
+  "anion": "AsO₄³⁻",
+  "anionName": "arsenate",
+  "category": "dry",
+  "reagent": "conc. HCl",
+  "reagentName": "concentrated hydrochloric acid",
+  "condition": "boiling",
+  "observation": "Arsenate oxidizes HCl into free Cl₂ gas and reduced to arsenite",
+  "visual": {
+   "type": "gas",
+   "color": null,
+   "heat": true
+  },
+  "product": "Cl₂ (chlorine gas) + AsO₃³⁻ (arsenite)",
+  "equation": null,
+  "solubility": null,
+  "slideRef": "L03 · s5",
+  "flag": null
+ },
+ {
+  "id": "V-aso33-conc-hcl-boiling",
+  "group": "V",
+  "anion": "AsO₃³⁻",
+  "anionName": "arsenite",
+  "category": "dry",
+  "reagent": "conc. HCl",
+  "reagentName": "concentrated hydrochloric acid",
+  "condition": "boiling",
+  "observation": "Arsenious chloride gas (AsCl₃) is evolved",
+  "visual": {
+   "type": "gas",
+   "color": null,
+   "heat": true
+  },
+  "product": "AsCl₃ (arsenious chloride)",
+  "equation": null,
+  "solubility": null,
+  "slideRef": "L03 · s5",
+  "flag": null
+ },
+ {
+  "id": "V-po43-conc-hcl-boiling",
+  "group": "V",
+  "anion": "PO₄³⁻",
+  "anionName": "phosphate",
+  "category": "dry",
+  "reagent": "conc. HCl",
+  "reagentName": "concentrated hydrochloric acid",
+  "condition": "boiling",
+  "observation": "No RX.",
+  "visual": {
+   "type": "none"
+  },
+  "product": null,
+  "equation": null,
+  "solubility": null,
+  "slideRef": "L03 · s5",
+  "flag": null
+ },
+ {
+  "id": "V-aso43-conc-h2so4-base",
+  "group": "V",
+  "anion": "AsO₄³⁻",
+  "anionName": "arsenate",
+  "category": "dry",
+  "reagent": "conc. H₂SO₄",
+  "reagentName": "concentrated sulphuric acid",
+  "condition": null,
+  "observation": "No RX.",
+  "visual": {
+   "type": "none"
+  },
+  "product": null,
+  "equation": null,
+  "solubility": null,
+  "slideRef": "L03 · s5",
+  "flag": null
+ },
+ {
+  "id": "V-aso33-conc-h2so4-on-hot",
+  "group": "V",
+  "anion": "AsO₃³⁻",
+  "anionName": "arsenite",
+  "category": "dry",
+  "reagent": "conc. H₂SO₄",
+  "reagentName": "concentrated sulphuric acid",
+  "condition": "on hot",
+  "observation": "On hot: some reduction of H₂SO₄ to SO₂ may occur",
+  "visual": {
+   "type": "gas",
+   "color": null,
+   "heat": true
+  },
+  "product": "SO₂ (sulphur dioxide)",
+  "equation": null,
+  "solubility": null,
+  "slideRef": "L03 · s5",
+  "flag": null
+ },
+ {
+  "id": "V-po43-conc-h2so4-base",
+  "group": "V",
+  "anion": "PO₄³⁻",
+  "anionName": "phosphate",
+  "category": "dry",
+  "reagent": "conc. H₂SO₄",
+  "reagentName": "concentrated sulphuric acid",
+  "condition": null,
+  "observation": "No RX.",
+  "visual": {
+   "type": "none"
+  },
+  "product": null,
+  "equation": null,
+  "solubility": null,
+  "slideRef": "L03 · s5",
+  "flag": null
+ },
+ {
+  "id": "V-aso43-agno3-base",
+  "group": "V",
+  "anion": "AsO₄³⁻",
+  "anionName": "arsenate",
+  "category": "wet",
+  "reagent": "AgNO₃",
+  "reagentName": "silver nitrate",
+  "condition": null,
+  "observation": "Chocolate brown ppt.",
+  "visual": {
+   "type": "ppt",
+   "color": "chocolate brown"
+  },
+  "product": "Ag₃AsO₄ (silver arsenate)",
+  "equation": null,
+  "solubility": "All the precipitates are insoluble in acetic acid · soluble in dil. HNO₃ (parent acids weaker than nitric acid) and NH₄OH (complex ion [Ag(NH₃)₂]⁺: 3Ag⁺ + 6NH₃ ⇌ 3[Ag(NH₃)₂]⁺)",
+  "slideRef": "L03 · s7",
+  "flag": null
+ },
+ {
+  "id": "V-aso33-agno3-base",
+  "group": "V",
+  "anion": "AsO₃³⁻",
+  "anionName": "arsenite",
+  "category": "wet",
+  "reagent": "AgNO₃",
+  "reagentName": "silver nitrate",
+  "condition": null,
+  "observation": "Yellow ppt.",
+  "visual": {
+   "type": "ppt",
+   "color": "yellow"
+  },
+  "product": "Ag₃AsO₃ (silver arsenite)",
+  "equation": null,
+  "solubility": "All the precipitates are insoluble in acetic acid · soluble in dil. HNO₃ (parent acids weaker than nitric acid) and NH₄OH (complex ion [Ag(NH₃)₂]⁺: 3Ag⁺ + 6NH₃ ⇌ 3[Ag(NH₃)₂]⁺)",
+  "slideRef": "L03 · s7",
+  "flag": null
+ },
+ {
+  "id": "V-po43-agno3-base",
+  "group": "V",
+  "anion": "PO₄³⁻",
+  "anionName": "phosphate",
+  "category": "wet",
+  "reagent": "AgNO₃",
+  "reagentName": "silver nitrate",
+  "condition": null,
+  "observation": "Yellow ppt.",
+  "visual": {
+   "type": "ppt",
+   "color": "yellow"
+  },
+  "product": "Ag₃PO₄ (silver phosphate)",
+  "equation": null,
+  "solubility": "All the precipitates are insoluble in acetic acid · soluble in dil. HNO₃ (parent acids weaker than nitric acid) and NH₄OH (complex ion [Ag(NH₃)₂]⁺: 3Ag⁺ + 6NH₃ ⇌ 3[Ag(NH₃)₂]⁺)",
+  "slideRef": "L03 · s7",
+  "flag": null
+ },
+ {
+  "id": "V-aso43-bacl2-base",
+  "group": "V",
+  "anion": "AsO₄³⁻",
+  "anionName": "arsenate",
+  "category": "wet",
+  "reagent": "BaCl₂",
+  "reagentName": "barium chloride",
+  "condition": null,
+  "observation": "White ppt.",
+  "visual": {
+   "type": "ppt",
+   "color": "white"
+  },
+  "product": "Ba₃(AsO₄)₂ (barium arsenate)",
+  "equation": null,
+  "solubility": "All the precipitates are soluble in dilute acids including acetic acid · insoluble in ammonia",
+  "slideRef": "L03 · s8",
+  "flag": null
+ },
+ {
+  "id": "V-aso33-bacl2-base",
+  "group": "V",
+  "anion": "AsO₃³⁻",
+  "anionName": "arsenite",
+  "category": "wet",
+  "reagent": "BaCl₂",
+  "reagentName": "barium chloride",
+  "condition": null,
+  "observation": "White ppt.",
+  "visual": {
+   "type": "ppt",
+   "color": "white"
+  },
+  "product": "Ba₃(AsO₃)₂ (barium arsenite)",
+  "equation": null,
+  "solubility": "All the precipitates are soluble in dilute acids including acetic acid · insoluble in ammonia",
+  "slideRef": "L03 · s8",
+  "flag": null
+ },
+ {
+  "id": "V-po43-bacl2-base",
+  "group": "V",
+  "anion": "PO₄³⁻",
+  "anionName": "phosphate",
+  "category": "wet",
+  "reagent": "BaCl₂",
+  "reagentName": "barium chloride",
+  "condition": null,
+  "observation": "White ppt.",
+  "visual": {
+   "type": "ppt",
+   "color": "white"
+  },
+  "product": "Ba₃(PO₄)₂ (barium phosphate)",
+  "equation": null,
+  "solubility": "All the precipitates are soluble in dilute acids including acetic acid · insoluble in ammonia",
+  "slideRef": "L03 · s8",
+  "flag": null
+ },
+ {
+  "id": "V-aso43-magnesia-mixture-base",
+  "group": "V",
+  "anion": "AsO₄³⁻",
+  "anionName": "arsenate",
+  "category": "wet",
+  "reagent": "magnesia mixture",
+  "reagentName": "magnesia mixture (MgCl₂ + NH₄Cl + NH₄OH)",
+  "condition": null,
+  "observation": "White ppt. (magnesium ammonium arsenate)",
+  "visual": {
+   "type": "ppt",
+   "color": "white"
+  },
+  "product": "Mg(NH₄)AsO₄ (magnesium ammonium arsenate)",
+  "equation": null,
+  "solubility": "Formed in neutral or ammoniacal solutions · soluble in mineral acids and acetic acid",
+  "slideRef": "L03 · s9",
+  "flag": null
+ },
+ {
+  "id": "V-aso43-magnesia-mixture-white-ppt-acetic-acid-agno3",
+  "group": "V",
+  "anion": "AsO₄³⁻",
+  "anionName": "arsenate",
+  "category": "wet",
+  "reagent": "magnesia mixture",
+  "reagentName": "magnesia mixture (MgCl₂ + NH₄Cl + NH₄OH)",
+  "condition": "white ppt + acetic acid + AgNO₃",
+  "observation": "Chocolate brown ppt. of Ag₃AsO₄",
+  "visual": {
+   "type": "ppt",
+   "timeline": [
+    "white",
+    "chocolate brown"
+   ],
+   "color": "chocolate brown"
+  },
+  "product": "Ag₃AsO₄ (silver arsenate)",
+  "equation": null,
+  "solubility": null,
+  "slideRef": "L03 · s9",
+  "flag": null
+ },
+ {
+  "id": "V-aso33-magnesia-mixture-base",
+  "group": "V",
+  "anion": "AsO₃³⁻",
+  "anionName": "arsenite",
+  "category": "wet",
+  "reagent": "magnesia mixture",
+  "reagentName": "magnesia mixture (MgCl₂ + NH₄Cl + NH₄OH)",
+  "condition": null,
+  "observation": "No. Rx",
+  "visual": {
+   "type": "none"
+  },
+  "product": null,
+  "equation": null,
+  "solubility": null,
+  "slideRef": "L03 · s9",
+  "flag": null
+ },
+ {
+  "id": "V-po43-magnesia-mixture-base",
+  "group": "V",
+  "anion": "PO₄³⁻",
+  "anionName": "phosphate",
+  "category": "wet",
+  "reagent": "magnesia mixture",
+  "reagentName": "magnesia mixture (MgCl₂ + NH₄Cl + NH₄OH)",
+  "condition": null,
+  "observation": "White ppt. (magnesium ammonium phosphate)",
+  "visual": {
+   "type": "ppt",
+   "color": "white"
+  },
+  "product": "Mg(NH₄)PO₄ (magnesium ammonium phosphate)",
+  "equation": null,
+  "solubility": "Formed in neutral or ammoniacal solutions · soluble in mineral acids and acetic acid",
+  "slideRef": "L03 · s9",
+  "flag": null
+ },
+ {
+  "id": "V-po43-magnesia-mixture-white-ppt-acetic-acid-agno3",
+  "group": "V",
+  "anion": "PO₄³⁻",
+  "anionName": "phosphate",
+  "category": "wet",
+  "reagent": "magnesia mixture",
+  "reagentName": "magnesia mixture (MgCl₂ + NH₄Cl + NH₄OH)",
+  "condition": "white ppt + acetic acid + AgNO₃",
+  "observation": "Yellow ppt. of Ag₃PO₄",
+  "visual": {
+   "type": "ppt",
+   "timeline": [
+    "white",
+    "yellow"
+   ],
+   "color": "yellow"
+  },
+  "product": "Ag₃PO₄ (silver phosphate)",
+  "equation": null,
+  "solubility": null,
+  "slideRef": "L03 · s9",
+  "flag": null
+ },
+ {
+  "id": "V-aso43-ammonium-molybdate-after-boiling",
+  "group": "V",
+  "anion": "AsO₄³⁻",
+  "anionName": "arsenate",
+  "category": "wet",
+  "reagent": "ammonium molybdate",
+  "reagentName": "ammonium molybdate, (NH₄)₂MoO₄",
+  "condition": "after boiling",
+  "observation": "Canary yellow ppt. after boiling",
+  "visual": {
+   "type": "ppt",
+   "color": "canary yellow",
+   "heat": true
+  },
+  "product": "(NH₄)₃AsO₄·12MoO₃ (ammonium arseno-molybdate)",
+  "equation": null,
+  "solubility": "Insoluble in dilute acids (e.g. dil. HNO₃) · soluble in ammonia",
+  "slideRef": "L03 · s10",
+  "flag": null
+ },
+ {
+  "id": "V-aso33-ammonium-molybdate-base",
+  "group": "V",
+  "anion": "AsO₃³⁻",
+  "anionName": "arsenite",
+  "category": "wet",
+  "reagent": "ammonium molybdate",
+  "reagentName": "ammonium molybdate, (NH₄)₂MoO₄",
+  "condition": null,
+  "observation": "No. Rx",
+  "visual": {
+   "type": "none"
+  },
+  "product": null,
+  "equation": null,
+  "solubility": null,
+  "slideRef": "L03 · s10",
+  "flag": null
+ },
+ {
+  "id": "V-po43-ammonium-molybdate-on-standing-or-warming-by-hand",
+  "group": "V",
+  "anion": "PO₄³⁻",
+  "anionName": "phosphate",
+  "category": "wet",
+  "reagent": "ammonium molybdate",
+  "reagentName": "ammonium molybdate, (NH₄)₂MoO₄",
+  "condition": "on standing (or warming by hand)",
+  "observation": "Canary yellow ppt. On standing (or warming by hand)",
+  "visual": {
+   "type": "ppt",
+   "color": "canary yellow"
+  },
+  "product": "(NH₄)₃PO₄·12MoO₃ (ammonium phospho-molybdate)",
+  "equation": null,
+  "solubility": "Insoluble in dilute acids (e.g. dil. HNO₃) · soluble in ammonia",
+  "slideRef": "L03 · s10",
+  "flag": null
+ },
+ {
+  "id": "V-aso43-h2s-prolonged-passage-of-h2s",
+  "group": "V",
+  "anion": "AsO₄³⁻",
+  "anionName": "arsenate",
+  "category": "wet",
+  "reagent": "H₂S",
+  "reagentName": "hydrogen sulphide (after acidifying with dil. HCl)",
+  "condition": "prolonged passage of H₂S",
+  "observation": "Yellow ppt. after prolonged passage of H₂S (Not Immediate)",
+  "visual": {
+   "type": "ppt",
+   "color": "yellow",
+   "bubbles": true
+  },
+  "product": "As₂S₃ (arsenious sulphide)",
+  "equation": null,
+  "solubility": null,
+  "slideRef": "L03 · s11",
+  "flag": null
+ },
+ {
+  "id": "V-aso33-h2s-base",
+  "group": "V",
+  "anion": "AsO₃³⁻",
+  "anionName": "arsenite",
+  "category": "wet",
+  "reagent": "H₂S",
+  "reagentName": "hydrogen sulphide (after acidifying with dil. HCl)",
+  "condition": null,
+  "observation": "Immediate Yellow ppt.",
+  "visual": {
+   "type": "ppt",
+   "color": "yellow",
+   "bubbles": true
+  },
+  "product": "As₂S₃ (arsenious sulphide)",
+  "equation": null,
+  "solubility": null,
+  "slideRef": "L03 · s11",
+  "flag": null
+ },
+ {
+  "id": "V-po43-h2s-base",
+  "group": "V",
+  "anion": "PO₄³⁻",
+  "anionName": "phosphate",
+  "category": "wet",
+  "reagent": "H₂S",
+  "reagentName": "hydrogen sulphide (after acidifying with dil. HCl)",
+  "condition": null,
+  "observation": "No. Rx",
+  "visual": {
+   "type": "none"
+  },
+  "product": null,
+  "equation": null,
+  "solubility": null,
+  "slideRef": "L03 · s11",
+  "flag": null
+ },
+ {
+  "id": "V-po43-fecl3-base",
+  "group": "V",
+  "anion": "PO₄³⁻",
+  "anionName": "phosphate",
+  "category": "wet",
+  "reagent": "FeCl₃",
+  "reagentName": "ferric chloride",
+  "condition": null,
+  "observation": "PO₄³⁻ forms complex with ferric → bleaches the color of the SCN⁻ / FeCl₃ test",
+  "visual": {
+   "type": "none"
+  },
+  "product": null,
+  "equation": null,
+  "solubility": "F⁻, PO₄³⁻, oxalate and tartrate must be absent in the SCN⁻ test",
+  "slideRef": "L02 · s27",
+  "flag": null
+ },
+ {
+  "id": "V-aso43-ki-test-chcl3-ki-conc-hcl-base",
+  "group": "V",
+  "anion": "AsO₄³⁻",
+  "anionName": "arsenate",
+  "category": "special",
+  "reagent": "KI test (CHCl₃ + KI + conc. HCl)",
+  "reagentName": "potassium iodide + chloroform + concentrated hydrochloric acid",
+  "condition": null,
+  "observation": "A violet color of free iodine in CHCl₃ layer",
+  "visual": {
+   "type": "layer",
+   "layer": {
+    "organic": "CHCl₃",
+    "position": "bottom",
+    "color": "violet",
+    "aqueous": "colorless"
+   }
+  },
+  "product": "I₂ (iodine)",
+  "equation": "AsO₄³⁻ + 2I⁻ + 4H⁺ ⇌ (H⁺ / NaHCO₃) AsO₃⁻ + I₂ + 2H₂O",
+  "solubility": "Used for the detection of arsenate in presence of phosphate and arsenite but in absence of other oxidizing agents",
+  "slideRef": "L03 · s12",
+  "flag": {
+   "source": "doc",
+   "slide": "AsO₄³⁻ + 2I⁻ + 4H⁺ → AsO₃⁻ + I₂ + 2H₂O",
+   "correct": "AsO₄³⁻ + 2H⁺ + 2I⁻ ⇌ AsO₃³⁻ + H₂O + I₂ (نسخة L03 · s4)",
+   "note": "مش متوازنة، والشحنة غلط"
+  }
+ },
+ {
+  "id": "V-aso33-iodine-test-nahco3-on-i2-base",
+  "group": "V",
+  "anion": "AsO₃³⁻",
+  "anionName": "arsenite",
+  "category": "special",
+  "reagent": "Iodine test (NaHCO₃ on I₂)",
+  "reagentName": "iodine + sodium bicarbonate",
+  "condition": null,
+  "observation": "Disappearance of brown color of iodine immediately due to the reducing effect of arsenite",
+  "visual": {
+   "type": "solution",
+   "timeline": [
+    "brown",
+    "colorless"
+   ],
+   "color": "colorless"
+  },
+  "product": "I⁻ (iodide)",
+  "equation": null,
+  "solubility": "Used for the detection of arsenite from arsenate or phosphate in absence of other reducing agents",
+  "slideRef": "L03 · s12",
+  "flag": null
+ },
+ {
+  "id": "V-po43-magnesium-test-mg-powder-ignition-water-base",
+  "group": "V",
+  "anion": "PO₄³⁻",
+  "anionName": "phosphate",
+  "category": "special",
+  "reagent": "Magnesium test (Mg powder, ignition → water)",
+  "reagentName": "magnesium powder, ignition, then water",
+  "condition": null,
+  "observation": "PH₃ gas: unpleasant odor (garlic like odor) — phosphine or hydrogen phosphide",
+  "visual": {
+   "type": "gas",
+   "color": null,
+   "odor": "garlic like odor",
+   "heat": true
+  },
+  "product": "PH₃ (phosphine, hydrogen phosphide)",
+  "equation": null,
+  "solubility": "Depends on the reduction of phosphates into phosphide (P³⁻)",
+  "slideRef": "L03 · s12",
+  "flag": null
+ },
+ {
+  "id": "V-aso43-bettendorf-s-test-conc-hcl-sncl2-gently-warm",
+  "group": "V",
+  "anion": "AsO₄³⁻",
+  "anionName": "arsenate",
+  "category": "special",
+  "reagent": "Bettendorf's test (conc. HCl + SnCl₂)",
+  "reagentName": "concentrated hydrochloric acid + stannous chloride",
+  "condition": "gently warm",
+  "observation": "Black ppt. of metallic arsenic",
+  "visual": {
+   "type": "ppt",
+   "color": "black",
+   "heat": true
+  },
+  "product": "As⁰ (metallic arsenic)",
+  "equation": null,
+  "solubility": "Depends on the reduction of AsO₄³⁻ and AsO₃³⁻ to elemental arsenic · indicates the presence of arsenic-containing compounds",
+  "slideRef": "L03 · s13",
+  "flag": null
+ },
+ {
+  "id": "V-aso33-bettendorf-s-test-conc-hcl-sncl2-gently-warm",
+  "group": "V",
+  "anion": "AsO₃³⁻",
+  "anionName": "arsenite",
+  "category": "special",
+  "reagent": "Bettendorf's test (conc. HCl + SnCl₂)",
+  "reagentName": "concentrated hydrochloric acid + stannous chloride",
+  "condition": "gently warm",
+  "observation": "Black ppt. of metallic arsenic",
+  "visual": {
+   "type": "ppt",
+   "color": "black",
+   "heat": true
+  },
+  "product": "As⁰ (metallic arsenic)",
+  "equation": null,
+  "solubility": "Depends on the reduction of AsO₄³⁻ and AsO₃³⁻ to elemental arsenic · indicates the presence of arsenic-containing compounds",
+  "slideRef": "L03 · s13",
+  "flag": null
+ },
+ {
+  "id": "VI-no3-parent-acid-decomposition-by-aging",
+  "group": "VI",
+  "anion": "NO₃⁻",
+  "anionName": "nitrate",
+  "category": "general",
+  "reagent": "parent acid (decomposition)",
+  "reagentName": "the parent acid decomposing",
+  "condition": "by aging",
+  "observation": "HNO₃ decomposes by aging to nitrogen dioxide (NO₂) (Brown fumes)",
+  "visual": {
+   "type": "fumes",
+   "color": "brown"
+  },
+  "product": "NO₂ (nitrogen dioxide)",
+  "equation": "4HNO₃ → 4NO₂↑ + O₂↑ + 2H₂O",
+  "solubility": "HNO₃ is a strong acid",
+  "slideRef": "L03 · s15",
+  "flag": null
+ },
+ {
+  "id": "VI-no2-parent-acid-decomposition-immediately",
+  "group": "VI",
+  "anion": "NO₂⁻",
+  "anionName": "nitrite",
+  "category": "general",
+  "reagent": "parent acid (decomposition)",
+  "reagentName": "the parent acid decomposing",
+  "condition": "immediately",
+  "observation": "HNO₂ (pale blue liquid) decomposes immediately to nitrogen dioxide (NO₂) (Brown fumes)",
+  "visual": {
+   "type": "fumes",
+   "color": "brown"
+  },
+  "product": "NO (nitric oxide) + NO₂ (nitrogen dioxide)",
+  "equation": "2HNO₂ → NO↑ + NO₂↑ + H₂O",
+  "solubility": "HNO₂ is a weak acid",
+  "slideRef": "L03 · s15",
+  "flag": null
+ },
+ {
+  "id": "VI-no3-k2cr2o7-conc-h2so4-chromyl-chloride-test-base",
+  "group": "VI",
+  "anion": "NO₃⁻",
+  "anionName": "nitrate",
+  "category": "special",
+  "reagent": "K₂Cr₂O₇ + conc. H₂SO₄ (chromyl chloride test)",
+  "reagentName": "potassium dichromate + concentrated sulphuric acid",
+  "condition": null,
+  "observation": "Nitrites and nitrates interfere (with the chromyl chloride test), as Nitrosyl chloride may be formed",
+  "visual": {
+   "type": "none"
+  },
+  "product": null,
+  "equation": null,
+  "solubility": null,
+  "slideRef": "L02 · s17",
+  "flag": null
+ },
+ {
+  "id": "VI-no2-k2cr2o7-conc-h2so4-chromyl-chloride-test-base",
+  "group": "VI",
+  "anion": "NO₂⁻",
+  "anionName": "nitrite",
+  "category": "special",
+  "reagent": "K₂Cr₂O₇ + conc. H₂SO₄ (chromyl chloride test)",
+  "reagentName": "potassium dichromate + concentrated sulphuric acid",
+  "condition": null,
+  "observation": "Nitrites and nitrates interfere (with the chromyl chloride test), as Nitrosyl chloride may be formed",
+  "visual": {
+   "type": "none"
+  },
+  "product": null,
+  "equation": null,
+  "solubility": null,
+  "slideRef": "L02 · s17",
+  "flag": null
+ },
+ {
+  "id": "VI-no3-dil-hcl-base",
+  "group": "VI",
+  "anion": "NO₃⁻",
+  "anionName": "nitrate",
+  "category": "dry",
+  "reagent": "dil. HCl",
+  "reagentName": "dilute hydrochloric acid",
+  "condition": null,
+  "observation": "No Rx.",
+  "visual": {
+   "type": "none"
+  },
+  "product": null,
+  "equation": null,
+  "solubility": null,
+  "slideRef": "L03 · s17",
+  "flag": null
+ },
+ {
+  "id": "VI-no2-dil-hcl-base",
+  "group": "VI",
+  "anion": "NO₂⁻",
+  "anionName": "nitrite",
+  "category": "dry",
+  "reagent": "dil. HCl",
+  "reagentName": "dilute hydrochloric acid",
+  "condition": null,
+  "observation": "Brown fumes with a transient pale blue liquid of HNO₂; the brown fumes intensify when getting in contact with the atmosphere",
+  "visual": {
+   "type": "fumes",
+   "color": "brown",
+   "solution": [
+    "pale blue",
+    "colorless"
+   ]
+  },
+  "product": "NO₂ (nitrogen dioxide) + HNO₂ (nitrous acid)",
+  "equation": "2NO₂⁻ + 2H⁺ → 2HNO₂ → NO↑ + NO₂↑ + H₂O · 2NO↑ + O₂↑ → 2NO₂↑",
+  "solubility": null,
+  "slideRef": "L03 · s17",
+  "flag": null
+ },
+ {
+  "id": "VI-no3-conc-h2so4-base",
+  "group": "VI",
+  "anion": "NO₃⁻",
+  "anionName": "nitrate",
+  "category": "dry",
+  "reagent": "conc. H₂SO₄",
+  "reagentName": "concentrated sulphuric acid",
+  "condition": null,
+  "observation": "Brown fumes with characteristic odor",
+  "visual": {
+   "type": "fumes",
+   "color": "brown"
+  },
+  "product": "NO₂ (nitrogen dioxide)",
+  "equation": "NO₃⁻ + H⁺ → HNO₃ · 4HNO₃ → 4NO₂↑ + O₂↑ + 2H₂O",
+  "solubility": null,
+  "slideRef": "L03 · s18",
+  "flag": null
+ },
+ {
+  "id": "VI-no2-conc-h2so4-base",
+  "group": "VI",
+  "anion": "NO₂⁻",
+  "anionName": "nitrite",
+  "category": "dry",
+  "reagent": "conc. H₂SO₄",
+  "reagentName": "concentrated sulphuric acid",
+  "condition": null,
+  "observation": "Brown fumes with vigorous reaction (the same as with HCl but with violence)",
+  "visual": {
+   "type": "fumes",
+   "color": "brown"
+  },
+  "product": "NO₂ (nitrogen dioxide)",
+  "equation": null,
+  "solubility": null,
+  "slideRef": "L03 · s18",
+  "flag": null
+ },
+ {
+  "id": "VI-no3-conc-h2so4-copper-turnings-heating-to-boiling",
+  "group": "VI",
+  "anion": "NO₃⁻",
+  "anionName": "nitrate",
+  "category": "dry",
+  "reagent": "conc. H₂SO₄",
+  "reagentName": "concentrated sulphuric acid",
+  "condition": "+ copper turnings, heating to boiling",
+  "observation": "Increased brown fumes of NO₂ + Blue solution of Cu²⁺",
+  "visual": {
+   "type": "fumes",
+   "color": "brown",
+   "solution": "blue",
+   "heat": true
+  },
+  "product": "NO₂ (nitrogen dioxide) + Cu²⁺ (cupric ion)",
+  "equation": "2NO₃⁻ + 4H⁺ + Cu⁰ → 2NO₂↑ (brown fumes) + Cu²⁺ (blue color) + 2H₂O",
+  "solubility": null,
+  "slideRef": "L03 · s18",
+  "flag": null
+ },
+ {
+  "id": "VI-no2-conc-h2so4-copper-turnings-heating-to-boiling",
+  "group": "VI",
+  "anion": "NO₂⁻",
+  "anionName": "nitrite",
+  "category": "dry",
+  "reagent": "conc. H₂SO₄",
+  "reagentName": "concentrated sulphuric acid",
+  "condition": "+ copper turnings, heating to boiling",
+  "observation": "Increased brown fumes of NO₂ + Blue solution of Cu²⁺ (reduction of HNO₂ by Cu⁰)",
+  "visual": {
+   "type": "fumes",
+   "color": "brown",
+   "solution": "blue",
+   "heat": true
+  },
+  "product": "NO₂ (nitrogen dioxide) + Cu²⁺ (cupric ion)",
+  "equation": null,
+  "solubility": null,
+  "slideRef": "L03 · s18",
+  "flag": null
+ },
+ {
+  "id": "VI-no3-agno3-base",
+  "group": "VI",
+  "anion": "NO₃⁻",
+  "anionName": "nitrate",
+  "category": "wet",
+  "reagent": "AgNO₃",
+  "reagentName": "silver nitrate",
+  "condition": null,
+  "observation": "No Rx.",
+  "visual": {
+   "type": "none"
+  },
+  "product": null,
+  "equation": null,
+  "solubility": null,
+  "slideRef": "L03 · s20",
+  "flag": null
+ },
+ {
+  "id": "VI-no2-agno3-conc-solution",
+  "group": "VI",
+  "anion": "NO₂⁻",
+  "anionName": "nitrite",
+  "category": "wet",
+  "reagent": "AgNO₃",
+  "reagentName": "silver nitrate",
+  "condition": "conc. solution",
+  "observation": "White crystalline ppt from conc soln.",
+  "visual": {
+   "type": "ppt",
+   "color": "white",
+   "style": "crystalline"
+  },
+  "product": "AgNO₂ (silver nitrite)",
+  "equation": null,
+  "solubility": "AgNO₂ is slightly soluble",
+  "slideRef": "L03 · s20",
+  "flag": null
+ },
+ {
+  "id": "VI-no3-bacl2-base",
+  "group": "VI",
+  "anion": "NO₃⁻",
+  "anionName": "nitrate",
+  "category": "wet",
+  "reagent": "BaCl₂",
+  "reagentName": "barium chloride",
+  "condition": null,
+  "observation": "No Rx.",
+  "visual": {
+   "type": "none"
+  },
+  "product": null,
+  "equation": null,
+  "solubility": null,
+  "slideRef": "L03 · s20",
+  "flag": null
+ },
+ {
+  "id": "VI-no2-bacl2-base",
+  "group": "VI",
+  "anion": "NO₂⁻",
+  "anionName": "nitrite",
+  "category": "wet",
+  "reagent": "BaCl₂",
+  "reagentName": "barium chloride",
+  "condition": null,
+  "observation": "No Rx.",
+  "visual": {
+   "type": "none"
+  },
+  "product": null,
+  "equation": null,
+  "solubility": null,
+  "slideRef": "L03 · s20",
+  "flag": null
+ },
+ {
+  "id": "VI-no3-ki-dil-h2so4-starch-base",
+  "group": "VI",
+  "anion": "NO₃⁻",
+  "anionName": "nitrate",
+  "category": "wet",
+  "reagent": "KI + dil. H₂SO₄ (+ starch)",
+  "reagentName": "potassium iodide + dilute sulphuric acid + starch",
+  "condition": null,
+  "observation": "No Rx.",
+  "visual": {
+   "type": "none"
+  },
+  "product": null,
+  "equation": null,
+  "solubility": null,
+  "slideRef": "L03 · s20",
+  "flag": null
+ },
+ {
+  "id": "VI-no2-ki-dil-h2so4-starch-base",
+  "group": "VI",
+  "anion": "NO₂⁻",
+  "anionName": "nitrite",
+  "category": "wet",
+  "reagent": "KI + dil. H₂SO₄ (+ starch)",
+  "reagentName": "potassium iodide + dilute sulphuric acid + starch",
+  "condition": null,
+  "observation": "I₂ liberated (turns starch paper into blue color)",
+  "visual": {
+   "type": "solution",
+   "color": "blue"
+  },
+  "product": "I₂ (iodine) + NO (nitrogen monoxide)",
+  "equation": "2NO₂⁻ + 2I⁻ + 4H⁺ → 2NO↑ + I₂ + 2H₂O",
+  "solubility": null,
+  "slideRef": "L03 · s20",
+  "flag": null
+ },
+ {
+  "id": "VI-no3-feso4-h2so4-brown-ring-test-dil-h2so4",
+  "group": "VI",
+  "anion": "NO₃⁻",
+  "anionName": "nitrate",
+  "category": "wet",
+  "reagent": "FeSO₄ + H₂SO₄ (brown ring test)",
+  "reagentName": "ferrous sulphate + sulphuric acid",
+  "condition": "dil. H₂SO₄",
+  "observation": "No Rx. when using dil. H₂SO₄",
+  "visual": {
+   "type": "none"
+  },
+  "product": null,
+  "equation": null,
+  "solubility": "NO₃⁻ is not reduced except in presence of Conc. H₂SO₄",
+  "slideRef": "L03 · s21",
+  "flag": null
+ },
+ {
+  "id": "VI-no3-feso4-h2so4-brown-ring-test-conc-h2so4-on-the-walls-of-test-tube",
+  "group": "VI",
+  "anion": "NO₃⁻",
+  "anionName": "nitrate",
+  "category": "wet",
+  "reagent": "FeSO₄ + H₂SO₄ (brown ring test)",
+  "reagentName": "ferrous sulphate + sulphuric acid",
+  "condition": "conc. H₂SO₄ on the walls of test tube",
+  "observation": "When using Conc. H₂SO₄ on the walls of test tube → Brown ring of ferrous nitrosyls [Fe(NO)]²⁺ is formed",
+  "visual": {
+   "type": "ring",
+   "color": "brown"
+  },
+  "product": "[Fe(NO)]²⁺ (ferrous nitrosyls, brownish black complex)",
+  "equation": "3Fe²⁺ + NO₃⁻ + 4H⁺ → 3Fe³⁺ + NO↑ + 2H₂O · Fe²⁺ + NO↑ → [Fe(NO)]²⁺ (nitrosyls complex, brownish black)",
+  "solubility": "Unstable complex, readily decomposed by heat",
+  "slideRef": "L03 · s21",
+  "flag": null
+ },
+ {
+  "id": "VI-no2-feso4-h2so4-brown-ring-test-dil-h2so4",
+  "group": "VI",
+  "anion": "NO₂⁻",
+  "anionName": "nitrite",
+  "category": "wet",
+  "reagent": "FeSO₄ + H₂SO₄ (brown ring test)",
+  "reagentName": "ferrous sulphate + sulphuric acid",
+  "condition": "dil. H₂SO₄",
+  "observation": "Brown ring or brown color in the whole solution (NO₂⁻ gives the brown ring in presence of dil. H₂SO₄ or even acetic acid)",
+  "visual": {
+   "type": "ring",
+   "color": "brown"
+  },
+  "product": "[Fe(NO)]²⁺ (ferrous nitrosyls, brownish black complex)",
+  "equation": "Fe²⁺ + NO₂⁻ + 2H⁺ → Fe³⁺ + NO↑ + H₂O · Fe²⁺ + NO↑ → [Fe(NO)]²⁺ (nitrosyls complex, brownish black)",
+  "solubility": "This test differentiates NO₃⁻ from NO₂⁻",
+  "slideRef": "L03 · s21",
+  "flag": null
+ },
+ {
+  "id": "VI-no3-ammonia-test-zn-or-al-naoh-boil-base",
+  "group": "VI",
+  "anion": "NO₃⁻",
+  "anionName": "nitrate",
+  "category": "special",
+  "reagent": "Ammonia test (Zn or Al + NaOH, boil)",
+  "reagentName": "zinc or aluminium + sodium hydroxide",
+  "condition": null,
+  "observation": "NH₃ gas — ammonia odor (identified by its odor OR with red litmus paper; nitrites interfere)",
+  "visual": {
+   "type": "gas",
+   "color": null,
+   "odor": "ammonia odor",
+   "heat": true
+  },
+  "product": "NH₃ (ammonia)",
+  "equation": null,
+  "solubility": "Depends on the reduction of NO₃⁻ into NH₃ · in acidic solution (CH₃COOH) nitrate can be reduced with Zn⁰ to nitrite",
+  "slideRef": "L03 · s22",
+  "flag": null
+ },
+ {
+  "id": "VI-no2-kmno4-dil-h2so4-base",
+  "group": "VI",
+  "anion": "NO₂⁻",
+  "anionName": "nitrite",
+  "category": "special",
+  "reagent": "KMnO₄ + dil. H₂SO₄",
+  "reagentName": "potassium permanganate + dilute sulphuric acid",
+  "condition": null,
+  "observation": "Disappearance of pink color of KMnO₄ (permanganate test)",
+  "visual": {
+   "type": "solution",
+   "timeline": [
+    "pink",
+    "colorless"
+   ],
+   "color": "colorless"
+  },
+  "product": "Mn²⁺ (manganous, colorless) + NO₃⁻ (nitrate)",
+  "equation": "2MnO₄⁻ (pink) + 5NO₂⁻ + 6H⁺ → 2Mn²⁺ (colorless) + 5NO₃⁻ + 3H₂O",
+  "solubility": null,
+  "slideRef": "L03 · s22",
+  "flag": null
+ }
+]

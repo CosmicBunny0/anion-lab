@@ -1,0 +1,13 @@
+{
+  "name": "anion-lab",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "data": "node data/build.mjs",
+    "build": "node data/build.mjs && node build-page.mjs",
+    "test": "node tests/acceptance.mjs"
+  },
+  "devDependencies": {
+    "playwright-core": "^1.48.2"
+  }
+}

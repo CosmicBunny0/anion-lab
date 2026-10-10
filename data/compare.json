@@ -1,0 +1,277 @@
+[
+ {
+  "id": "agno3-v",
+  "title": "AgNO₃ · Group V",
+  "views": [
+   {
+    "label": null,
+    "rows": [
+     "V-aso43-agno3-base",
+     "V-aso33-agno3-base",
+     "V-po43-agno3-base"
+    ]
+   }
+  ],
+  "tip": "الـ arsenate بس هو اللي chocolate brown. الـ arsenite والـ phosphate الاتنين yellow، فرّق بينهم بالـ magnesia mixture: الـ phosphate بيدي white ppt والـ arsenite No Rx.",
+  "source": "slide",
+  "ref": "L03 · s7 · s9"
+ },
+ {
+  "id": "molybdate",
+  "title": "Ammonium molybdate · Group V",
+  "views": [
+   {
+    "label": null,
+    "rows": [
+     "V-aso43-ammonium-molybdate-after-boiling",
+     "V-po43-ammonium-molybdate-on-standing-or-warming-by-hand",
+     "V-aso33-ammonium-molybdate-base"
+    ]
+   }
+  ],
+  "tip": "الاتنين canary yellow، والفرق في التوقيت: الـ arsenate بعد الغليان، والـ phosphate on standing (أو بتدفئة الإيد). والـ arsenite No Rx.",
+  "source": "slide",
+  "ref": "L03 · s10"
+ },
+ {
+  "id": "halides-agno3",
+  "title": "AgNO₃ · Halides",
+  "views": [
+   {
+    "label": "S.S + dil. HNO₃ + AgNO₃",
+    "rows": [
+     "III-f-agno3-s-s-dil-hno3-agno3",
+     "III-cl-agno3-s-s-dil-hno3-agno3",
+     "III-br-agno3-s-s-dil-hno3-agno3",
+     "III-i-agno3-s-s-dil-hno3-agno3"
+    ]
+   },
+   {
+    "label": "+ dil. ammonia",
+    "rows": [
+     "III-cl-agno3-dil-ammonia",
+     "III-br-agno3-dil-ammonia",
+     "III-i-agno3-dil-ammonia"
+    ]
+   },
+   {
+    "label": "+ conc. ammonia",
+    "rows": [
+     "III-br-agno3-conc-ammonia",
+     "III-i-agno3-conc-ammonia"
+    ]
+   }
+  ],
+  "tip": "الـ F⁻ مالوش ppt (AgF soluble). وبعدين اللون بيغمق والذوبان في الـ ammonia بيقل من Cl لـ Br لـ I: الـ AgCl بيدوب في dil. ammonia، والـ AgBr محتاج conc.، والـ AgI very slightly soluble حتى في conc.",
+  "source": "doc",
+  "ref": "L02 · s9"
+ },
+ {
+  "id": "chlorine-water",
+  "title": "Chlorine water + CHCl₃ · Br⁻ vs I⁻",
+  "views": [
+   {
+    "label": "chlorine water",
+    "rows": [
+     "III-br-chlorine-water-chcl3-chlorine-water",
+     "III-i-chlorine-water-chcl3-chlorine-water"
+    ]
+   },
+   {
+    "label": "excess chlorine water",
+    "rows": [
+     "III-br-chlorine-water-chcl3-excess-chlorine-water",
+     "III-i-chlorine-water-chcl3-excess-chlorine-water"
+    ]
+   }
+  ],
+  "tip": "طبقة الـ chloroform: Br₂ بيدي orange أو yellow أو brown، و I₂ بيدي pink أو violet. ومع excess chlorine water اللون بيختفي في الاتنين (HBrO₃ و HIO₃).",
+  "source": "slide",
+  "ref": "L02 · s13"
+ },
+ {
+  "id": "conc-h2so4-halides",
+  "title": "Conc. H₂SO₄ · Halides",
+  "views": [
+   {
+    "label": null,
+    "rows": [
+     "III-f-conc-h2so4-base",
+     "III-cl-conc-h2so4-base",
+     "III-br-conc-h2so4-base",
+     "III-i-conc-h2so4-base"
+    ]
+   }
+  ],
+  "tip": "HF و HCl colorless gases، الـ Br⁻ بيدي brown fumes والـ I⁻ violet fumes. الـ confirmatory: HF على نقطة مية (oily gelatinous mass)، HCl بيعمل white clouds مع NH₄OH، Br₂ بيزرّق starch-iodide paper، و I₂ بيزرّق starch paper.",
+  "source": "slide",
+  "ref": "L02 · s7"
+ },
+ {
+  "id": "co3-hco3",
+  "title": "CO₃²⁻ vs HCO₃⁻",
+  "views": [
+   {
+    "label": "BaCl₂ · cold",
+    "rows": [
+     "I-co32-bacl2-base",
+     "I-hco3-bacl2-cold"
+    ]
+   },
+   {
+    "label": "BaCl₂ · boiling",
+    "rows": [
+     "I-co32-bacl2-base",
+     "I-hco3-bacl2-boiling"
+    ]
+   },
+   {
+    "label": "AgNO₃ · cold",
+    "rows": [
+     "I-co32-agno3-cold",
+     "I-hco3-agno3-cold"
+    ]
+   },
+   {
+    "label": "AgNO₃ · boiling",
+    "rows": [
+     "I-co32-agno3-boiling",
+     "I-hco3-agno3-boiling"
+    ]
+   }
+  ],
+  "tip": "الـ carbonate بيرسّب على البارد على طول. الـ bicarbonate No ppt على البارد لأن كل الـ bicarbonates soluble، ولما تغلي بيتحوّل carbonate ويرسّب.",
+  "source": "slide",
+  "ref": "L01 · s16 · s17"
+ },
+ {
+  "id": "brown-ring",
+  "title": "Brown ring test · NO₃⁻ vs NO₂⁻",
+  "views": [
+   {
+    "label": null,
+    "rows": [
+     "VI-no3-feso4-h2so4-brown-ring-test-dil-h2so4",
+     "VI-no3-feso4-h2so4-brown-ring-test-conc-h2so4-on-the-walls-of-test-tube",
+     "VI-no2-feso4-h2so4-brown-ring-test-dil-h2so4"
+    ]
+   }
+  ],
+  "tip": "الـ nitrite بيعمل brown ring مع dil. H₂SO₄ أو حتى acetic acid. الـ nitrate ما بيعملوش غير مع conc. H₂SO₄ على حيطة الأنبوبة.",
+  "source": "slide",
+  "ref": "L03 · s21"
+ },
+ {
+  "id": "fecl3-cyanogen",
+  "title": "FeCl₃ · Cyanogen anions",
+  "views": [
+   {
+    "label": null,
+    "rows": [
+     "IV-cn-fecl3-base",
+     "IV-scn-fecl3-base",
+     "IV-fe-cn-6-4-fecl3-base",
+     "IV-fe-cn-6-3-fecl3-base"
+    ]
+   }
+  ],
+  "tip": "FeCl₃ هو الـ differentiating test: CN⁻ white ppt، SCN⁻ blood red color، ferrocyanide Prussian blue ppt، ferricyanide brown color.",
+  "source": "slide",
+  "ref": "L02 · s26"
+ },
+ {
+  "id": "cobalt-cyanogen",
+  "title": "Co(NO₃)₂ · Cyanogen anions",
+  "views": [
+   {
+    "label": null,
+    "rows": [
+     "IV-cn-co-no3-2-base",
+     "IV-scn-co-no3-2-vogel-s-reaction-dil-h2so4-sncl2-ether-nh4scn",
+     "IV-fe-cn-6-4-co-no3-2-base",
+     "IV-fe-cn-6-3-co-no3-2-base"
+    ]
+   }
+  ],
+  "tip": "ما تلخبطش ألوان Co(NO₃)₂ مع ألوان FeCl₃: هنا buff ppt، blue color in ether layer، greyish green ppt، red ppt.",
+  "source": "doc",
+  "ref": "L02 · s28"
+ },
+ {
+  "id": "agno3-sulphur",
+  "title": "AgNO₃ · Sulphur anions",
+  "views": [
+   {
+    "label": null,
+    "rows": [
+     "II-s2-agno3-base",
+     "II-so32-agno3-cold",
+     "II-s2o32-agno3-standing",
+     "II-so42-agno3-base"
+    ]
+   }
+  ],
+  "tip": "S²⁻ black على طول. SO₃²⁻ white crystalline (وبالغليان grey). S₂O₃²⁻ white وبعدين on standing يبقى yellow ثم brown ثم black. SO₄²⁻ No reaction.",
+  "source": "slide",
+  "ref": "L01 · s28"
+ },
+ {
+  "id": "bacl2-sulphur",
+  "title": "BaCl₂ · Sulphur anions",
+  "views": [
+   {
+    "label": "BaCl₂",
+    "rows": [
+     "II-s2-bacl2-base",
+     "II-so32-bacl2-base",
+     "II-s2o32-bacl2-base",
+     "II-so42-bacl2-hcl-added-before-bacl2"
+    ]
+   },
+   {
+    "label": "+ dil HCl",
+    "rows": [
+     "II-so32-bacl2-dil-hcl",
+     "II-so42-bacl2-hcl-added-before-bacl2"
+    ]
+   }
+  ],
+  "tip": "BaSO₃ و BaSO₄ الاتنين white ppt. الفرق: BaSO₃ بيدوب في dil HCl، و BaSO₄ ما بيدوبش حتى بالغليان. الـ S²⁻ والـ S₂O₃²⁻ No ppt.",
+  "source": "slide",
+  "ref": "L01 · s29"
+ },
+ {
+  "id": "h2s-v",
+  "title": "H₂S · Group V",
+  "views": [
+   {
+    "label": null,
+    "rows": [
+     "V-aso43-h2s-prolonged-passage-of-h2s",
+     "V-aso33-h2s-base",
+     "V-po43-h2s-base"
+    ]
+   }
+  ],
+  "tip": "الاتنين As₂S₃ yellow ppt: الـ arsenite immediate، والـ arsenate بس بعد prolonged passage. والـ phosphate No Rx.",
+  "source": "slide",
+  "ref": "L03 · s11"
+ },
+ {
+  "id": "lime-water",
+  "title": "Lime water turbidity",
+  "views": [
+   {
+    "label": null,
+    "rows": [
+     "I-co32-lime-water-ca-oh-2-co2-passed-in",
+     "I-hco3-lime-water-ca-oh-2-co2-passed-in",
+     "II-so32-lime-water-ca-oh-2-so2-passed-in"
+    ]
+   }
+  ],
+  "tip": "الـ lime water test مش specific: الـ SO₂ بيعكّر زي الـ CO₂ بالظبط. الحسم بالريحة (SO₂ burnt sulphur) وبالـ reducing tests: الـ SO₂ بيبيّض I₂ والـ MnO₄⁻ الـ pink.",
+  "source": "doc",
+  "ref": "L01 · s13 · s26"
+ }
+]

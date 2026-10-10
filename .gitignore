@@ -1,0 +1,16 @@
+# dependencies and build output (rebuild with `npm run build`)
+node_modules/
+dist/
+site/
+.vercel/
+
+# slide material and things derived from it (kept local, not in the repo)
+*.pdf
+src/img/
+src/pairs/
+src/text/
+src/doc-walkthrough.txt
+
+# test artifacts
+shots/
+tests/results.json

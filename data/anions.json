@@ -1,0 +1,125 @@
+{
+ "groups": {
+  "I": {
+   "name": "Carbonates and Bicarbonates group",
+   "lec": "L01"
+  },
+  "II": {
+   "name": "Sulphur-containing anions",
+   "lec": "L01"
+  },
+  "III": {
+   "name": "Halides",
+   "lec": "L02"
+  },
+  "IV": {
+   "name": "Cyanogen OR Cyanide containing anions",
+   "lec": "L02"
+  },
+  "V": {
+   "name": "Arsenic and phosphorous containing anions",
+   "lec": "L03"
+  },
+  "VI": {
+   "name": "Nitrogen- containing anions",
+   "lec": "L03"
+  }
+ },
+ "anions": [
+  {
+   "group": "I",
+   "anion": "CO₃²⁻",
+   "anionName": "carbonate"
+  },
+  {
+   "group": "I",
+   "anion": "HCO₃⁻",
+   "anionName": "bicarbonate"
+  },
+  {
+   "group": "II",
+   "anion": "S²⁻",
+   "anionName": "sulphide"
+  },
+  {
+   "group": "II",
+   "anion": "SO₃²⁻",
+   "anionName": "sulphite"
+  },
+  {
+   "group": "II",
+   "anion": "S₂O₃²⁻",
+   "anionName": "thiosulphate"
+  },
+  {
+   "group": "II",
+   "anion": "SO₄²⁻",
+   "anionName": "sulphate"
+  },
+  {
+   "group": "III",
+   "anion": "F⁻",
+   "anionName": "fluoride"
+  },
+  {
+   "group": "III",
+   "anion": "Cl⁻",
+   "anionName": "chloride"
+  },
+  {
+   "group": "III",
+   "anion": "Br⁻",
+   "anionName": "bromide"
+  },
+  {
+   "group": "III",
+   "anion": "I⁻",
+   "anionName": "iodide"
+  },
+  {
+   "group": "IV",
+   "anion": "CN⁻",
+   "anionName": "cyanide"
+  },
+  {
+   "group": "IV",
+   "anion": "SCN⁻",
+   "anionName": "thiocyanate"
+  },
+  {
+   "group": "IV",
+   "anion": "[Fe(CN)₆]⁴⁻",
+   "anionName": "ferrocyanide"
+  },
+  {
+   "group": "IV",
+   "anion": "[Fe(CN)₆]³⁻",
+   "anionName": "ferricyanide"
+  },
+  {
+   "group": "V",
+   "anion": "AsO₄³⁻",
+   "anionName": "arsenate"
+  },
+  {
+   "group": "V",
+   "anion": "AsO₃³⁻",
+   "anionName": "arsenite"
+  },
+  {
+   "group": "V",
+   "anion": "PO₄³⁻",
+   "anionName": "phosphate"
+  },
+  {
+   "group": "VI",
+   "anion": "NO₃⁻",
+   "anionName": "nitrate"
+  },
+  {
+   "group": "VI",
+   "anion": "NO₂⁻",
+   "anionName": "nitrite"
+  }
+ ]
+}
