@@ -29,6 +29,11 @@ async function open(page) {
   page.on("console", m => { if (m.type() === "error") errors.push(m.text()); });
   await page.goto(URL_ + "#lab");
   await page.evaluate(() => document.fonts.ready);
+  if (await page.locator("#prof-name").count()) {   // first visit asks "مين بيذاكر؟"
+    await page.fill("#prof-name", "Test");
+    await page.click("#prof-form button[type=submit]");
+    await page.waitForSelector("#sheet-host", { state: "hidden" });
+  }
   return errors;
 }
 

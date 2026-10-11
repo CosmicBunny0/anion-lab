@@ -5,7 +5,8 @@
   "scripts": {
     "data": "node data/build.mjs",
     "build": "node data/build.mjs && node build-page.mjs",
-    "test": "node tests/acceptance.mjs"
+    "test": "node tests/acceptance.mjs",
+    "test:update": "node tests/update.mjs"
   },
   "devDependencies": {
     "playwright-core": "^1.48.2"

@@ -62,10 +62,55 @@ function AR(s) {
   return out + esc(s.slice(last));
 }
 const hex = w => COLORS[w] || null;
+const MEM = new Map();   // everything this tab wrote (null = deleted); the source of truth when localStorage throws or is full
 const store = {
-  get(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return d; } },
-  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* storage blocked: progress lives only in this tab */ } }
+  raw(k) { if (MEM.has(k)) return MEM.get(k); try { return localStorage.getItem(k); } catch (e) { return null; } },
+  persisted(k) { try { return localStorage.getItem(k); } catch (e) { return MEM.has(k) ? MEM.get(k) : null; } },
+  get(k, d) { const v = store.raw(k); if (!v) return d; try { return JSON.parse(v); } catch (e) { return d; } },
+  set(k, v) { const t = JSON.stringify(v); MEM.set(k, t); try { localStorage.setItem(k, t); } catch (e) { /* storage blocked or full: progress lives only in this tab */ } },
+  del(k) { MEM.set(k, null); try { localStorage.removeItem(k); } catch (e) { /* storage blocked */ } }
 };
+const refill = (obj, ...src) => { for (const k of Object.keys(obj)) delete obj[k]; Object.assign(obj, ...src); return obj; };
+
+// ── profiles: who is studying on this device. Every profile has its own quiz / unknown / settings keys. ──
+const PKEY = "anionlab:v1:profiles";
+const pkey = (id, part) => `anionlab:v1:${id}:${part}`;
+const OLD_KEYS = { quiz: "anionlab.v1.quiz", unknown: "anionlab.v1.unknown", saved: "anionlab.v1.saved" };   // before profiles existed
+const profiles = { list: [], active: null };
+(() => { const p = store.get(PKEY, {}); profiles.list = Array.isArray(p.list) ? p.list.filter(x => x && x.id && typeof x.name === "string") : []; profiles.active = profiles.list.some(x => x.id === p.active) ? p.active : null; })();
+const saveProfiles = () => store.set(PKEY, { list: profiles.list, active: profiles.active });
+const activeProfile = () => profiles.list.find(p => p.id === profiles.active) || null;
+function nameProblem(raw) {
+  const n = String(raw ?? "").trim();
+  if (!n) return "اكتب اسم الأول.";
+  if (n.length > 30) return "الاسم لازم يبقى 30 حرف أو أقل.";
+  if (profiles.list.some(p => p.name.toLocaleLowerCase() === n.toLocaleLowerCase())) return "فيه بروفايل بالاسم ده على الجهاز ده.";
+  return null;
+}
+const newProfileId = () => "p" + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+// copy the pre-profile keys into this profile, check the copy, then remove the old keys so nothing migrates twice
+function migrateOldKeys(id) {
+  const move = (oldKey, newKey, shape) => {
+    const raw = store.raw(oldKey); if (raw == null) return;
+    let val; try { val = JSON.parse(raw); } catch (e) { return; }
+    const out = shape ? shape(val) : val;
+    store.set(newKey, out);
+    if (store.persisted(newKey) === JSON.stringify(out)) store.del(oldKey);
+  };
+  move(OLD_KEYS.quiz, pkey(id, "quiz"));
+  move(OLD_KEYS.unknown, pkey(id, "unknown"));
+  move(OLD_KEYS.saved, pkey(id, "settings"), v => Object.assign(SETTINGS_DEF(), store.get(pkey(id, "settings"), {}), { saved: Array.isArray(v) ? v.filter(x => ROW.has(x)) : [] }));
+}
+function createProfile(raw) {
+  const err = nameProblem(raw); if (err) return err;
+  const id = newProfileId(), first = profiles.list.length === 0;
+  profiles.list.push({ id, name: String(raw).trim() });
+  profiles.active = id; saveProfiles();
+  if (first) migrateOldKeys(id);
+  loadProfileState();
+  return null;
+}
+function loadProfileState() { loadQuiz(); loadUnk(); loadSettings(); }
 const reducedMotion = () => { try { return matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) { return false; } };
 const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
 const pick = a => a[Math.floor(Math.random() * a.length)];
@@ -277,6 +322,14 @@ function mountScene(host, row, opt = {}) {
   const timers = [];
   let end = 0;
   const at = (ms, fn, dur = 0) => { end = Math.max(end, ms + dur); timers.push(setTimeout(fn, ms / speed)); };
+  // sound cues ride on the same timers (and speed); reduced motion plays each cue once, ~300 ms, in step order
+  const sounds = [];
+  let hushed = false;
+  const startCue = (name, ms) => { if (hushed) return; const h = Sound.play(name, row.id, ms); if (h) sounds.push(h); };
+  const cue = (name, t, dur = 300) => at(t, () => startCue(name, dur / speed));
+  const cueOnce = list => { const seen = new Set(); list.slice().sort((a, b) => a.t - b.t).filter(c => !seen.has(c.cue) && seen.add(c.cue)).forEach((c, i) => timers.push(setTimeout(() => startCue(c.cue, 300), i * 300))); };
+  const silence = () => { hushed = true; sounds.forEach(h => h.stop()); sounds.length = 0; };
+  const ctl = () => ({ svg, cancel: () => { timers.forEach(clearTimeout); silence(); }, silence });
   const hist = {};
   const paint = (el, word, part) => {
     if (!el || !word) return;
@@ -295,16 +348,17 @@ function mountScene(host, row, opt = {}) {
   if (kind === "flame") {
     paint(flame, "colorless", "flame");
     const fin = () => { paint(flame, v.color, "flame"); flame.style.opacity = ".92"; q(".wire").style.transform = "none"; };
-    if (instant) { svg.classList.add("instant"); fin(); done(); }
-    else { at(150, () => { q(".wire").style.transform = "none"; }); at(1000, fin, 900); at(end + 250, done); }
-    return { svg, cancel: () => timers.forEach(clearTimeout) };
+    if (instant) { svg.classList.add("instant"); fin(); done(); cueOnce([{ cue: "roar", t: 0 }]); }
+    else { at(150, () => { q(".wire").style.transform = "none"; }); cue("roar", 1000, 1500); at(1000, fin, 900); at(end + 250, done); }
+    return ctl();
   }
   if (kind === "stain") {
     const fumesG = q(".fumes");
     const fin = () => { if (v.color) paint(stain, v.color, "stain"); stain.style.opacity = "1"; stain.style.transform = "none"; };
     const fumesOn = () => { if (fumesG) { fumesG.style.opacity = ".85"; svg.classList.add("fuming"); } genOn(); };
-    if (instant) { svg.classList.add("instant"); fumesOn(); genStatic(); fin(); done(); }
+    if (instant) { svg.classList.add("instant"); fumesOn(); genStatic(); fin(); done(); if (gen) cueOnce([{ cue: "fizz", t: 0 }, ...(fumesG ? [{ cue: "hiss", t: 250 }] : [])]); }
     else if (gen) {
+      cue("fizz", 0, 2400); if (fumesG) cue("hiss", 250, 1600);
       at(0, () => svg.classList.add("bubbling"), 2400);
       at(250, fumesOn, 900);
       at(1300, fin, 1100);
@@ -315,7 +369,7 @@ function mountScene(host, row, opt = {}) {
       at(550, () => { drop.style.opacity = "0"; });
       at(700, fin, 1100); at(end + 250, done);
     }
-    return { svg, cancel: () => timers.forEach(clearTimeout) };
+    return ctl();
   }
 
   // ── tube ──
@@ -343,17 +397,25 @@ function mountScene(host, row, opt = {}) {
   // initial
   paint(liq, p.sol[0], "solution"); liq.style.opacity = solOpacity(p.sol[0]);
   if (p.layer) { layer.style.fill = hex("colorless"); }
-  if (instant) { finalState(); done(); return { svg, cancel() {} }; }
+  const dropper = q(".dropper"), drop = q(".drop");
+  const R = 820;
+  // drip = reagent added (dropper), fizz = gas / bubbles, boil = while heating, hiss = fumes, clink = shaking the layer, trickle = ring
+  const cues = [];
+  if (dropper && !transfer) cues.push({ cue: "drip", t: 660 });
+  if (p.bubbles) cues.push(transfer ? { cue: "fizz", t: 0, dur: R + 2800 } : { cue: "fizz", t: R - 120, dur: 2920 });
+  if (p.fumes) cues.push({ cue: "hiss", t: R + 150, dur: 1600 });
+  if (transfer && v.source.fumes) cues.push({ cue: "hiss", t: 200, dur: 1600 });
+  if (p.layer) [0, 260, 520].forEach(d => cues.push({ cue: "clink", t: R + d }));
+  if (p.ring) cues.push({ cue: "trickle", t: R, dur: 1100 });
+  if (instant) { finalState(); done(); cueOnce(p.heat ? [{ cue: "boil", t: 0 }, ...cues] : cues); return ctl(); }
 
   if (p.heat) svg.classList.add("heating");
-  const dropper = q(".dropper"), drop = q(".drop");
   if (transfer) { at(0, () => svg.classList.add("bubbling")); at(200, genOn, 900); }
   else if (dropper) {
     at(0, () => { dropper.style.opacity = "1"; dropper.style.transform = "none"; });
     at(380, () => { drop.style.opacity = "1"; drop.style.transform = "translateY(108px)"; });
     at(760, () => { drop.style.opacity = "0"; dropper.style.opacity = "0"; dropper.style.transform = "translateY(-24px)"; });
   }
-  const R = 820;
   p.sol.slice(1).forEach((w, i) => at(R + 200 + i * 1300, () => { paint(liq, w, "solution"); liq.style.opacity = solOpacity(w); }, 900));
   if (p.layer) {
     at(R, () => svg.classList.add("shaking"), 800);
@@ -390,8 +452,11 @@ function mountScene(host, row, opt = {}) {
     at(R + 1100, () => { paint(ring, p.ring, "ring"); ring.style.opacity = "1"; }, 900);
   }
   if (p.odor) at(R + 300, () => $$(".odor path", svg).forEach(e => (e.style.opacity = ".8")), 600);
-  at(Math.max(end, R + 400) + 200, () => { if (p.heat) svg.classList.remove("heating"); done(); });
-  return { svg, cancel: () => timers.forEach(clearTimeout) };
+  const fin = Math.max(end, R + 400) + 200;
+  cues.forEach(c => cue(c.cue, c.t, c.dur));
+  if (p.heat) cue("boil", 0, fin);   // low bubbling for as long as the tube is heated
+  at(fin, () => { if (p.heat) svg.classList.remove("heating"); done(); });
+  return ctl();
 }
 
 // ───────────────────────── swatches (grid / logs) ─────────────────────────
@@ -435,12 +500,18 @@ function swatch(rows) {
 }
 
 // ───────────────────────── saved (★) + "ليه بيحصل كده؟" ─────────────────────────
-const SKEY = "anionlab.v1.saved";
-const saved = new Set((store.get(SKEY, []) || []).filter(id => ROW.has(id)));
+const SETTINGS_DEF = () => ({ sound: false, volume: 0.6, saved: [] });
+const settings = SETTINGS_DEF();
+const saved = new Set();
+function loadSettings() {
+  refill(settings, SETTINGS_DEF(), profiles.active ? store.get(pkey(profiles.active, "settings"), {}) : {});
+  saved.clear(); (Array.isArray(settings.saved) ? settings.saved : []).forEach(id => { if (ROW.has(id)) saved.add(id); });
+}
+const saveSettings = () => { if (profiles.active) store.set(pkey(profiles.active, "settings"), { sound: !!settings.sound, volume: settings.volume, saved: [...saved] }); };
 const isSaved = id => saved.has(id);
 function toggleSaved(id) {
   if (saved.has(id)) saved.delete(id); else saved.add(id);
-  store.set(SKEY, [...saved]);
+  saveSettings();
   $$(`[data-star="${CSS.escape(id)}"]`).forEach(b => b.setAttribute("aria-pressed", String(saved.has(id))));
   if (typeof renderFind === "function" && current === "find") renderFind();
 }
@@ -497,19 +568,259 @@ const VIEWS = [
   ["errors", "الأخطاء", `<path d="M12 3.5 2.8 19.5h18.4z"/><path d="M12 9.5v5"/><circle cx="12" cy="17" r=".6" fill="currentColor"/>`]
 ];
 const app = $("#app");
-app.innerHTML = `<header class="top"><h1>مختبر الأنيونات</h1><div class="sub">PHC 101 · L01–L03<br>Groups I–VI</div></header>
-  ${VIEWS.map(([id]) => `<section class="view" id="v-${id}" data-view="${id}" hidden></section>`).join("")}`;
+app.innerHTML = `<header class="top"><div class="brand"><h1>مختبر الأنيونات</h1><div class="sub">PHC 101 · L01–L03 · Groups I–VI</div><div class="credit" dir="ltr" lang="en">Made by Mohammed Ayman</div></div>
+  <div class="tools"><button type="button" class="who" id="who-btn" aria-haspopup="dialog"><span class="vh">البروفايل: </span><span class="who-name" id="who-name"></span> <span class="who-sw">تبديل</span></button><div class="spk-slot" id="spk-slot"></div></div></header>
+  ${VIEWS.map(([id]) => `<section class="view" id="v-${id}" data-view="${id}" hidden></section>`).join("")}
+  <footer class="credit-foot"><span dir="ltr" lang="en">Made by Mohammed Ayman</span></footer>`;
 const nav = document.createElement("nav");
 nav.className = "tabs"; nav.setAttribute("aria-label", "الأقسام");
 nav.innerHTML = `<div class="in">${VIEWS.map(([id, label, icon]) => `<button type="button" data-nav="${id}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${icon}</svg><span>${label}</span></button>`).join("")}</div>`;
 app.after(nav);
 nav.setAttribute("dir", "rtl");
 
+const sheetHost = document.createElement("div");
+sheetHost.id = "sheet-host"; sheetHost.hidden = true; sheetHost.setAttribute("dir", "rtl"); sheetHost.setAttribute("lang", "ar");
+nav.after(sheetHost);
+let sheetMode = null;
+function renderTop() {
+  const p = activeProfile();
+  $("#who-name").innerHTML = p ? esc(p.name) : "—";
+  if (typeof renderSpeaker === "function") renderSpeaker();
+}
+function openSheet(mode) {
+  sheetMode = mode;
+  const p = activeProfile(), closable = mode === "switch";
+  const title = mode === "gate" ? "مين بيذاكر؟" : mode === "pick" ? "اختار بروفايل" : "البروفايلات";
+  const list = mode === "gate" ? "" : `<span class="label">على الجهاز ده</span><div class="prof-list">${profiles.list.map(x => `<button type="button" class="prof" data-prof-id="${esc(x.id)}" ${x.id === profiles.active ? 'aria-current="true"' : ""}><span class="prof-name">${esc(x.name)}</span>${x.id === profiles.active ? '<span class="prof-now">الحالي</span>' : ""}</button>`).join("")}</div>`;
+  sheetHost.innerHTML = `<div class="scrim" data-sheet-scrim></div>
+    <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title">
+      <div class="sheet-head"><h2 id="sheet-title">${title}</h2>${closable ? `<button type="button" class="sheet-x" data-sheet-close aria-label="اقفل">✕</button>` : ""}</div>
+      ${mode === "gate" ? `<p class="note">اكتب اسمك عشان نتايجك تتحفظ باسمك. لو أكتر من حد بيذاكر على نفس الموبايل، كل واحد له بروفايل لوحده.</p>` : ""}
+      ${list}
+      <form id="prof-form" class="prof-form" novalidate>
+        <label class="label" for="prof-name">${mode === "gate" ? "اسمك" : "بروفايل جديد"}</label>
+        <div class="prof-row"><input id="prof-name" class="big-input" type="text" aria-describedby="prof-err" maxlength="30" autocomplete="off" dir="auto" enterkeyhint="done" placeholder="مثلًا: محمد"><button type="submit" class="btn">${mode === "gate" ? "ابدأ" : "أضف"}</button></div>
+        <p class="form-err" id="prof-err" role="alert"></p>
+      </form>
+      <div id="sheet-extra"></div>
+    </div>`;
+  sheetHost.hidden = false;
+  app.inert = true; nav.inert = true;
+  const first = mode === "pick" ? sheetHost.querySelector(".prof") : $("#prof-name");
+  (first || $("#prof-name")).focus();
+  if (typeof renderSheetExtra === "function") renderSheetExtra();
+}
+function closeSheet() {
+  if (!activeProfile()) return;           // somebody has to be studying
+  sheetMode = null; sheetHost.hidden = true; sheetHost.innerHTML = "";
+  app.inert = false; nav.inert = false;
+  $("#who-btn").focus();
+}
+function rerenderAfterProfileChange() {
+  renderTop();
+  if (current) show(current, { keepScroll: true });
+}
+function switchProfile(id) {
+  if (typeof Sound !== "undefined") Sound.stopAll();
+  if (id !== profiles.active) { profiles.active = id; saveProfiles(); loadProfileState(); }
+  closeSheet();
+  rerenderAfterProfileChange();
+}
+sheetHost.addEventListener("click", e => {
+  if (e.target.closest("[data-sheet-close]") || (e.target.closest("[data-sheet-scrim]") && sheetMode === "switch")) { closeSheet(); return; }
+  const b = e.target.closest("[data-prof-id]"); if (b) { switchProfile(b.dataset.profId); return; }
+});
+sheetHost.addEventListener("submit", e => {
+  if (e.target.id !== "prof-form") return;
+  e.preventDefault();
+  if (typeof Sound !== "undefined") Sound.stopAll();
+  const err = createProfile($("#prof-name").value);
+  if (err) { $("#prof-err").textContent = err; $("#prof-name").setAttribute("aria-invalid", "true"); $("#prof-name").focus(); return; }
+  closeSheet();
+  rerenderAfterProfileChange();
+});
+sheetHost.addEventListener("keydown", e => {
+  if (e.key !== "Escape") return;
+  const no = sheetHost.querySelector("[data-confirm-no]");
+  if (no) { no.click(); return; }            // first Escape backs out of a delete confirmation
+  if (sheetMode === "switch") closeSheet();
+});
+
+// ── delete history: active profile only, every action behind an in-page confirmation ──
+const DEL = {
+  quiz:    { label: "امسح نتايج الكويز", parts: ["quiz"], done: "اتمسحت نتايج الكويز.",
+             what: n => `هيتمسح سجل الكويز بتاع ${n}: الإجابات، والمستوى، والغلطات، وعلامات حفظك في الجدول.` },
+  unknown: { label: "امسح سجل الـ Unknown", parts: ["unknown"], done: "اتمسح سجل الـ Unknown.",
+             what: n => `هيتمسح سجل الـ Unknown بتاع ${n}: العينات، والنقط، والعينة اللي شغال عليها.` },
+  all:     { label: "امسح كل سجلي", parts: ["quiz", "unknown"], done: "اتمسح كل السجل. الاسم والإعدادات زي ما هم.",
+             what: n => `هيتمسح سجل الكويز وسجل الـ Unknown بتاع ${n}. الاسم والإعدادات (الصوت والمحفوظ ★) هيفضلوا زي ما هم.` },
+  profile: { label: "امسح البروفايل ده", parts: ["quiz", "unknown", "settings"], done: "",
+             what: n => `هيتمسح بروفايل ${n} كله: الاسم، وسجل الكويز، وسجل الـ Unknown، والإعدادات والمحفوظ ★.` }
+};
+function renderSheetExtra(ask) {
+  const host = $("#sheet-extra"), p = activeProfile();
+  if (!host) return;
+  if (sheetMode !== "switch" || !p) { host.innerHTML = ""; return; }
+  const name = `<b><bdi>${esc(p.name)}</bdi></b>`;
+  host.innerHTML = `<section class="hist" aria-labelledby="hist-title">
+    <h3 class="hist-title" id="hist-title">سجل ${name}</h3>
+    <p class="note">السجل محفوظ على الجهاز ده بس، ومحدش على جهاز تاني يقدر يشوفه.</p>
+    ${ask ? `<div class="confirm" role="alertdialog" aria-labelledby="confirm-q" aria-describedby="confirm-what">
+        <p class="confirm-q" id="confirm-q">${DEL[ask].label}؟</p>
+        <p id="confirm-what">${DEL[ask].what(name)} مش هينفع ترجّعه بعد ما يتمسح.</p>
+        <div class="row"><button type="button" class="btn" data-confirm-yes="${ask}">أيوه، امسح</button><button type="button" class="btn ghost" data-confirm-no="${ask}">لا، رجوع</button></div>
+      </div>`
+    : `<div class="del-list">${Object.keys(DEL).map(k => `<button type="button" class="del${k === "profile" ? " del-strong" : ""}" data-del="${k}">${DEL[k].label}</button>`).join("")}</div>`}
+    <p class="note del-done" id="del-done" role="status"></p>
+  </section>`;
+}
+function deleteHistory(kind) {
+  const p = activeProfile(); if (!p || !DEL[kind]) return;
+  if (typeof Sound !== "undefined") Sound.stopAll();
+  DEL[kind].parts.forEach(part => store.del(pkey(p.id, part)));
+  if (kind === "profile") {
+    profiles.list = profiles.list.filter(x => x.id !== p.id);
+    profiles.active = null; saveProfiles(); loadProfileState();
+    renderTop();
+    if (current) show(current, { keepScroll: true });
+    openSheet(profiles.list.length ? "pick" : "gate");
+    return;
+  }
+  if (DEL[kind].parts.includes("quiz")) loadQuiz();
+  if (DEL[kind].parts.includes("unknown")) loadUnk();
+  if (current) show(current, { keepScroll: true });
+  renderSheetExtra();
+  $("#del-done").textContent = DEL[kind].done;
+  sheetHost.querySelector(`[data-del="${kind}"]`).focus();
+}
+sheetHost.addEventListener("click", e => {
+  const d = e.target.closest("[data-del]"); if (d) { renderSheetExtra(d.dataset.del); $("[data-confirm-no]").focus(); return; }
+  const no = e.target.closest("[data-confirm-no]"); if (no) { const k = no.dataset.confirmNo; renderSheetExtra(); sheetHost.querySelector(`[data-del="${k}"]`).focus(); return; }
+  const yes = e.target.closest("[data-confirm-yes]"); if (yes) deleteHistory(yes.dataset.confirmYes);
+});
+$("#who-btn").addEventListener("click", () => openSheet(activeProfile() ? "switch" : (profiles.list.length ? "pick" : "gate")));
+
+// ───────────────────────── lab sounds: synthesized with Web Audio, off by default, per profile ─────────────────────────
+const Sound = (() => {
+  const AC = window.AudioContext || window.webkitAudioContext;
+  let ctx = null, master = null, noiseBuf = null, failed = typeof AC !== "function";
+  const MASTER = 0.45;                 // quiet: every cue peaks well under this, then × the profile's volume
+  const live = new Set(), log = [];
+  const gesture = () => !navigator.userActivation || navigator.userActivation.isActive;
+  function unlock() {                   // only ever called from a tap / key press
+    if (failed || !gesture()) return !failed && !!ctx;
+    try {
+      if (!ctx) {
+        ctx = new AC();
+        master = ctx.createGain(); master.gain.value = MASTER * settings.volume; master.connect(ctx.destination);
+        noiseBuf = ctx.createBuffer(1, ctx.sampleRate * 2, ctx.sampleRate);
+        const d = noiseBuf.getChannelData(0); for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+      }
+      if (ctx.state === "suspended") ctx.resume().catch(() => {});
+      return true;
+    } catch (e) { failed = true; ctx = null; if (typeof renderSpeaker === "function") renderSpeaker(); return false; }
+  }
+  const setVolume = v => { if (master) master.gain.setTargetAtTime(MASTER * v, ctx.currentTime, .03); };
+  // building blocks
+  const gainNode = v => { const g = ctx.createGain(); g.gain.value = v; return g; };
+  const filt = (type, f, Q = .7) => { const b = ctx.createBiquadFilter(); b.type = type; b.frequency.value = f; b.Q.value = Q; return b; };
+  const env = (g, t0, peak, a, hold, r) => { g.gain.setValueAtTime(.0001, t0); g.gain.exponentialRampToValueAtTime(peak, t0 + a); g.gain.setValueAtTime(peak, Math.max(t0 + a, hold)); g.gain.exponentialRampToValueAtTime(.0001, Math.max(t0 + a, hold) + r); };
+  const noise = (t0, t1, src) => { const n = ctx.createBufferSource(); n.buffer = noiseBuf; n.loop = true; n.start(t0, Math.random() * 1.5); n.stop(t1); src.push(n); return n; };
+  const tone = (type, f, t0, t1, src) => { const o = ctx.createOscillator(); o.type = type; o.frequency.setValueAtTime(f, t0); o.start(t0); o.stop(t1); src.push(o); return o; };
+  const blip = (out, src, t, f0, f1, peak, len, type = "sine") => { const o = tone(type, f0, t, t + len + .05, src), g = ctx.createGain(); o.frequency.exponentialRampToValueAtTime(f1, t + len * .7); env(g, t, peak, .004, t + .008, len); o.connect(g).connect(out); };
+  const SYN = {
+    drip(t, d, out, src) { blip(out, src, t, 480, 1500, .5, .14); },
+    fizz(t, d, out, src) {
+      const crackle = ctx.createGain(), g = ctx.createGain();
+      for (let x = t; x < t + d; x += .02 + Math.random() * .035) crackle.gain.setValueAtTime(.2 + Math.random() * .8, x);
+      env(g, t, .2, .12, t + d - .3, .35);
+      noise(t, t + d + .5, src).connect(filt("highpass", 3400)).connect(crackle).connect(g).connect(out);
+    },
+    boil(t, d, out, src) {
+      const g = ctx.createGain(); env(g, t, .55, .4, t + d - .3, .4); g.connect(out);
+      noise(t, t + d + .5, src).connect(filt("lowpass", 240)).connect(gainNode(.5)).connect(g);
+      for (let x = t + .1; x < t + d - .1; x += .07 + Math.random() * .17) { const f = 85 + Math.random() * 110; blip(g, src, x, f, f * 1.9, .25 + Math.random() * .3, .07); }
+    },
+    hiss(t, d, out, src) { const g = ctx.createGain(); env(g, t, .09, .35, t + d - .5, .6); noise(t, t + d + .7, src).connect(filt("bandpass", 6200, .6)).connect(g).connect(out); },
+    clink(t, d, out, src) { [[2350, .16, .38], [3720, .1, .26], [5260, .06, .18]].forEach(([f, v, len]) => blip(out, src, t, f, f * 1.002, v, len)); },
+    trickle(t, d, out, src) {
+      const g = ctx.createGain(); env(g, t, .05, .2, t + d - .3, .4); noise(t, t + d + .5, src).connect(filt("bandpass", 1700, 1.4)).connect(g).connect(out);
+      for (let x = t + .03; x < t + d; x += .05 + Math.random() * .09) { const f = 900 + Math.random() * 800; blip(out, src, x, f, f * 1.5, .1, .05); }
+    },
+    roar(t, d, out, src) {
+      const g = ctx.createGain(); env(g, t, .5, .3, t + d - .4, .45); g.connect(out);
+      noise(t, t + d + .6, src).connect(filt("lowpass", 480)).connect(g);
+      const lfo = tone("sine", 9, t, t + d + .6, src), depth = gainNode(.12); lfo.connect(depth).connect(g.gain);
+    },
+    right(t, d, out, src) { blip(out, src, t, 660, 662, .22, .14); blip(out, src, t + .11, 880, 882, .22, .2); },
+    wrong(t, d, out, src) { blip(out, src, t, 300, 210, .22, .3, "triangle"); }
+  };
+  function play(cue, rowId, ms = 300) {
+    if (!settings.sound || failed || !ctx || !SYN[cue]) return null;
+    try {
+      if (ctx.state === "suspended") ctx.resume().catch(() => {});
+      const t = ctx.currentTime + .01, d = Math.max(.12, ms / 1000), out = ctx.createGain(), src = [];
+      out.connect(master);
+      SYN[cue](t, d, out, src);
+      const h = { cue, stop() {
+        if (!live.has(h)) return;
+        live.delete(h); clearTimeout(h.timer);
+        src.forEach(n => { try { n.stop(); } catch (e) { /* already stopped */ } });
+        try { out.disconnect(); } catch (e) { /* already gone */ }
+      } };
+      h.timer = setTimeout(() => h.stop(), (d + .9) * 1000);
+      live.add(h);
+      log.push({ cue, rowId: rowId || null, t: Math.round(performance.now()) }); if (log.length > 400) log.splice(0, log.length - 400);
+      return h;
+    } catch (e) { return null; }
+  }
+  const stopAll = () => [...live].forEach(h => h.stop());
+  return { play, stopAll, unlock, setVolume, log, active: () => live.size, available: () => !failed };
+})();
+// sound saved as "on": wake the audio on the first tap or key press anywhere (never before a gesture)
+["pointerdown", "pointerup", "keydown", "click"].forEach(t => document.addEventListener(t, () => { if (settings.sound) Sound.unlock(); }, { capture: true, passive: true }));
+
+const SPK_ON = `<path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" fill="currentColor"/><path d="M15.5 9a4.2 4.2 0 0 1 0 6M18 6.5a7.8 7.8 0 0 1 0 11"/>`;
+const SPK_OFF = `<path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" fill="currentColor"/><path d="M15.5 9.5l5 5M20.5 9.5l-5 5"/>`;
+$("#spk-slot").innerHTML = `<button type="button" class="spk" id="spk-btn" aria-expanded="false" aria-controls="spk-pop"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"></svg></button>
+  <div class="spk-pop" id="spk-pop" role="group" aria-labelledby="spk-title" hidden>
+    <p class="spk-title" id="spk-title">أصوات المعمل</p>
+    <button type="button" class="spk-toggle" id="spk-toggle" aria-pressed="false"><span class="track" aria-hidden="true"><span class="knob"></span></span><span id="spk-state"></span></button>
+    <label class="label" for="spk-vol">مستوى الصوت</label>
+    <input type="range" id="spk-vol" min="0" max="1" step="0.05" dir="ltr">
+    <p class="note">نقطة الكاشف، والفوران، والغليان، والأبخرة… بتتسمع مع حركة التفاعل. في الكويز: نغمة للصح ونغمة للغلط.</p>
+  </div>`;
+const spkPop = $("#spk-pop");
+function renderSpeaker() {
+  const slot = $("#spk-slot");
+  slot.hidden = !Sound.available();
+  const on = !!settings.sound, btn = $("#spk-btn");
+  btn.dataset.on = String(on);
+  btn.setAttribute("aria-label", on ? "أصوات المعمل: شغّالة. الإعدادات" : "أصوات المعمل: مقفولة. الإعدادات");
+  btn.querySelector("svg").innerHTML = on ? SPK_ON : SPK_OFF;
+  $("#spk-toggle").setAttribute("aria-pressed", String(on));
+  $("#spk-state").textContent = on ? "الصوت شغّال" : "الصوت مقفول";
+  $("#spk-vol").value = String(settings.volume);
+  $("#spk-vol").setAttribute("aria-valuetext", Math.round(settings.volume * 100) + "%");
+  Sound.setVolume(settings.volume);
+}
+const spkShow = open => { spkPop.hidden = !open; $("#spk-btn").setAttribute("aria-expanded", String(open)); };
+$("#spk-btn").addEventListener("click", () => { Sound.unlock(); spkShow(spkPop.hidden); });
+$("#spk-toggle").addEventListener("click", () => {
+  settings.sound = !settings.sound;
+  if (settings.sound) Sound.unlock(); else Sound.stopAll();
+  saveSettings(); renderSpeaker();
+});
+$("#spk-vol").addEventListener("input", e => { settings.volume = Math.min(1, Math.max(0, +e.target.value || 0)); Sound.setVolume(settings.volume); e.target.setAttribute("aria-valuetext", Math.round(settings.volume * 100) + "%"); });
+$("#spk-vol").addEventListener("change", () => saveSettings());
+document.addEventListener("click", e => { if (!spkPop.hidden && !e.target.closest("#spk-slot")) spkShow(false); });
+document.addEventListener("keydown", e => { if (e.key === "Escape" && !spkPop.hidden) { spkShow(false); $("#spk-btn").focus(); } });
+
 const inited = {};
 let current = null;
 function show(id, opts = {}) {
   if (!VIEWS.some(v => v[0] === id)) id = "lab";
-  if (current && current !== id && LEAVE[current]) LEAVE[current]();
+  if (current && current !== id) { Sound.stopAll(); if (LEAVE[current]) LEAVE[current](); }
   current = id;
   $$(".view", app).forEach(s => (s.hidden = s.dataset.view !== id));
   $$("button[data-nav]", nav).forEach(b => { if (b.dataset.nav === id) b.setAttribute("aria-current", "page"); else b.removeAttribute("aria-current"); });
@@ -767,9 +1078,10 @@ function shortestPath(target) {
 }
 
 // ───────────────────────── 3. UNKNOWN ─────────────────────────
-const UKEY = "anionlab.v1.unknown";
-const unk = Object.assign({ played: 0, correct: 0, points: 0, queue: [], weak: {}, cur: null }, store.get(UKEY, {}));
-const saveUnk = () => store.set(UKEY, unk);
+const UDEF = () => ({ played: 0, correct: 0, points: 0, queue: [], weak: {}, cur: null });
+const unk = UDEF();
+function loadUnk() { refill(unk, UDEF(), profiles.active ? store.get(pkey(profiles.active, "unknown"), {}) : {}); }
+const saveUnk = () => { if (profiles.active) store.set(pkey(profiles.active, "unknown"), unk); };
 function newUnknown() {
   let anion, clue = null;
   if (unk.queue.length && Math.random() < .6) {
@@ -880,7 +1192,7 @@ INIT.play = () => {
   });
   $("#play-prev").addEventListener("click", () => { stepPlay(-1); });
   $("#play-next").addEventListener("click", () => { stepPlay(1); });
-  $("#play-toggle").addEventListener("click", () => { play.playing = !play.playing; renderPlayControls(); if (play.playing) renderPlay(); else clearTimeout(play.timer); });
+  $("#play-toggle").addEventListener("click", () => { play.playing = !play.playing; renderPlayControls(); if (play.playing) renderPlay(); else { clearTimeout(play.timer); if (play.ctl) play.ctl.silence(); } });
 };
 const playRows = () => ROWS.filter(r => r.group === play.group);
 function stepPlay(d) { const n = playRows().length; play.i = (play.i + d + n) % n; renderPlay(); }
@@ -907,9 +1219,10 @@ ENTER.play = () => renderPlay();
 LEAVE.play = () => { play.playing = false; clearTimeout(play.timer); if (play.ctl) play.ctl.cancel(); };
 
 // ───────────────────────── 5. QUIZ (pharm-exam-forge Mode A) ─────────────────────────
-const QKEY = "anionlab.v1.quiz";
-const qz = Object.assign({ answered: 0, correct: 0, level: 2, streak: 0, misses: 0, missedRows: {}, weakRefs: {}, rounds: 0 }, store.get(QKEY, {}));
-const saveQ = () => store.set(QKEY, { answered: qz.answered, correct: qz.correct, level: qz.level, streak: qz.streak, misses: qz.misses, missedRows: qz.missedRows, weakRefs: qz.weakRefs, rounds: qz.rounds, rowStats: qz.rowStats });
+const QDEF = () => ({ answered: 0, correct: 0, level: 2, streak: 0, misses: 0, missedRows: {}, weakRefs: {}, rounds: 0, rowStats: {}, drill: {} });
+const qz = QDEF();
+function loadQuiz() { refill(qz, QDEF(), profiles.active ? store.get(pkey(profiles.active, "quiz"), {}) : {}); round = null; }
+const saveQ = () => { if (profiles.active) store.set(pkey(profiles.active, "quiz"), { answered: qz.answered, correct: qz.correct, level: qz.level, streak: qz.streak, misses: qz.misses, missedRows: qz.missedRows, weakRefs: qz.weakRefs, rounds: qz.rounds, rowStats: qz.rowStats, drill: qz.drill }); };
 const FAM = { white: "w", colorless: "w", "yellowish-white": "y", yellow: "y", "canary yellow": "y", buff: "y", orange: "o", "orange red": "r", "yellow-scarlet red": "r", red: "r", "blood red": "r", "brownish red": "n", brown: "n", "chocolate brown": "n", "brownish black": "k", black: "k", grey: "k", pink: "v", purple: "v", violet: "v", blue: "b", "pale blue": "b", "Prussian blue": "b", green: "g", "greyish green": "g" };
 function similarity(r, s) {
   let x = 0;
@@ -956,50 +1269,67 @@ function record(id, ok) {
 }
 const mastery = id => { const st = qz.rowStats[id]; return !st ? "new" : st.last === false ? "weak" : st.s >= 2 ? "known" : "learning"; };
 
-// ── MCQ (both directions) ──
-function candidatesB(row) {
+// ── where wrong options come from (MCQ both ways, True/False, Matching, and the condition blanks in Complete):
+//    1) the question's own group; 2) only when the group gives fewer than 3, the same reagent family (fam) from the
+//    other groups, most look-alike first; 3) otherwise no question. The "can't also be right" filters stay as they were.
+const NEED = 3;
+const otherGroup = (a, row) => anionInfo.get(a).group !== row.group;
+function candidatesB(row, own) {
   const ownRows = famRows(row.anion, row.reagent);
-  const own = new Set(ownRows.map(s => norm(s.observation)));
+  const ownObs = new Set(ownRows.map(s => norm(s.observation)));
   const seen = new Set([norm(row.observation)]);
-  return ROWS.filter(s => s.anion !== row.anion && !own.has(norm(s.observation)) && !ownRows.some(o => alike(o, s)))
+  return ROWS.filter(s => s.anion !== row.anion && (own ? s.group === row.group : s.group !== row.group && fam(s.reagent) === fam(row.reagent)))
+    .filter(s => !ownObs.has(norm(s.observation)) && !ownRows.some(o => alike(o, s)))
     .map(s => ({ s, score: similarity(row, s) })).sort((x, y) => y.score - x.score)
     .filter(c => { const n = norm(c.s.observation); if (seen.has(n)) return false; seen.add(n); return true; });
 }
+function stagedB(row) {
+  const group = candidatesB(row, true);
+  if (group.length >= NEED) return { cands: group, src: "group" };
+  const have = new Set(group.map(c => norm(c.s.observation)));
+  const more = candidatesB(row, false).filter(c => !have.has(norm(c.s.observation))).slice(0, NEED - group.length);
+  return group.length + more.length >= NEED ? { cands: group.concat(more), src: "fallback" } : null;
+}
+// level window over a candidate list (easy = less alike), never fewer than 3
+const windowed = (cands, level) => { const want = WANT(level), lo = Math.max(0, Math.min(want[0], cands.length - NEED)); return cands.slice(lo, Math.max(want[1], lo + NEED)); };
+
+// ── MCQ (both directions) ──
 function buildMCQ(row, dir, level) {
-  const want = WANT(level);
   if (dir === "A") {
     if (giveaway(row)) return null;
-    // observation → anion: distractors are anions whose own observation looks most like this one
-    const cands = ALL_ANIONS.filter(a => a !== row.anion)
-      .filter(a => !famRows(a, row.reagent).some(s => alike(s, row) || norm(s.observation) === norm(row.observation)))
-      .map(a => { const best = ROWS.filter(s => s.anion === a).map(s => [s, similarity(row, s)]).sort((x, y) => y[1] - x[1])[0]; return { a, row: best[0], score: best[1] }; })
-      .sort((x, y) => y.score - x.score);
-    if (cands.length < 3) return null;
-    const chosen = shuffle(cands.slice(want[0], Math.max(want[1], want[0] + 3))).slice(0, 3);
+    // observation → anion: wrong options are anions that don't also give this result with this reagent family
+    const fits = a => famRows(a, row.reagent).some(s => alike(s, row) || norm(s.observation) === norm(row.observation));
+    const best = (a, rows) => { const b = rows.map(s => [s, similarity(row, s)]).sort((x, y) => y[1] - x[1])[0]; return { a, row: b[0], score: b[1] }; };
+    let cands = anionsOf(row.group).filter(a => a !== row.anion && !fits(a)).map(a => best(a, ROWS.filter(s => s.anion === a))), src = "group";
+    if (cands.length < NEED) {
+      cands = cands.concat(ALL_ANIONS.filter(a => otherGroup(a, row) && famRows(a, row.reagent).length && !fits(a))
+        .map(a => best(a, famRows(a, row.reagent))).sort((x, y) => y.score - x.score).slice(0, NEED - cands.length));
+      src = "fallback";
+    }
+    if (cands.length < NEED) return null;
+    const chosen = shuffle(cands).slice(0, 3);
     const tempting = chosen.slice().sort((x, y) => y.score - x.score)[0];
     const opts = shuffle([{ key: row.anion, right: true }, ...chosen.map(c => ({ key: c.a, right: false, via: c.row.id }))]);
-    return { type: "mcq", dir, rowId: row.id, rowIds: [row.id], level, opts, tempting: tempting.a, temptingRow: tempting.row.id };
+    return { type: "mcq", dir, rowId: row.id, rowIds: [row.id], level, opts, tempting: tempting.a, temptingRow: tempting.row.id, src };
   }
-  // anion → observation: distractors are other anions' observations that look like the right one
-  const cands = candidatesB(row);
-  if (cands.length < 3) return null;
-  const chosen = shuffle(cands.slice(want[0], Math.max(want[1], want[0] + 3))).slice(0, 3);
+  // anion → observation: wrong options are other anions' observations that look like the right one
+  const st = stagedB(row);
+  if (!st) return null;
+  const chosen = shuffle(windowed(st.cands, level)).slice(0, 3);
   const tempting = chosen.slice().sort((x, y) => y.score - x.score)[0];
   const opts = shuffle([{ key: row.observation, right: true }, ...chosen.map(c => ({ key: c.s.observation, right: false, via: c.s.id }))]);
-  return { type: "mcq", dir, rowId: row.id, rowIds: [row.id], level, opts, tempting: tempting.s.anion, temptingRow: tempting.s.id };
+  return { type: "mcq", dir, rowId: row.id, rowIds: [row.id], level, opts, tempting: tempting.s.anion, temptingRow: tempting.s.id, src: st.src };
 }
 
 // ── True / False with correction ──
 function buildTF(row, level) {
-  const cands = candidatesB(row);
-  if (cands.length < 3) return null;
-  const want = WANT(level);
-  const pool = cands.slice(want[0], Math.max(want[1], want[0] + 3));
-  const fake = pick(pool);
+  const st = stagedB(row);
+  if (!st) return null;
+  const fake = pick(windowed(st.cands, level));
   const truth = Math.random() < .45;
-  const fixDistractors = shuffle(cands.filter(c => c !== fake).slice(0, 6)).slice(0, 2);
+  const fixDistractors = shuffle(st.cands.filter(c => c !== fake).slice(0, 6)).slice(0, 2);
   const fixOpts = shuffle([{ key: row.observation, right: true }, { key: fake.s.observation, right: false, via: fake.s.id }, ...fixDistractors.map(c => ({ key: c.s.observation, right: false, via: c.s.id }))]);
-  return { type: "tf", rowId: row.id, rowIds: [row.id], level, truth, shown: truth ? row.observation : fake.s.observation, via: truth ? null : fake.s.id, stage: "tf", fixOpts };
+  return { type: "tf", rowId: row.id, rowIds: [row.id], level, truth, shown: truth ? row.observation : fake.s.observation, via: truth ? null : fake.s.id, stage: "tf", fixOpts, src: st.src };
 }
 
 // ── Matching (one reagent, 3–4 anions) ──
@@ -1007,18 +1337,24 @@ function buildMatch(row, level) {
   if (giveaway(row)) return null;
   const n = level === 3 ? 4 : 3;
   const chosen = [row];
-  for (const a of shuffle(ALL_ANIONS.filter(a => a !== row.anion))) {
-    const r = rowsOf(a, row.reagent)[0];
-    if (!r || !isQuizzable(r) || giveaway(r)) continue;
-    if (chosen.some(c => alike(c, r) || norm(c.observation) === norm(r.observation))) continue;
+  const fitsIn = (a, r) => r && isQuizzable(r) && !giveaway(r)
+    && !chosen.some(c => alike(c, r) || norm(c.observation) === norm(r.observation))
     // no other chosen anion may also give this result with the same reagent family
-    if (chosen.some(c => famRows(c.anion, r.reagent).some(s => alike(s, r))) || famRows(a, row.reagent).some(s => chosen.some(c => alike(s, c)))) continue;
-    chosen.push(r);
+    && !chosen.some(c => famRows(c.anion, r.reagent).some(s => alike(s, r))) && !famRows(a, row.reagent).some(s => chosen.some(c => alike(s, c)));
+  for (const a of shuffle(anionsOf(row.group).filter(a => a !== row.anion))) {
     if (chosen.length === n) break;
+    const r = rowsOf(a, row.reagent)[0];
+    if (fitsIn(a, r)) chosen.push(r);
+  }
+  let src = "group";
+  if (chosen.length < n) {
+    // the stem names one reagent, so items from other groups use that same reagent, most look-alike first
+    const more = ALL_ANIONS.filter(a => otherGroup(a, row)).map(a => rowsOf(a, row.reagent)[0]).filter(Boolean).sort((x, y) => similarity(row, y) - similarity(row, x));
+    for (const r of more) { if (chosen.length === n) break; if (fitsIn(r.anion, r)) { chosen.push(r); src = "fallback"; } }
   }
   if (chosen.length < 3) return null;
   return { type: "match", rowId: row.id, rowIds: chosen.map(r => r.id), level, reagent: row.reagent,
-           left: shuffle(chosen.map(r => r.id)), rcol: shuffle(chosen.map(r => r.id)), picks: {}, sel: null };
+           left: shuffle(chosen.map(r => r.id)), rcol: shuffle(chosen.map(r => r.id)), picks: {}, sel: null, src };
 }
 
 // ── Complete the sentence: the slide's exact color word, or the condition ──
@@ -1053,11 +1389,18 @@ function buildFill(row, level) {
     const text = reKey.test(row.observation) ? row.observation.replace(reKey, "_____") : row.observation;
     if (FILL_CONDS.some(c => c !== row.condition && fold(text).includes(fold(c.replace(/^\+\s*/, ""))))) return null;
     const bad = new Set(sibs.filter(s2 => s2 !== row && alike(s2, row)).map(s2 => s2.condition));
-    const sameReagent = [...new Set(ROWS.filter(r2 => r2.reagent === row.reagent && r2.condition && FILL_CONDS.includes(r2.condition)).map(r2 => r2.condition))];
-    const pool = [...new Set([...sibs.map(s2 => s2.condition).filter(Boolean), ...sameReagent])].filter(c => c !== row.condition && !bad.has(c) && FILL_CONDS.includes(c));
+    const usable = c => c && c !== row.condition && !bad.has(c) && FILL_CONDS.includes(c);
+    const pool = [...new Set([...sibs, ...ROWS.filter(r2 => r2.group === row.group && r2.reagent === row.reagent)].map(r2 => r2.condition).filter(usable))];
+    let src = "group";
+    if (pool.length < NEED) {
+      const more = ROWS.filter(r2 => r2.group !== row.group && fam(r2.reagent) === fam(row.reagent) && usable(r2.condition) && !pool.includes(r2.condition))
+        .sort((x, y) => similarity(row, y) - similarity(row, x)).map(r2 => r2.condition);
+      const add = [...new Set(more)].slice(0, NEED - pool.length);
+      if (add.length) { pool.push(...add); src = "fallback"; }
+    }
     if (pool.length < 2) return null;
     const opts = shuffle([row.condition, ...shuffle(pool).slice(0, 3)]);
-    return { type: "fill", mode: "cond", rowId: row.id, rowIds: [row.id], level, answer: row.condition, opts, text };
+    return { type: "fill", mode: "cond", rowId: row.id, rowIds: [row.id], level, answer: row.condition, opts, text, src };
   }
   return null;
 }
@@ -1104,22 +1447,33 @@ function nextQuestion() {
 function finish(right, perRow) {
   const q = round.q, row = ROW.get(q.rowId);
   q.answered = true; q.right = right; round.total++; qz.answered++;
+  Sound.play(right ? "right" : "wrong", q.rowId);
   (perRow || q.rowIds.map(id => [id, right])).forEach(([id, ok]) => record(id, ok));
+  (perRow || q.rowIds.map(id => [id, right])).forEach(([id, ok]) => {
+    if (!ok || qz.missedRows[id] === undefined) return;
+    qz.drill[id] = (qz.drill[id] || 0) + 1;
+    if (qz.drill[id] >= 2) { delete qz.missedRows[id]; delete qz.drill[id]; }
+  });
   if (right) {
     round.score++; qz.correct++; qz.streak = Math.max(0, qz.streak) + 1; qz.misses = 0;
     if (qz.streak >= 3 && qz.level < 3) { qz.level++; qz.streak = 0; }
-    if (q.reask) delete qz.missedRows[row.id];
   } else {
     qz.misses++; qz.streak = 0;
     if (qz.misses >= 2 && qz.level > 1) { qz.level--; qz.misses = 0; }
     const bad = perRow ? perRow.filter(p => !p[1]).map(p => p[0]) : [row.id];
-    bad.forEach(id => { qz.missedRows[id] = (qz.missedRows[id] || 0) + 1; const r = ROW.get(id); qz.weakRefs[r.slideRef] = (qz.weakRefs[r.slideRef] || 0) + 1; });
+    bad.forEach(id => { qz.missedRows[id] = (qz.missedRows[id] || 0) + 1; delete qz.drill[id]; const r = ROW.get(id); qz.weakRefs[r.slideRef] = (qz.weakRefs[r.slideRef] || 0) + 1; });
     if (!q.reask) round.missed.push({ rowId: row.id, type: q.kind });
   }
   saveQ(); renderQuiz();
   $("#q-fb")?.scrollIntoView({ block: "nearest" });
 }
+// rows that some question type can be built for (a few have no 3 valid wrong options under the source rule)
+const ASKABLE = new Map();
+const askable = id => { if (!ASKABLE.has(id)) ASKABLE.set(id, TYPES.some(t => build(ROW.get(id), t, 2))); return ASKABLE.get(id); };
+const drillRows = () => Object.keys(qz.missedRows).filter(id => ROW.has(id) && isQuizzable(ROW.get(id)) && askable(id));
+function startDrill() { const ids = drillRows(); if (ids.length) newRound({ pool: ids, label: "راجع غلطاتي" }); }
 function onQuizClick(e) {
+  if (e.target.closest("#q-drill")) { startDrill(); window.scrollTo(0, 0); return; }
   if (!round || round.done) { if (e.target.closest("#q-new")) { newRound(); window.scrollTo(0, 0); } return; }
   const q = round.q;
   if (e.target.closest("#q-next")) { round.i++; nextQuestion(); window.scrollTo(0, 0); return; }
@@ -1152,7 +1506,7 @@ function onQuizClick(e) {
 INIT.quiz = () => {
   const el = $("#v-quiz");
   el.innerHTML = `<div class="vhead"><h2>كويز</h2><p>سؤال واحد كل مرة، بأنواع الامتحان: اختيار، صح وغلط مع التصحيح، توصيل، وكمّل الجملة. السؤال بالإنجليزي بكلام السلايد، والشرح بالعربي.</p></div>
-    <div class="stats" id="q-stats"></div><div class="panel" id="q-panel"></div>`;
+    <div class="stats" id="q-stats"></div><div class="drill-row" id="q-drill-row"></div><div class="panel" id="q-panel"></div>`;
   el.addEventListener("click", onQuizClick);
 };
 ENTER.quiz = (opts = {}) => { if (opts.practice) newRound(opts.practice); else if (!round) newRound(); else renderQuiz(); };
@@ -1195,7 +1549,13 @@ function optButtons(opts, render, rightIdx, answered, choice) {
     return `<button type="button" class="opt" data-opt="${i}" data-state="${st}" data-right="${i === rightIdx}" ${answered ? "disabled" : ""}><span class="k">${"abcd"[i]}.</span><span>${render(o)}</span></button>`;
   }).join("");
 }
+function renderDrill() {
+  const n = drillRows().length;
+  $("#q-drill-row").innerHTML = `<button type="button" class="btn ghost" id="q-drill" ${n ? "" : "disabled"} aria-describedby="q-drill-note">راجع غلطاتي${n ? ` (${n})` : ""}</button>
+    <p class="note" id="q-drill-note">${n ? "أسئلة على اللي غلطت فيه بس. السؤال بيخرج من هنا لما تجاوبه صح مرتين ورا بعض." : "مفيش غلطات تراجعها دلوقتي. أي سؤال تغلط فيه هيظهر هنا."}</p>`;
+}
 function renderQuiz() {
+  renderDrill();
   const levelName = ["", "سهل", "متوسط", "صعب"][qz.level];
   $("#q-stats").innerHTML = `<span>الإجمالي: <b>${qz.correct}/${qz.answered}</b></span><span>المستوى: <b>${levelName}</b></span><span>الجولة: <b>${round.score}/${round.total}</b></span>${round.label ? `<span>${AR(round.label)}</span>` : ""}`;
   const panel = $("#q-panel");
@@ -1244,21 +1604,22 @@ INIT.errors = () => {
   const el = $("#v-errors");
   const C = DATA.corrections;
   const linkFor = ref => ROWS.find(r => r.flag && r.flag.source === "doc" && r.slideRef === ref);
-  const extras = ROWS.filter(r => r.flag && r.flag.source === "extra");
-  const seenExtra = new Set();
-  el.innerHTML = `<div class="vhead"><h2>أخطاء في السلايدز</h2><p>الجدول ده من صفحة الشرح بتاعتك (${C.doc.length} أخطاء). الداتا في الموقع فضلت زي السلايد بالظبط، والصح جنبها بعلامة ⚠️.</p></div>
-    ${C.doc.map(c => { const r = linkFor(c.ref); return `<div class="err" data-err="${esc(c.ref)}">
-      <div class="row"><span class="ref">${esc(c.ref)}</span>${r ? `<button type="button" class="chip" data-open="${esc(r.id)}">افتحها في المعمل</button>` : ""}</div>
-      <div class="flag" style="border-width:1.5px"><div class="fh"><span aria-hidden="true">⚠️</span> ${AR(c.problem)}</div>
-      <div class="pair"><div class="slide"><b>اللي في السلايد</b>${/[؀-ۿ]/.test(c.slide) ? `<div>${AR(c.slide)}</div>` : EN(c.slide, "div")}</div><div class="right"><b>الصح</b>${/[؀-ۿ]/.test(c.correct) ? `<div>${AR(c.correct)}</div>` : EN(c.correct, "div")}</div></div></div>
-    </div>`; }).join("")}
+  // one list in slide order: the doc's corrections table + the unbalanced slide equations found while copying them (marked زيادة)
+  const seenExtra = new Set(), extras = [];
+  ROWS.forEach(r => { if (r.flag && r.flag.source === "extra" && !seenExtra.has(r.flag.slide)) { seenExtra.add(r.flag.slide); extras.push(r); } });
+  const slideNo = ref => { const m = /L(\d+)\s*·\s*s(\d+)/.exec(ref); return m ? +m[1] * 1000 + +m[2] : Infinity; };
+  const list = [...C.doc.map(c => ({ src: "doc", key: "doc|" + c.ref, ref: c.ref, problem: c.problem, slide: c.slide, correct: c.correct, row: linkFor(c.ref) })),
+    ...extras.map(r => ({ src: "extra", key: "extra|" + r.flag.slide, ref: r.slideRef, problem: r.flag.note, slide: r.flag.slide, correct: r.flag.correct, row: r }))]
+    .map((x, i) => [x, i]).sort((a, b) => slideNo(a[0].ref) - slideNo(b[0].ref) || a[1] - b[1]).map(a => a[0]);
+  const txt = t => /[؀-ۿ]/.test(t) ? `<div>${AR(t)}</div>` : EN(t, "div");
+  el.innerHTML = `<div class="vhead"><h2>أخطاء في السلايدز</h2><p>عدد الأخطاء: ${list.length}. منهم ${C.doc.length} من جدول التصحيحات في صفحة الشرح بتاعتك، و${extras.length} معادلات مش متوازنة لقيتها وأنا بنقل المعادلات من السلايدز، وعليها علامة «زيادة للفهم» (راجعها مع المعيد قبل ما تعتمد عليها). الداتا في الموقع فضلت زي السلايد بالظبط، والصح جنبها بعلامة ⚠️.</p></div>
+    <div id="err-list">${list.map(x => `<div class="err" data-err="${esc(x.ref)}" data-key="${esc(x.key)}" data-src="${x.src}">
+      <div class="row"><span class="ref">${esc(x.ref)}</span>${x.row ? `<button type="button" class="chip" data-open="${esc(x.row.id)}">افتحها في المعمل</button>` : ""}</div>
+      <div class="flag" style="border-width:1.5px"><div class="fh"><span aria-hidden="true">⚠️</span> ${AR(x.problem)}${x.src === "extra" ? ` <span class="extra">زيادة للفهم — مش في السلايدز</span>` : ""}</div>
+      <div class="pair"><div class="slide"><b>اللي في السلايد</b>${txt(x.slide)}</div><div class="right"><b>الصح</b>${txt(x.correct)}</div></div></div>
+    </div>`).join("")}</div>
     <h3 class="sec">ملاحظتين من نفس الصفحة</h3>
     ${C.notes.map(n => `<div class="err"><span class="ref">${esc(n.ref)}</span><div>${AR(n.text)}</div></div>`).join("")}
-    <h3 class="sec">معادلات تانية لقيتها مش متوازنة</h3>
-    <p class="note"><span class="extra">زيادة للفهم — مش في السلايدز</span> الحاجات دي مش في جدولك؛ لقيتها وأنا بنقل المعادلات من السلايدز. راجعها مع المعيد قبل ما تعتمد عليها.</p>
-    ${extras.filter(r => { const k = r.flag.slide; if (seenExtra.has(k)) return false; seenExtra.add(k); return true; }).map(r => `<div class="err">
-      <div class="row"><span class="ref">${esc(r.slideRef)}</span><button type="button" class="chip" data-open="${esc(r.id)}">افتحها في المعمل</button></div>
-      ${flagBox(r.flag)}</div>`).join("")}
     <h3 class="sec">عن الأسامي الإنجليزي</h3>
     <p class="note">الأسامي اللي بين القوسين جنب كل صيغة اتضافت عشان تفهم الصيغة. اللي مش مكتوب منها في السلايد: <span class="extra">زيادة للفهم — مش في السلايدز</span></p>`;
   el.addEventListener("click", e => { const b = e.target.closest("[data-open]"); if (b) { const r = ROW.get(b.dataset.open); const idx = rowsOf(r.anion, r.reagent).indexOf(r); openInLab(r.anion, r.reagent, Math.max(0, idx)); } });
@@ -1267,6 +1628,9 @@ INIT.errors = () => {
 // ───────────────────────── boot ─────────────────────────
 let start = "lab";
 try { const h = location.hash.slice(1); if (VIEWS.some(v => v[0] === h)) start = h; } catch (e) { /* no hash access */ }
+if (activeProfile()) loadProfileState();
+renderTop();
 show(start);
-window.__anionLab = { ROWS, COLORS, show, version: 1, peekQuestion: () => round && round.q, skip: () => { if (round) { round.i++; nextQuestion(); } }, _t: { alike, famRows, norm, rowColorSet, mastery, fold } };
+if (!activeProfile()) openSheet(profiles.list.length ? "pick" : "gate");
+window.__anionLab = { ROWS, COLORS, show, version: 1, peekQuestion: () => round && round.q, peekState: () => ({ qz, unk, settings, saved: [...saved], profiles }), soundLog: Sound.log, activeSounds: () => Sound.active(), skip: () => { if (round) { round.i++; nextQuestion(); } }, _t: { alike, famRows, norm, rowColorSet, mastery, fold, fam, similarity, isQuizzable, build } };
 })();

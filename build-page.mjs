@@ -35,6 +35,7 @@ const js = read("./src/app.js");
 
 const page = `<title>مختبر الأنيونات</title>
 <meta name="description" content="Interactive test-tube lab for anion reactions, Groups I–VI (PHC 101, L01–L03)">
+<meta name="author" content="Mohammed Ayman">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Reem+Kufi:wght@600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap">

@@ -14,3 +14,7 @@ src/doc-walkthrough.txt
 # test artifacts
 shots/
 tests/results.json
+
+# local tool state
+.claude/
+.playwright-mcp/
