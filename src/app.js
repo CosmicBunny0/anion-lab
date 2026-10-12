@@ -68,9 +68,11 @@ const store = {
   persisted(k) { try { return localStorage.getItem(k); } catch (e) { return MEM.has(k) ? MEM.get(k) : null; } },
   get(k, d) { const v = store.raw(k); if (!v) return d; try { return JSON.parse(v); } catch (e) { return d; } },
   set(k, v) { const t = JSON.stringify(v); MEM.set(k, t); try { localStorage.setItem(k, t); } catch (e) { /* storage blocked or full: progress lives only in this tab */ } },
-  del(k) { MEM.set(k, null); try { localStorage.removeItem(k); } catch (e) { /* storage blocked */ } }
+  del(k) { MEM.set(k, null); try { localStorage.removeItem(k); } catch (e) { /* storage blocked */ } },
+  ok() { try { const k = "__anionlab_probe"; localStorage.setItem(k, "1"); localStorage.removeItem(k); return true; } catch (e) { return false; } }   // false when this browser blocks localStorage
 };
 const refill = (obj, ...src) => { for (const k of Object.keys(obj)) delete obj[k]; Object.assign(obj, ...src); return obj; };
+const STORAGE_OK = store.ok();
 
 // ── profiles: who is studying on this device. Every profile has its own quiz / unknown / settings keys. ──
 const PKEY = "anionlab:v1:profiles";
@@ -322,12 +324,11 @@ function mountScene(host, row, opt = {}) {
   const timers = [];
   let end = 0;
   const at = (ms, fn, dur = 0) => { end = Math.max(end, ms + dur); timers.push(setTimeout(fn, ms / speed)); };
-  // sound cues ride on the same timers (and speed); reduced motion plays each cue once, ~300 ms, in step order
+  // sound cues ride on the same timers (and speed); reduced motion jumps to the end, so it stays silent
   const sounds = [];
   let hushed = false;
   const startCue = (name, ms) => { if (hushed) return; const h = Sound.play(name, row.id, ms); if (h) sounds.push(h); };
   const cue = (name, t, dur = 300) => at(t, () => startCue(name, dur / speed));
-  const cueOnce = list => { const seen = new Set(); list.slice().sort((a, b) => a.t - b.t).filter(c => !seen.has(c.cue) && seen.add(c.cue)).forEach((c, i) => timers.push(setTimeout(() => startCue(c.cue, 300), i * 300))); };
   const silence = () => { hushed = true; sounds.forEach(h => h.stop()); sounds.length = 0; };
   const ctl = () => ({ svg, cancel: () => { timers.forEach(clearTimeout); silence(); }, silence });
   const hist = {};
@@ -348,7 +349,7 @@ function mountScene(host, row, opt = {}) {
   if (kind === "flame") {
     paint(flame, "colorless", "flame");
     const fin = () => { paint(flame, v.color, "flame"); flame.style.opacity = ".92"; q(".wire").style.transform = "none"; };
-    if (instant) { svg.classList.add("instant"); fin(); done(); cueOnce([{ cue: "roar", t: 0 }]); }
+    if (instant) { svg.classList.add("instant"); fin(); done(); }
     else { at(150, () => { q(".wire").style.transform = "none"; }); cue("roar", 1000, 1500); at(1000, fin, 900); at(end + 250, done); }
     return ctl();
   }
@@ -356,7 +357,7 @@ function mountScene(host, row, opt = {}) {
     const fumesG = q(".fumes");
     const fin = () => { if (v.color) paint(stain, v.color, "stain"); stain.style.opacity = "1"; stain.style.transform = "none"; };
     const fumesOn = () => { if (fumesG) { fumesG.style.opacity = ".85"; svg.classList.add("fuming"); } genOn(); };
-    if (instant) { svg.classList.add("instant"); fumesOn(); genStatic(); fin(); done(); if (gen) cueOnce([{ cue: "fizz", t: 0 }, ...(fumesG ? [{ cue: "hiss", t: 250 }] : [])]); }
+    if (instant) { svg.classList.add("instant"); fumesOn(); genStatic(); fin(); done(); }
     else if (gen) {
       cue("fizz", 0, 2400); if (fumesG) cue("hiss", 250, 1600);
       at(0, () => svg.classList.add("bubbling"), 2400);
@@ -366,6 +367,7 @@ function mountScene(host, row, opt = {}) {
     } else {
       const drop = q(".drop");
       at(100, () => { drop.style.opacity = "1"; drop.style.transform = "translateY(110px)"; });
+      cue("drip", 450);   // the drop lands on the paper / rod
       at(550, () => { drop.style.opacity = "0"; });
       at(700, fin, 1100); at(end + 250, done);
     }
@@ -407,7 +409,7 @@ function mountScene(host, row, opt = {}) {
   if (transfer && v.source.fumes) cues.push({ cue: "hiss", t: 200, dur: 1600 });
   if (p.layer) [0, 260, 520].forEach(d => cues.push({ cue: "clink", t: R + d }));
   if (p.ring) cues.push({ cue: "trickle", t: R, dur: 1100 });
-  if (instant) { finalState(); done(); cueOnce(p.heat ? [{ cue: "boil", t: 0 }, ...cues] : cues); return ctl(); }
+  if (instant) { finalState(); done(); return ctl(); }
 
   if (p.heat) svg.classList.add("heating");
   if (transfer) { at(0, () => svg.classList.add("bubbling")); at(200, genOn, 900); }
@@ -500,7 +502,7 @@ function swatch(rows) {
 }
 
 // ───────────────────────── saved (★) + "ليه بيحصل كده؟" ─────────────────────────
-const SETTINGS_DEF = () => ({ sound: false, volume: 0.6, saved: [] });
+const SETTINGS_DEF = () => ({ sound: false, volume: 1, saved: [] });
 const settings = SETTINGS_DEF();
 const saved = new Set();
 function loadSettings() {
@@ -568,10 +570,11 @@ const VIEWS = [
   ["errors", "الأخطاء", `<path d="M12 3.5 2.8 19.5h18.4z"/><path d="M12 9.5v5"/><circle cx="12" cy="17" r=".6" fill="currentColor"/>`]
 ];
 const app = $("#app");
-app.innerHTML = `<header class="top"><div class="brand"><h1>مختبر الأنيونات</h1><div class="sub">PHC 101 · L01–L03 · Groups I–VI</div><div class="credit" dir="ltr" lang="en">Made by Mohammed Ayman</div></div>
+app.innerHTML = `<header class="top"><div class="brand"><h1>مختبر الأنيونات</h1><div class="sub">PHC 101 · L01–L03 · Groups I–VI</div><div class="credit" dir="ltr" lang="en">Made by Mohammed Aymen</div></div>
   <div class="tools"><button type="button" class="who" id="who-btn" aria-haspopup="dialog"><span class="vh">البروفايل: </span><span class="who-name" id="who-name"></span> <span class="who-sw">تبديل</span></button><div class="spk-slot" id="spk-slot"></div></div></header>
+  <div class="spk-row" id="spk-row" hidden></div>
   ${VIEWS.map(([id]) => `<section class="view" id="v-${id}" data-view="${id}" hidden></section>`).join("")}
-  <footer class="credit-foot"><span dir="ltr" lang="en">Made by Mohammed Ayman</span></footer>`;
+  <footer class="credit-foot"><span dir="ltr" lang="en">Made by Mohammed Aymen</span></footer>`;
 const nav = document.createElement("nav");
 nav.className = "tabs"; nav.setAttribute("aria-label", "الأقسام");
 nav.innerHTML = `<div class="in">${VIEWS.map(([id, label, icon]) => `<button type="button" data-nav="${id}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${icon}</svg><span>${label}</span></button>`).join("")}</div>`;
@@ -594,20 +597,20 @@ function openSheet(mode) {
   const list = mode === "gate" ? "" : `<span class="label">على الجهاز ده</span><div class="prof-list">${profiles.list.map(x => `<button type="button" class="prof" data-prof-id="${esc(x.id)}" ${x.id === profiles.active ? 'aria-current="true"' : ""}><span class="prof-name">${esc(x.name)}</span>${x.id === profiles.active ? '<span class="prof-now">الحالي</span>' : ""}</button>`).join("")}</div>`;
   sheetHost.innerHTML = `<div class="scrim" data-sheet-scrim></div>
     <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title">
-      <div class="sheet-head"><h2 id="sheet-title">${title}</h2>${closable ? `<button type="button" class="sheet-x" data-sheet-close aria-label="اقفل">✕</button>` : ""}</div>
+      <div class="sheet-head"><h2 id="sheet-title" tabindex="-1">${title}</h2>${closable ? `<button type="button" class="sheet-x" data-sheet-close aria-label="اقفل">✕</button>` : ""}</div>
       ${mode === "gate" ? `<p class="note">اكتب اسمك عشان نتايجك تتحفظ باسمك. لو أكتر من حد بيذاكر على نفس الموبايل، كل واحد له بروفايل لوحده.</p>` : ""}
       ${list}
-      <form id="prof-form" class="prof-form" novalidate>
+      ${mode === "pick" ? "" : `<form id="prof-form" class="prof-form" novalidate>
         <label class="label" for="prof-name">${mode === "gate" ? "اسمك" : "بروفايل جديد"}</label>
         <div class="prof-row"><input id="prof-name" class="big-input" type="text" aria-describedby="prof-err" maxlength="30" autocomplete="off" dir="auto" enterkeyhint="done" placeholder="مثلًا: محمد"><button type="submit" class="btn">${mode === "gate" ? "ابدأ" : "أضف"}</button></div>
         <p class="form-err" id="prof-err" role="alert"></p>
-      </form>
+      </form>`}
       <div id="sheet-extra"></div>
     </div>`;
   sheetHost.hidden = false;
   app.inert = true; nav.inert = true;
-  const first = mode === "pick" ? sheetHost.querySelector(".prof") : $("#prof-name");
-  (first || $("#prof-name")).focus();
+  const first = mode === "gate" ? $("#prof-name") : mode === "pick" ? sheetHost.querySelector(".prof") : $("#sheet-title");
+  (first || $("#sheet-title")).focus();
   if (typeof renderSheetExtra === "function") renderSheetExtra();
 }
 function closeSheet() {
@@ -665,10 +668,11 @@ function renderSheetExtra(ask) {
   host.innerHTML = `<section class="hist" aria-labelledby="hist-title">
     <h3 class="hist-title" id="hist-title">سجل ${name}</h3>
     <p class="note">السجل محفوظ على الجهاز ده بس، ومحدش على جهاز تاني يقدر يشوفه.</p>
+    <p class="note" data-storage-note>${STORAGE_OK ? "على الآيفون ممكن يتمسح لو قفلت Safari خالص أو مسحت بيانات المتصفح." : "المتصفح ده مانع الحفظ، فالسجل هيفضل لحد ما تقفل الصفحة بس."}</p>
     ${ask ? `<div class="confirm" role="alertdialog" aria-labelledby="confirm-q" aria-describedby="confirm-what">
         <p class="confirm-q" id="confirm-q">${DEL[ask].label}؟</p>
         <p id="confirm-what">${DEL[ask].what(name)} مش هينفع ترجّعه بعد ما يتمسح.</p>
-        <div class="row"><button type="button" class="btn" data-confirm-yes="${ask}">أيوه، امسح</button><button type="button" class="btn ghost" data-confirm-no="${ask}">لا، رجوع</button></div>
+        <div class="row"><button type="button" class="btn" data-confirm-yes="${ask}">أيوه، امسح</button><button type="button" class="btn ghost" data-confirm-no="${ask}">لا، ارجع</button></div>
       </div>`
     : `<div class="del-list">${Object.keys(DEL).map(k => `<button type="button" class="del${k === "profile" ? " del-strong" : ""}" data-del="${k}">${DEL[k].label}</button>`).join("")}</div>`}
     <p class="note del-done" id="del-done" role="status"></p>
@@ -701,120 +705,264 @@ sheetHost.addEventListener("click", e => {
 $("#who-btn").addEventListener("click", () => openSheet(activeProfile() ? "switch" : (profiles.list.length ? "pick" : "gate")));
 
 // ───────────────────────── lab sounds: synthesized with Web Audio, off by default, per profile ─────────────────────────
+/* Anion Lab — lab sounds, synthesized with Web Audio (no audio files, no libraries).
+   makeSoundEngine(ctx, opts) → { input, output, synth, start(cue, seconds, when), stopAll(), active(), setVolume(v), cues }
+     input   the master chain's input (every cue voice connects here)
+     output  the master gain (setVolume moves it smoothly)
+     synth   the cue synthesizers: synth[cue](t, seconds, out, sources)
+   Bubbles are pitched: short sine grains that glide up and decay exponentially, the way a bubble rings
+   (Minnaert resonance; van den Doel, "Physically based models for liquid sounds", 2005). Noise is used only for air
+   (hiss, roar), and only pink or brown, low-passed. Every gain change ramps; every stop fades out (20 ms) before
+   the sources stop. Grains are scheduled ahead on the audio clock, at most ~40 per second.
+   One master chain: high-shelf cut above 6 kHz → short room (convolver, ~13% wet) → soft limiter → master gain. */
+function makeSoundEngine(ctx, opts = {}) {
+  const sr = ctx.sampleRate;
+  let seed = (opts.seed ?? (Math.random() * 4294967296)) >>> 0;
+  const rnd = () => { seed = (seed + 0x6D2B79F5) >>> 0; let x = seed; x = Math.imul(x ^ (x >>> 15), x | 1); x ^= x + Math.imul(x ^ (x >>> 7), x | 61); return ((x ^ (x >>> 14)) >>> 0) / 4294967296; };
+  const between = (a, b) => a + rnd() * (b - a);
+  const logBetween = (a, b) => a * Math.pow(b / a, rnd());
+  const MASTER = opts.master ?? 1.6;
+
+  // ── building blocks ──
+  const gain = v => { const g = ctx.createGain(); g.gain.value = v; return g; };
+  const filt = (type, f, Q = .7) => { const b = ctx.createBiquadFilter(); b.type = type; b.frequency.value = f; b.Q.value = Q; return b; };
+  // a short room: stereo decaying noise, darker as it decays, 8 ms pre-delay, built once
+  function roomIR(seconds) {
+    const n = Math.round(seconds * sr), pre = Math.round(.008 * sr), b = ctx.createBuffer(2, n, sr);
+    for (let c = 0; c < 2; c++) {
+      const d = b.getChannelData(c); let lp = 0;
+      for (let i = pre; i < n; i++) {
+        const k = (i - pre) / (n - pre), a = Math.exp(-6.9 * k);    // −60 dB at the end
+        const smooth = .35 + .6 * k;                                 // high end dies first
+        lp += (1 - smooth) * ((rnd() * 2 - 1) - lp);
+        d[i] = lp * a;
+      }
+    }
+    return b;
+  }
+  let pinkBuf = null, brownBuf = null;
+  function pink() {    // Paul Kellet's pink-noise filter over white noise, 2 s, built once
+    if (pinkBuf) return pinkBuf;
+    pinkBuf = ctx.createBuffer(1, sr * 2, sr);
+    const d = pinkBuf.getChannelData(0); let b0 = 0, b1 = 0, b2 = 0, b3 = 0, b4 = 0, b5 = 0, b6 = 0;
+    for (let i = 0; i < d.length; i++) {
+      const w = rnd() * 2 - 1;
+      b0 = .99886 * b0 + w * .0555179; b1 = .99332 * b1 + w * .0750759; b2 = .969 * b2 + w * .153852;
+      b3 = .8665 * b3 + w * .3104856; b4 = .55 * b4 + w * .5329522; b5 = -.7616 * b5 - w * .016898;
+      d[i] = (b0 + b1 + b2 + b3 + b4 + b5 + b6 + w * .5362) * .11; b6 = w * .115926;
+    }
+    return pinkBuf;
+  }
+  function brown() {   // integrated white noise, 2 s, built once
+    if (brownBuf) return brownBuf;
+    brownBuf = ctx.createBuffer(1, sr * 2, sr);
+    const d = brownBuf.getChannelData(0); let last = 0;
+    for (let i = 0; i < d.length; i++) { last = (last + .02 * (rnd() * 2 - 1)) / 1.02; d[i] = last * 3.5; }
+    return brownBuf;
+  }
+  function noise(buf, t0, t1, src) {
+    const n = ctx.createBufferSource(); n.buffer = buf; n.loop = true;
+    n.start(t0, rnd() * 1.5); n.stop(t1); src.push(n); return n;
+  }
+  // a gain that swells in, holds and fades out, all ramps (no steps on a running sound)
+  function swell(t, d, peak, attack, release) {
+    const g = gain(0), a = Math.max(.003, attack), hold = Math.max(t + a, t + d - release);
+    g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(peak, t + a);
+    g.gain.setValueAtTime(peak, hold); g.gain.setTargetAtTime(0, hold, release / 4);
+    return g;
+  }
+  // one bubble: a sine that glides up in pitch and rings down exponentially
+  function bubble(out, src, t, f, amp, ring, rise = 1.3, attack = .004) {
+    const o = ctx.createOscillator(), g = gain(0), a = Math.max(.003, attack), end = t + a + ring * 8;
+    o.frequency.setValueAtTime(f, t); o.frequency.exponentialRampToValueAtTime(f * rise, t + a + ring * 4);
+    g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(amp, t + a); g.gain.setTargetAtTime(0, t + a, ring);
+    o.connect(g).connect(out); o.start(t); o.stop(end); src.push(o);
+  }
+  // a struck note: sine + a few quiet partials, each with its own decay
+  function note(out, src, t, partials, attack, len) {
+    for (const [f, amp, ring] of partials) {
+      const o = ctx.createOscillator(), g = gain(0), a = Math.max(.003, attack);
+      o.frequency.value = f;
+      g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(amp, t + a); g.gain.setTargetAtTime(0, t + a, ring);
+      o.connect(g).connect(out); o.start(t); o.stop(t + a + Math.max(len, ring * 8)); src.push(o);
+    }
+  }
+  // grains spread over [t, t + d]; density thins in and out at the edges
+  function stream(t, d, perSecond, edge, each) {
+    const n = Math.max(1, Math.round(d * perSecond));
+    for (let i = 0; i < n; i++) {
+      const x = t + (i + between(.1, .9)) * d / n, k = Math.min(1, (x - t) / edge, (t + d - x) / edge);
+      if (k > 0) each(x, Math.max(.25, k));
+    }
+  }
+
+  // ── the cues ──
+  const SYN = {
+    // one clean drop: a quick upward "plink", a tiny second droplet, and a soft low body
+    drip(t, d, out, src) {
+      bubble(out, src, t, 640, .049, .016, 1.9, .004);
+      bubble(out, src, t + .002, 210, .027, .012, 1.15, .005);
+      bubble(out, src, t + between(.06, .085), between(1150, 1350), .011, .009, 1.5);
+    },
+    // small, light, higher bubbles at an easy pace (about 14 a second) over a very quiet soft bed
+    fizz(t, d, out, src) {
+      stream(t, d, 14, .25, (x, k) => bubble(out, src, x, logBetween(550, 1250), between(.009, .025) * k, between(.022, .036), between(1.15, 1.45)));
+      const bed = swell(t, d, .044, .25, .35); bed.connect(out);
+      noise(pink(), t, t + d + .6, src).connect(filt("highpass", 350)).connect(filt("lowpass", 1600)).connect(bed);
+    },
+    // fewer, larger, lower bubbles over a soft low rumble
+    boil(t, d, out, src) {
+      stream(t, d, 11, .45, (x, k) => bubble(out, src, x, logBetween(320, 760), between(.016, .036) * k, between(.018, .034), between(1.25, 1.7), .005));
+      const rumble = swell(t, d, .028, .45, .5); rumble.connect(out);
+      noise(brown(), t, t + d + .7, src).connect(filt("lowpass", 300)).connect(rumble);
+    },
+    // air through a narrow opening: pink noise around 2–3.5 kHz, low Q, swelling in slowly
+    hiss(t, d, out, src) {
+      const g = swell(t, d, .06, .45, .5); g.connect(out);
+      noise(pink(), t, t + d + .7, src).connect(filt("bandpass", 2300, .55)).connect(filt("lowpass", 3000)).connect(g);
+    },
+    // glass: a few slightly inharmonic partials (highest under 4.5 kHz), soft 2.5 ms attack, natural decay
+    clink(t, d, out, src) {
+      const f = between(1250, 1320);
+      note(out, src, t, [[f, .0255, .11], [f * 1.003, .005, .14], [f * 2.41, .003, .045], [f * 2.93, .0013, .03]], .0025, .3);
+    },
+    // acid running down the wall: a steady stream of small bubbles
+    trickle(t, d, out, src) {
+      stream(t, d, 26, .2, (x, k) => bubble(out, src, x, logBetween(560, 1150), between(.018, .033) * k, between(.007, .012), between(1.15, 1.35)));
+      const bed = swell(t, d, .0075, .2, .3); bed.connect(out);
+      noise(pink(), t, t + d + .5, src).connect(filt("bandpass", 1100, .8)).connect(bed);
+    },
+    // a soft burner: brown noise low-passed, with a slow, shallow flutter
+    roar(t, d, out, src) {
+      const g = swell(t, d, .04, .25, .45); g.connect(out);
+      const body = filt("lowpass", 520), air = gain(.9);
+      noise(brown(), t, t + d + .6, src).connect(body).connect(g);
+      noise(pink(), t, t + d + .6, src).connect(filt("highpass", 250)).connect(filt("lowpass", 1100)).connect(air).connect(g);
+      const lfo = ctx.createOscillator(), depth = gain(.035); lfo.frequency.value = 6.5; depth.gain.value = .01;
+      lfo.connect(depth).connect(g.gain); lfo.start(t); lfo.stop(t + d + .6); src.push(lfo);
+    },
+    // quiz: two rising marimba-like notes (a major third) for right, one lower gentle note for wrong
+    right(t, d, out, src) {
+      note(out, src, t, [[784, .0185, .09], [784 * 4, .002, .02]], .008, .4);
+      note(out, src, t + .12, [[988, .0185, .12], [988 * 3.9, .0016, .02]], .008, .5);
+    },
+    wrong(t, d, out, src) { note(out, src, t, [[330, .0235, .14], [330 * 4, .0013, .025]], .008, .6); }
+  };
+  const TAIL = { drip: .35, fizz: .8, boil: .9, hiss: .9, clink: .7, trickle: .7, roar: .8, right: 1, wrong: 1.1 };
+
+  // ── master chain: high-shelf → dry + room → soft limiter → master gain → out ──
+  const input = gain(1), shelf = filt("highshelf", 6000); shelf.gain.value = -9;
+  const dry = gain(.87), wet = gain(.13), room = ctx.createConvolver(); room.buffer = roomIR(.65);
+  const limiter = ctx.createDynamicsCompressor();
+  limiter.threshold.value = -10; limiter.knee.value = 6; limiter.ratio.value = 12; limiter.attack.value = .003; limiter.release.value = .2;
+  const output = gain(MASTER);
+  input.connect(shelf); shelf.connect(dry).connect(limiter); shelf.connect(room).connect(wet).connect(limiter);
+  limiter.connect(output).connect(opts.destination || ctx.destination);
+
+  // ── voices: a cue that starts within 150 ms of the same cue already playing joins it (compare mode plays it once) ──
+  let voices = [];
+  function start(cue, seconds = .3, when) {
+    if (!SYN[cue]) return null;
+    const now = ctx.currentTime, t = when ?? now + .01, d = Math.max(.12, seconds);
+    voices = voices.filter(v => !v.done && v.end > now);
+    const same = voices.find(v => v.cue === cue && Math.abs(v.t - t) < .15);
+    if (same) { same.refs++; let gone = false; return { cue, stop() { if (!gone) { gone = true; if (--same.refs <= 0) same.stop(); } } }; }
+    const out = gain(1), src = [];
+    out.connect(input);
+    SYN[cue](t, d, out, src);
+    const v = { cue, t, end: t + d + TAIL[cue], refs: 1, done: false, stop() {
+      if (v.done) return;
+      v.done = true;
+      const n = ctx.currentTime;
+      try { out.gain.cancelScheduledValues(n); out.gain.setValueAtTime(1, n); out.gain.linearRampToValueAtTime(0, n + .02); } catch (e) { /* closed */ }
+      src.forEach(s => { try { s.stop(n + .03); } catch (e) { /* already stopped */ } });
+    } };
+    voices.push(v);
+    let gone = false;
+    return { cue, stop() { if (!gone) { gone = true; if (--v.refs <= 0) v.stop(); } } };
+  }
+  const stopAll = () => { voices.forEach(v => v.stop()); voices = []; };
+  const active = () => voices.filter(v => !v.done && v.end > ctx.currentTime).length;
+  const setVolume = v => { try { output.gain.setTargetAtTime(MASTER * v, ctx.currentTime, .03); } catch (e) { /* closed */ } };
+  return { input, output, synth: SYN, start, stopAll, active, setVolume, cues: Object.keys(SYN) };
+}
 const Sound = (() => {
   const AC = window.AudioContext || window.webkitAudioContext;
-  let ctx = null, master = null, noiseBuf = null, failed = typeof AC !== "function";
-  const MASTER = 0.45;                 // quiet: every cue peaks well under this, then × the profile's volume
-  const live = new Set(), log = [];
+  let ctx = null, eng = null, failed = typeof AC !== "function";
+  const log = [];
   const gesture = () => !navigator.userActivation || navigator.userActivation.isActive;
-  function unlock() {                   // only ever called from a tap / key press
+  // audio can't work here: sound goes off, the speaker hides, the page carries on
+  function fail() {
+    failed = true;
+    try { if (eng) eng.stopAll(); } catch (e) { /* closed */ }
+    try { if (ctx && ctx.close) ctx.close().catch(() => {}); } catch (e) { /* already closed */ }
+    eng = null; ctx = null;
+    if (settings.sound) { settings.sound = false; saveSettings(); }
+    if (typeof renderSpeaker === "function") renderSpeaker();
+  }
+  function unlock() {                   // only ever called from a tap: the speaker, or pointerup / touchend / click
     if (failed || !gesture()) return !failed && !!ctx;
     try {
       if (!ctx) {
+        try { if (navigator.audioSession) navigator.audioSession.type = "playback"; } catch (e) { /* plays even with the silent switch on, where supported */ }
         ctx = new AC();
-        master = ctx.createGain(); master.gain.value = MASTER * settings.volume; master.connect(ctx.destination);
-        noiseBuf = ctx.createBuffer(1, ctx.sampleRate * 2, ctx.sampleRate);
-        const d = noiseBuf.getChannelData(0); for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+        eng = makeSoundEngine(ctx);
+        eng.setVolume(settings.volume);
       }
-      if (ctx.state === "suspended") ctx.resume().catch(() => {});
+      if (ctx.state !== "running") { const p = ctx.resume(); if (p && p.catch) p.catch(() => fail()); }
       return true;
-    } catch (e) { failed = true; ctx = null; if (typeof renderSpeaker === "function") renderSpeaker(); return false; }
+    } catch (e) { fail(); return false; }
   }
-  const setVolume = v => { if (master) master.gain.setTargetAtTime(MASTER * v, ctx.currentTime, .03); };
-  // building blocks
-  const gainNode = v => { const g = ctx.createGain(); g.gain.value = v; return g; };
-  const filt = (type, f, Q = .7) => { const b = ctx.createBiquadFilter(); b.type = type; b.frequency.value = f; b.Q.value = Q; return b; };
-  const env = (g, t0, peak, a, hold, r) => { g.gain.setValueAtTime(.0001, t0); g.gain.exponentialRampToValueAtTime(peak, t0 + a); g.gain.setValueAtTime(peak, Math.max(t0 + a, hold)); g.gain.exponentialRampToValueAtTime(.0001, Math.max(t0 + a, hold) + r); };
-  const noise = (t0, t1, src) => { const n = ctx.createBufferSource(); n.buffer = noiseBuf; n.loop = true; n.start(t0, Math.random() * 1.5); n.stop(t1); src.push(n); return n; };
-  const tone = (type, f, t0, t1, src) => { const o = ctx.createOscillator(); o.type = type; o.frequency.setValueAtTime(f, t0); o.start(t0); o.stop(t1); src.push(o); return o; };
-  const blip = (out, src, t, f0, f1, peak, len, type = "sine") => { const o = tone(type, f0, t, t + len + .05, src), g = ctx.createGain(); o.frequency.exponentialRampToValueAtTime(f1, t + len * .7); env(g, t, peak, .004, t + .008, len); o.connect(g).connect(out); };
-  const SYN = {
-    drip(t, d, out, src) { blip(out, src, t, 480, 1500, .5, .14); },
-    fizz(t, d, out, src) {
-      const crackle = ctx.createGain(), g = ctx.createGain();
-      for (let x = t; x < t + d; x += .02 + Math.random() * .035) crackle.gain.setValueAtTime(.2 + Math.random() * .8, x);
-      env(g, t, .2, .12, t + d - .3, .35);
-      noise(t, t + d + .5, src).connect(filt("highpass", 3400)).connect(crackle).connect(g).connect(out);
-    },
-    boil(t, d, out, src) {
-      const g = ctx.createGain(); env(g, t, .55, .4, t + d - .3, .4); g.connect(out);
-      noise(t, t + d + .5, src).connect(filt("lowpass", 240)).connect(gainNode(.5)).connect(g);
-      for (let x = t + .1; x < t + d - .1; x += .07 + Math.random() * .17) { const f = 85 + Math.random() * 110; blip(g, src, x, f, f * 1.9, .25 + Math.random() * .3, .07); }
-    },
-    hiss(t, d, out, src) { const g = ctx.createGain(); env(g, t, .09, .35, t + d - .5, .6); noise(t, t + d + .7, src).connect(filt("bandpass", 6200, .6)).connect(g).connect(out); },
-    clink(t, d, out, src) { [[2350, .16, .38], [3720, .1, .26], [5260, .06, .18]].forEach(([f, v, len]) => blip(out, src, t, f, f * 1.002, v, len)); },
-    trickle(t, d, out, src) {
-      const g = ctx.createGain(); env(g, t, .05, .2, t + d - .3, .4); noise(t, t + d + .5, src).connect(filt("bandpass", 1700, 1.4)).connect(g).connect(out);
-      for (let x = t + .03; x < t + d; x += .05 + Math.random() * .09) { const f = 900 + Math.random() * 800; blip(out, src, x, f, f * 1.5, .1, .05); }
-    },
-    roar(t, d, out, src) {
-      const g = ctx.createGain(); env(g, t, .5, .3, t + d - .4, .45); g.connect(out);
-      noise(t, t + d + .6, src).connect(filt("lowpass", 480)).connect(g);
-      const lfo = tone("sine", 9, t, t + d + .6, src), depth = gainNode(.12); lfo.connect(depth).connect(g.gain);
-    },
-    right(t, d, out, src) { blip(out, src, t, 660, 662, .22, .14); blip(out, src, t + .11, 880, 882, .22, .2); },
-    wrong(t, d, out, src) { blip(out, src, t, 300, 210, .22, .3, "triangle"); }
-  };
   function play(cue, rowId, ms = 300) {
-    if (!settings.sound || failed || !ctx || !SYN[cue]) return null;
+    if (!settings.sound || failed || !eng || !ctx || ctx.state !== "running" || document.hidden) return null;   // a scene's later cues stay silent while the page is hidden
     try {
-      if (ctx.state === "suspended") ctx.resume().catch(() => {});
-      const t = ctx.currentTime + .01, d = Math.max(.12, ms / 1000), out = ctx.createGain(), src = [];
-      out.connect(master);
-      SYN[cue](t, d, out, src);
-      const h = { cue, stop() {
-        if (!live.has(h)) return;
-        live.delete(h); clearTimeout(h.timer);
-        src.forEach(n => { try { n.stop(); } catch (e) { /* already stopped */ } });
-        try { out.disconnect(); } catch (e) { /* already gone */ }
-      } };
-      h.timer = setTimeout(() => h.stop(), (d + .9) * 1000);
-      live.add(h);
+      const h = eng.start(cue, Math.max(.12, ms / 1000));
+      if (!h) return null;
       log.push({ cue, rowId: rowId || null, t: Math.round(performance.now()) }); if (log.length > 400) log.splice(0, log.length - 400);
       return h;
     } catch (e) { return null; }
   }
-  const stopAll = () => [...live].forEach(h => h.stop());
-  return { play, stopAll, unlock, setVolume, log, active: () => live.size, available: () => !failed };
+  const stopAll = () => { try { if (eng) eng.stopAll(); } catch (e) { /* closed */ } };
+  const setVolume = v => { try { if (eng) eng.setVolume(v); } catch (e) { /* closed */ } };
+  const active = () => { try { return eng ? eng.active() : 0; } catch (e) { return 0; } };
+  return { play, stopAll, unlock, setVolume, log, active, available: () => !failed };
 })();
-// sound saved as "on": wake the audio on the first tap or key press anywhere (never before a gesture)
-["pointerdown", "pointerup", "keydown", "click"].forEach(t => document.addEventListener(t, () => { if (settings.sound) Sound.unlock(); }, { capture: true, passive: true }));
+// sound saved as "on": wake the audio on a real tap anywhere (iOS counts pointerup / touchend / click, not pointerdown / touchstart)
+["pointerup", "touchend", "click"].forEach(t => document.addEventListener(t, () => { if (settings.sound) Sound.unlock(); }, { capture: true, passive: true }));
+document.addEventListener("visibilitychange", () => { if (document.hidden) Sound.stopAll(); });
 
 const SPK_ON = `<path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" fill="currentColor"/><path d="M15.5 9a4.2 4.2 0 0 1 0 6M18 6.5a7.8 7.8 0 0 1 0 11"/>`;
 const SPK_OFF = `<path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" fill="currentColor"/><path d="M15.5 9.5l5 5M20.5 9.5l-5 5"/>`;
-$("#spk-slot").innerHTML = `<button type="button" class="spk" id="spk-btn" aria-expanded="false" aria-controls="spk-pop"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"></svg></button>
-  <div class="spk-pop" id="spk-pop" role="group" aria-labelledby="spk-title" hidden>
-    <p class="spk-title" id="spk-title">أصوات المعمل</p>
-    <button type="button" class="spk-toggle" id="spk-toggle" aria-pressed="false"><span class="track" aria-hidden="true"><span class="knob"></span></span><span id="spk-state"></span></button>
-    <label class="label" for="spk-vol">مستوى الصوت</label>
-    <input type="range" id="spk-vol" min="0" max="1" step="0.05" dir="ltr">
-    <p class="note">نقطة الكاشف، والفوران، والغليان، والأبخرة… بتتسمع مع حركة التفاعل. في الكويز: نغمة للصح ونغمة للغلط.</p>
-  </div>`;
-const spkPop = $("#spk-pop");
+$("#spk-slot").innerHTML = `<button type="button" class="spk" id="spk-btn" aria-pressed="false" aria-label="أصوات المعمل" aria-describedby="spk-what"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"></svg></button>`;
+$("#spk-row").innerHTML = `<div class="vol"><label for="spk-vol">مستوى الصوت</label><input type="range" id="spk-vol" min="0" max="1" step="0.05" dir="ltr" aria-label="مستوى الصوت"><output id="spk-out" for="spk-vol"></output></div>
+  <p class="note" id="spk-what">نقطة الكاشف، والفوران، والغليان، والأبخرة… بتتسمع مع حركة التفاعل. في الكويز: نغمة للصح ونغمة للغلط.</p>
+  <p class="note">لو الموبايل على الصامت، الصوت مش هيطلع.</p>`;
 function renderSpeaker() {
-  const slot = $("#spk-slot");
-  slot.hidden = !Sound.available();
-  const on = !!settings.sound, btn = $("#spk-btn");
+  const ok = Sound.available(), on = ok && !!settings.sound, btn = $("#spk-btn"), pc = Math.round(settings.volume * 100) + "%";
+  $("#spk-slot").hidden = !ok;
+  $("#spk-row").hidden = !on;
   btn.dataset.on = String(on);
-  btn.setAttribute("aria-label", on ? "أصوات المعمل: شغّالة. الإعدادات" : "أصوات المعمل: مقفولة. الإعدادات");
+  btn.setAttribute("aria-pressed", String(on));
   btn.querySelector("svg").innerHTML = on ? SPK_ON : SPK_OFF;
-  $("#spk-toggle").setAttribute("aria-pressed", String(on));
-  $("#spk-state").textContent = on ? "الصوت شغّال" : "الصوت مقفول";
   $("#spk-vol").value = String(settings.volume);
-  $("#spk-vol").setAttribute("aria-valuetext", Math.round(settings.volume * 100) + "%");
+  $("#spk-vol").setAttribute("aria-valuetext", pc);
+  $("#spk-out").textContent = pc;
   Sound.setVolume(settings.volume);
 }
-const spkShow = open => { spkPop.hidden = !open; $("#spk-btn").setAttribute("aria-expanded", String(open)); };
-$("#spk-btn").addEventListener("click", () => { Sound.unlock(); spkShow(spkPop.hidden); });
-$("#spk-toggle").addEventListener("click", () => {
-  settings.sound = !settings.sound;
-  if (settings.sound) Sound.unlock(); else Sound.stopAll();
+// the AudioContext is created inside this tap (Sound.unlock)
+$("#spk-btn").addEventListener("click", () => {
+  const on = !settings.sound;
+  if (on && !Sound.unlock()) { renderSpeaker(); return; }
+  settings.sound = on;
+  if (!on) Sound.stopAll();
   saveSettings(); renderSpeaker();
 });
-$("#spk-vol").addEventListener("input", e => { settings.volume = Math.min(1, Math.max(0, +e.target.value || 0)); Sound.setVolume(settings.volume); e.target.setAttribute("aria-valuetext", Math.round(settings.volume * 100) + "%"); });
+$("#spk-vol").addEventListener("input", e => {
+  settings.volume = Math.min(1, Math.max(0, +e.target.value || 0));
+  const pc = Math.round(settings.volume * 100) + "%";
+  Sound.setVolume(settings.volume); e.target.setAttribute("aria-valuetext", pc); $("#spk-out").textContent = pc;
+});
 $("#spk-vol").addEventListener("change", () => saveSettings());
-document.addEventListener("click", e => { if (!spkPop.hidden && !e.target.closest("#spk-slot")) spkShow(false); });
-document.addEventListener("keydown", e => { if (e.key === "Escape" && !spkPop.hidden) { spkShow(false); $("#spk-btn").focus(); } });
 
 const inited = {};
 let current = null;
@@ -1219,10 +1367,10 @@ ENTER.play = () => renderPlay();
 LEAVE.play = () => { play.playing = false; clearTimeout(play.timer); if (play.ctl) play.ctl.cancel(); };
 
 // ───────────────────────── 5. QUIZ (pharm-exam-forge Mode A) ─────────────────────────
-const QDEF = () => ({ answered: 0, correct: 0, level: 2, streak: 0, misses: 0, missedRows: {}, weakRefs: {}, rounds: 0, rowStats: {}, drill: {} });
+const QDEF = () => ({ answered: 0, correct: 0, level: 2, streak: 0, misses: 0, missedRows: {}, weakRefs: {}, rounds: 0, rowStats: {}, drill: {}, drillType: {}, drillOn: false, drillPrev: null });
 const qz = QDEF();
 function loadQuiz() { refill(qz, QDEF(), profiles.active ? store.get(pkey(profiles.active, "quiz"), {}) : {}); round = null; }
-const saveQ = () => { if (profiles.active) store.set(pkey(profiles.active, "quiz"), { answered: qz.answered, correct: qz.correct, level: qz.level, streak: qz.streak, misses: qz.misses, missedRows: qz.missedRows, weakRefs: qz.weakRefs, rounds: qz.rounds, rowStats: qz.rowStats, drill: qz.drill }); };
+const saveQ = () => { if (profiles.active) store.set(pkey(profiles.active, "quiz"), { answered: qz.answered, correct: qz.correct, level: qz.level, streak: qz.streak, misses: qz.misses, missedRows: qz.missedRows, weakRefs: qz.weakRefs, rounds: qz.rounds, rowStats: qz.rowStats, drill: qz.drill, drillType: qz.drillType, drillOn: qz.drillOn, drillPrev: qz.drillPrev }); };
 const FAM = { white: "w", colorless: "w", "yellowish-white": "y", yellow: "y", "canary yellow": "y", buff: "y", orange: "o", "orange red": "r", "yellow-scarlet red": "r", red: "r", "blood red": "r", "brownish red": "n", brown: "n", "chocolate brown": "n", "brownish black": "k", black: "k", grey: "k", pink: "v", purple: "v", violet: "v", blue: "b", "pale blue": "b", "Prussian blue": "b", green: "g", "greyish green": "g" };
 function similarity(r, s) {
   let x = 0;
@@ -1269,10 +1417,16 @@ function record(id, ok) {
 }
 const mastery = id => { const st = qz.rowStats[id]; return !st ? "new" : st.last === false ? "weak" : st.s >= 2 ? "known" : "learning"; };
 
-// ── where wrong options come from (MCQ both ways, True/False, Matching, and the condition blanks in Complete):
-//    1) the question's own group; 2) only when the group gives fewer than 3, the same reagent family (fam) from the
-//    other groups, most look-alike first; 3) otherwise no question. The "can't also be right" filters stay as they were.
-const NEED = 3;
+// ── where wrong options come from (MCQ both ways and True/False):
+//    1) the question's own group; 2) only when the group gives fewer than 2, the same reagent family (fam) from the
+//    other groups, most look-alike first, up to 3; 3) fewer than 2 → no question. The "can't also be right" filters stay as they were.
+//    Matching and the condition blanks in Complete keep their own rule. 3-option items work as well as 4 (Rodriguez 2005).
+const NEED = 2, MAXD = 3;
+const QSTATS = {};   // per group and type: questions built, how many needed the other-groups fallback, how many were skipped
+function qcount(row, kind, src) {
+  const g = QSTATS[row.group] || (QSTATS[row.group] = {}), c = g[kind] || (g[kind] = { built: 0, fallback: 0, skipped: 0 });
+  if (!src) c.skipped++; else { c.built++; if (src === "fallback") c.fallback++; }
+}
 const otherGroup = (a, row) => anionInfo.get(a).group !== row.group;
 function candidatesB(row, own) {
   const ownRows = famRows(row.anion, row.reagent);
@@ -1287,11 +1441,11 @@ function stagedB(row) {
   const group = candidatesB(row, true);
   if (group.length >= NEED) return { cands: group, src: "group" };
   const have = new Set(group.map(c => norm(c.s.observation)));
-  const more = candidatesB(row, false).filter(c => !have.has(norm(c.s.observation))).slice(0, NEED - group.length);
+  const more = candidatesB(row, false).filter(c => !have.has(norm(c.s.observation))).slice(0, MAXD - group.length);
   return group.length + more.length >= NEED ? { cands: group.concat(more), src: "fallback" } : null;
 }
-// level window over a candidate list (easy = less alike), never fewer than 3
-const windowed = (cands, level) => { const want = WANT(level), lo = Math.max(0, Math.min(want[0], cands.length - NEED)); return cands.slice(lo, Math.max(want[1], lo + NEED)); };
+// level window over a candidate list (easy = less alike); keeps 3 when there are 3, and a short list stays whole
+const windowed = (cands, level) => { const want = WANT(level), lo = Math.max(0, Math.min(want[0], cands.length - MAXD)); return cands.slice(lo, Math.max(want[1], lo + MAXD)); };
 
 // ── MCQ (both directions) ──
 function buildMCQ(row, dir, level) {
@@ -1303,10 +1457,11 @@ function buildMCQ(row, dir, level) {
     let cands = anionsOf(row.group).filter(a => a !== row.anion && !fits(a)).map(a => best(a, ROWS.filter(s => s.anion === a))), src = "group";
     if (cands.length < NEED) {
       cands = cands.concat(ALL_ANIONS.filter(a => otherGroup(a, row) && famRows(a, row.reagent).length && !fits(a))
-        .map(a => best(a, famRows(a, row.reagent))).sort((x, y) => y.score - x.score).slice(0, NEED - cands.length));
+        .map(a => best(a, famRows(a, row.reagent))).sort((x, y) => y.score - x.score).slice(0, MAXD - cands.length));
       src = "fallback";
     }
-    if (cands.length < NEED) return null;
+    if (cands.length < NEED) { qcount(row, "mcqA", null); return null; }
+    qcount(row, "mcqA", src);
     const chosen = shuffle(cands).slice(0, 3);
     const tempting = chosen.slice().sort((x, y) => y.score - x.score)[0];
     const opts = shuffle([{ key: row.anion, right: true }, ...chosen.map(c => ({ key: c.a, right: false, via: c.row.id }))]);
@@ -1314,7 +1469,8 @@ function buildMCQ(row, dir, level) {
   }
   // anion → observation: wrong options are other anions' observations that look like the right one
   const st = stagedB(row);
-  if (!st) return null;
+  if (!st) { qcount(row, "mcqB", null); return null; }
+  qcount(row, "mcqB", st.src);
   const chosen = shuffle(windowed(st.cands, level)).slice(0, 3);
   const tempting = chosen.slice().sort((x, y) => y.score - x.score)[0];
   const opts = shuffle([{ key: row.observation, right: true }, ...chosen.map(c => ({ key: c.s.observation, right: false, via: c.s.id }))]);
@@ -1324,7 +1480,8 @@ function buildMCQ(row, dir, level) {
 // ── True / False with correction ──
 function buildTF(row, level) {
   const st = stagedB(row);
-  if (!st) return null;
+  if (!st) { qcount(row, "tf", null); return null; }
+  qcount(row, "tf", st.src);
   const fake = pick(windowed(st.cands, level));
   const truth = Math.random() < .45;
   const fixDistractors = shuffle(st.cands.filter(c => c !== fake).slice(0, 6)).slice(0, 2);
@@ -1392,10 +1549,10 @@ function buildFill(row, level) {
     const usable = c => c && c !== row.condition && !bad.has(c) && FILL_CONDS.includes(c);
     const pool = [...new Set([...sibs, ...ROWS.filter(r2 => r2.group === row.group && r2.reagent === row.reagent)].map(r2 => r2.condition).filter(usable))];
     let src = "group";
-    if (pool.length < NEED) {
+    if (pool.length < 3) {
       const more = ROWS.filter(r2 => r2.group !== row.group && fam(r2.reagent) === fam(row.reagent) && usable(r2.condition) && !pool.includes(r2.condition))
         .sort((x, y) => similarity(row, y) - similarity(row, x)).map(r2 => r2.condition);
-      const add = [...new Set(more)].slice(0, NEED - pool.length);
+      const add = [...new Set(more)].slice(0, 3 - pool.length);
       if (add.length) { pool.push(...add); src = "fallback"; }
     }
     if (pool.length < 2) return null;
@@ -1415,6 +1572,7 @@ function build(row, type, level) {
 }
 let round = null;
 function newRound(opts = {}) {
+  if (qz.drillOn) { qz.drillOn = false; saveQ(); }
   const pool = opts.pool && opts.pool.length ? opts.pool.map(id => ROW.get(id)).filter(isQuizzable) : QPOOL;
   const missed = opts.pool ? [] : Object.keys(qz.missedRows).filter(id => ROW.has(id));
   const picks = [], used = new Set(), n = Math.min(10, pool.length);
@@ -1429,6 +1587,7 @@ function newRound(opts = {}) {
   nextQuestion();
 }
 function nextQuestion() {
+  if (round.drill) return nextDrillQuestion();
   if (round.i >= round.list.length) {
     if (!round.reask && round.missed.length) {
       // re-ask every missed item in a different question type (same reaction, new form)
@@ -1464,16 +1623,42 @@ function finish(right, perRow) {
     bad.forEach(id => { qz.missedRows[id] = (qz.missedRows[id] || 0) + 1; delete qz.drill[id]; const r = ROW.get(id); qz.weakRefs[r.slideRef] = (qz.weakRefs[r.slideRef] || 0) + 1; });
     if (!q.reask) round.missed.push({ rowId: row.id, type: q.kind });
   }
+  // the form each missed row was last asked in, so the drill asks it in a new one
+  q.rowIds.forEach(id => { if (qz.missedRows[id] !== undefined) qz.drillType[id] = q.kind; else delete qz.drillType[id]; });
   saveQ(); renderQuiz();
   $("#q-fb")?.scrollIntoView({ block: "nearest" });
 }
-// rows that some question type can be built for (a few have no 3 valid wrong options under the source rule)
+// the drill asks each missed row in a new form every time (pharm-exam-forge): MCQ both ways, True/False, Complete; no matching,
+// which grades several rows at once. A row can be drilled when at least 2 of these build, so a new form always exists.
+const DRILL_TYPES = ["mcqA", "mcqB", "tf", "fill"];
 const ASKABLE = new Map();
-const askable = id => { if (!ASKABLE.has(id)) ASKABLE.set(id, TYPES.some(t => build(ROW.get(id), t, 2))); return ASKABLE.get(id); };
+const askable = id => { if (!ASKABLE.has(id)) ASKABLE.set(id, DRILL_TYPES.filter(t => build(ROW.get(id), t, 2)).length >= 2); return ASKABLE.get(id); };
 const drillRows = () => Object.keys(qz.missedRows).filter(id => ROW.has(id) && isQuizzable(ROW.get(id)) && askable(id));
-function startDrill() { const ids = drillRows(); if (ids.length) newRound({ pool: ids, label: "راجع غلطاتي" }); }
+// a row leaves after 2 right answers in a row on it (qz.drill, kept in the quiz key); the drill ends when none is left
+function startDrill() {
+  if (!drillRows().length) return;
+  qz.drillOn = true; saveQ();
+  round = { drill: true, list: [], i: 0, q: null, missed: [], reask: false, score: 0, total: 0, done: false, label: "راجع غلطاتي", skip: new Set() };
+  nextQuestion();
+}
+function leaveDrill() { qz.drillOn = false; saveQ(); newRound(); }
+function nextDrillQuestion() {
+  const ids = drillRows().filter(id => !round.skip.has(id));
+  if (!ids.length) { round.done = true; qz.drillOn = false; qz.rounds++; saveQ(); renderQuiz(); return; }
+  // the row after the last one asked, so no row comes twice running while others wait
+  const at = ids.indexOf(qz.drillPrev), id = ids.length > 1 ? ids[(at + 1) % ids.length] : ids[0];
+  const row = ROW.get(id), last = qz.drillType[id];
+  const other = last === "mcqA" ? "mcqB" : last === "mcqB" ? "mcqA" : null;   // the other MCQ direction first
+  const order = (other ? [other] : []).concat(shuffle(DRILL_TYPES.filter(t => t !== last && t !== other)));
+  let q = null;
+  for (const t of order) { q = build(row, t, qz.level); if (q) break; }
+  if (!q) { round.skip.add(id); return nextDrillQuestion(); }
+  q.reask = false; q.kind = q.type === "mcq" ? (q.dir === "A" ? "mcqA" : "mcqB") : q.type;
+  qz.drillPrev = id; round.q = q; q.answered = false;
+  renderQuiz();
+}
 function onQuizClick(e) {
-  if (e.target.closest("#q-drill")) { startDrill(); window.scrollTo(0, 0); return; }
+  if (e.target.closest("#q-drill")) { if (round && round.drill && !round.done) leaveDrill(); else startDrill(); window.scrollTo(0, 0); return; }
   if (!round || round.done) { if (e.target.closest("#q-new")) { newRound(); window.scrollTo(0, 0); } return; }
   const q = round.q;
   if (e.target.closest("#q-next")) { round.i++; nextQuestion(); window.scrollTo(0, 0); return; }
@@ -1509,7 +1694,7 @@ INIT.quiz = () => {
     <div class="stats" id="q-stats"></div><div class="drill-row" id="q-drill-row"></div><div class="panel" id="q-panel"></div>`;
   el.addEventListener("click", onQuizClick);
 };
-ENTER.quiz = (opts = {}) => { if (opts.practice) newRound(opts.practice); else if (!round) newRound(); else renderQuiz(); };
+ENTER.quiz = (opts = {}) => { if (opts.practice) newRound(opts.practice); else if (!round) { if (qz.drillOn && drillRows().length) startDrill(); else newRound(); } else renderQuiz(); };
 const condOf = r => (r.condition ? ` (${r.condition})` : "");
 const TYPE_LABEL = { mcqA: "observation → anion", mcqB: "anion → observation", tf: "True / False", match: "Matching", fill: "Complete" };
 function qStem(q) {
@@ -1524,7 +1709,8 @@ function qStem(q) {
 const explainRow = row => `<p>مع ${L(row.reagent)}${row.condition ? ` ${L("(" + row.condition + ")")}` : ""}، الـ ${F(row.anion)} ${L("(" + row.anionName + ")")} بيدي ${EN(row.observation)}. <span class="ref" data-ref>${esc(row.slideRef)}</span></p>`;
 function feedback(q) {
   const row = ROW.get(q.rowId);
-  const next = `<div class="row"><button type="button" class="btn" id="q-next">${round.i + 1 >= round.list.length && (round.reask || !round.missed.length) ? "النتيجة" : "السؤال اللي بعده"}</button></div>`;
+  const last = round.drill ? !drillRows().filter(id => !round.skip.has(id)).length : round.i + 1 >= round.list.length && (round.reask || !round.missed.length);
+  const next = `<div class="row"><button type="button" class="btn" id="q-next">${last ? "النتيجة" : "السؤال اللي بعده"}</button></div>`;
   let body = "";
   if (q.type === "mcq") {
     const chosen = q.opts[q.choice];
@@ -1550,9 +1736,9 @@ function optButtons(opts, render, rightIdx, answered, choice) {
   }).join("");
 }
 function renderDrill() {
-  const n = drillRows().length;
-  $("#q-drill-row").innerHTML = `<button type="button" class="btn ghost" id="q-drill" ${n ? "" : "disabled"} aria-describedby="q-drill-note">راجع غلطاتي${n ? ` (${n})` : ""}</button>
-    <p class="note" id="q-drill-note">${n ? "أسئلة على اللي غلطت فيه بس. السؤال بيخرج من هنا لما تجاوبه صح مرتين ورا بعض." : "مفيش غلطات تراجعها دلوقتي. أي سؤال تغلط فيه هيظهر هنا."}</p>`;
+  const n = drillRows().length, on = !!(round && round.drill && !round.done);
+  $("#q-drill-row").innerHTML = `<button type="button" class="btn ghost" id="q-drill" ${n || on ? "" : "disabled"} aria-describedby="q-drill-note">${on ? "اخرج من المراجعة" : `راجع غلطاتي${n ? ` (${n})` : ""}`}</button>
+    <p class="note" id="q-drill-note">${on ? `فاضل ${n}. السؤال بيخرج من المراجعة لما تجاوبه صح مرتين ورا بعض.` : n ? "أسئلة على اللي غلطت فيه بس. السؤال بيخرج من هنا لما تجاوبه صح مرتين ورا بعض." : "مفيش غلطات تراجعها دلوقتي. أي سؤال تغلط فيه هيظهر هنا."}</p>`;
 }
 function renderQuiz() {
   renderDrill();
@@ -1562,7 +1748,7 @@ function renderQuiz() {
   if (round.done) {
     const weak = Object.entries(qz.weakRefs).sort((x, y) => y[1] - x[1]).slice(0, 8);
     const missedNow = [...new Set(round.missed.map(m => m.rowId))].map(id => ROW.get(id));
-    panel.innerHTML = `<p class="big-title">خلصت الجولة: ${round.score} من ${round.total}</p>
+    panel.innerHTML = `<p class="big-title">${round.drill ? "خلصت مراجعة غلطاتك" : "خلصت الجولة"}: ${round.score} من ${round.total}</p>${round.drill ? `<p>كل سؤال فيها اتجاوب صح مرتين ورا بعض.</p>` : ""}
       ${missedNow.length ? `<span class="label">اللي غلطت فيه في الجولة دي</span><ul class="weak">${missedNow.map(r => `<li>${F(r.anion)} + ${L(r.reagent)} → ${EN(r.observation)} <span class="ref">${esc(r.slideRef)}</span></li>`).join("")}</ul>` : `<p>ولا غلطة في الجولة دي.</p>`}
       <span class="label">نقط الضعف (من كل الجولات)</span>
       ${weak.length ? `<ul class="weak">${weak.map(([ref, n]) => { const rs = ROWS.filter(r => r.slideRef === ref); const topics = [...new Set(rs.map(r => r.reagent))].slice(0, 3); return `<li><span class="ref">${esc(ref)}</span> غلطت ${n} مرة · راجع ${topics.map(L).join("، ")} في السلايد دي</li>`; }).join("")}</ul>` : `<p class="note">لسه مفيش نقط ضعف متسجلة.</p>`}
@@ -1570,7 +1756,10 @@ function renderQuiz() {
     return;
   }
   const q = round.q, row = ROW.get(q.rowId);
-  const head = `<p class="note" data-qtype="${q.kind}">${q.reask ? "إعادة لسؤال غلطت فيه، بنوع تاني · " : ""}سؤال ${round.i + 1} من ${round.list.length} · ${TYPE_LABEL[q.kind] || ""}</p>${EN(qStem(q), "p", "q-stem")}`;
+  const streak = qz.missedRows[q.rowId] === undefined ? 2 : Math.min(2, qz.drill[q.rowId] || 0);
+  const head = round.drill
+    ? `<p class="note" data-qtype="${q.kind}" data-drill>مراجعة غلطاتك · فاضل ${drillRows().length} · صح ${streak} من 2 · <bdi dir="ltr" style="white-space:nowrap">${TYPE_LABEL[q.kind] || ""}</bdi></p>${EN(qStem(q), "p", "q-stem")}`
+    : `<p class="note" data-qtype="${q.kind}">${q.reask ? "إعادة لسؤال غلطت فيه، بنوع تاني · " : ""}سؤال ${round.i + 1} من ${round.list.length} · ${TYPE_LABEL[q.kind] || ""}</p>${EN(qStem(q), "p", "q-stem")}`;
   let body = "";
   if (q.type === "mcq") {
     const rightIdx = q.opts.findIndex(o => o.right);
@@ -1632,5 +1821,5 @@ if (activeProfile()) loadProfileState();
 renderTop();
 show(start);
 if (!activeProfile()) openSheet(profiles.list.length ? "pick" : "gate");
-window.__anionLab = { ROWS, COLORS, show, version: 1, peekQuestion: () => round && round.q, peekState: () => ({ qz, unk, settings, saved: [...saved], profiles }), soundLog: Sound.log, activeSounds: () => Sound.active(), skip: () => { if (round) { round.i++; nextQuestion(); } }, _t: { alike, famRows, norm, rowColorSet, mastery, fold, fam, similarity, isQuizzable, build } };
+window.__anionLab = { ROWS, COLORS, show, version: 1, peekQuestion: () => round && round.q, peekState: () => ({ qz, unk, settings, saved: [...saved], profiles }), soundLog: Sound.log, activeSounds: () => Sound.active(), skip: () => { if (round) { round.i++; nextQuestion(); } }, _t: { alike, famRows, norm, rowColorSet, mastery, fold, fam, similarity, isQuizzable, build, giveaway, NEED, MAXD, askable, drillRows, qstats: () => JSON.parse(JSON.stringify(QSTATS)), qstatsReset: () => { for (const k of Object.keys(QSTATS)) delete QSTATS[k]; }, round: () => round && { drill: !!round.drill, done: !!round.done }, cmpCancel: i => { const c = lab.cctl[i]; if (c) c.cancel(); return lab.cctl.length; } } };
 })();

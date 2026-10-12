@@ -67,12 +67,9 @@ async function answer(page, correct = true) {
 const next = page => page.click("#q-next");
 const quizText = page => page.locator("#q-stats").innerText();
 const lsKeys = page => page.evaluate(() => { const o = {}; for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); o[k] = localStorage.getItem(k); } return o; });
-async function soundOn(page, on = true, volume) {
-  await page.click("#spk-btn");
-  const pressed = await page.getAttribute("#spk-toggle", "aria-pressed");
-  if ((pressed === "true") !== on) await page.click("#spk-toggle");
+async function soundOn(page, on = true, volume) {   // the speaker itself toggles sound (Prompt 5)
+  if (((await page.getAttribute("#spk-btn", "aria-pressed")) === "true") !== on) await page.click("#spk-btn");
   if (volume !== undefined) await page.evaluate(v => { const r = document.querySelector("#spk-vol"); r.value = String(v); r.dispatchEvent(new Event("input", { bubbles: true })); r.dispatchEvent(new Event("change", { bubbles: true })); }, volume);
-  await page.click("#spk-btn");   // close the popover
 }
 async function runLab(page, anion, reagent, condition = null) {
   const group = ROWS.find(r => r.anion === anion).group;
@@ -170,14 +167,14 @@ const TESTS = {
   4: ["Credit visible in every view, footer ends above the nav; meta author exists", async browser => {
     const { ctx, page, errors } = await fresh(browser);
     await createFirst(page, "Credit");
-    expect(await page.locator('meta[name="author"][content="Mohammed Ayman"]').count() === 1, "meta author missing");
-    expect((await page.locator(".top .credit").innerText()).trim() === "Made by Mohammed Ayman", "top bar credit text");
+    expect(await page.locator('meta[name="author"][content="Mohammed Aymen"]').count() === 1, "meta author missing");
+    expect((await page.locator(".top .credit").innerText()).trim() === "Made by Mohammed Aymen", "top bar credit text");
     for (const v of VIEWS) {
       await page.click(`button[data-nav="${v}"]`);
       await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
       await page.waitForTimeout(150);
       const r = await page.evaluate(() => { const f = document.querySelector(".credit-foot"), n = document.querySelector("nav.tabs"); const a = f.getBoundingClientRect(), b = n.getBoundingClientRect(); return { text: f.innerText.trim(), bottom: a.bottom, top: a.top, navTop: b.top, visible: a.height > 0 && getComputedStyle(f).visibility !== "hidden" }; });
-      expect(r.text === "Made by Mohammed Ayman" && r.visible, `${v}: footer credit missing`);
+      expect(r.text === "Made by Mohammed Aymen" && r.visible, `${v}: footer credit missing`);
       expect(r.bottom <= r.navTop && r.top >= 0, `${v}: footer (${r.top}–${r.bottom}) not above the nav (${r.navTop})`);
     }
     allErrors.push(...errors); await ctx.close();
@@ -279,6 +276,10 @@ const TESTS = {
     const { ctx, page, errors } = await fresh(browser);
     await createFirst(page, "Sound");
     await soundOn(page, true);
+    if (RUN === "reduce") {   // Prompt 5: reduced motion jumps to the end, so lab scenes stay silent
+      for (const [a, rg] of [["CO₃²⁻", "dil. HCl"], ["F⁻", "borax + conc. H₂SO₄ → flame"]]) { const c = await runLab(page, a, rg); expect(!c.length, `reduced motion: ${a} + ${rg} → ${c.join(",")}`); }
+      allErrors.push(...errors); await ctx.close(); return;
+    }
     const c1 = await runLab(page, "CO₃²⁻", "dil. HCl");
     expect(c1.join(",") === "drip,fizz", `CO₃²⁻ + dil. HCl → ${c1.join(",")}`);
     const c2 = await runLab(page, "HCO₃⁻", "BaCl₂", "boiling");
@@ -295,16 +296,16 @@ const TESTS = {
     const { ctx, page, errors } = await fresh(browser);
     await createFirst(page, "Sound A");
     await soundOn(page, true, 0.3);
-    {   // reduced motion: the cues still play once each (~300 ms), so stop one mid-way
+    if (RUN !== "reduce") {   // reduced motion is silent (Prompt 5), so this part runs with motion only
       await page.click(`[data-lab-group="I"]`); await page.click(`#lab-anions [data-anion="HCO₃⁻"]`); await page.selectOption("#lab-reagent", "BaCl₂");
       await page.click('#lab-conds button[data-cond="boiling"]');
       await page.waitForTimeout(RUN === "reduce" ? 150 : 1200);
       const mid = await page.evaluate(() => window.__anionLab.activeSounds());
       expect(mid > 0, "nothing playing mid-scene");
-      await page.click("#spk-btn"); await page.click("#spk-toggle");
+      await page.click("#spk-btn");
       const now = await page.evaluate(() => window.__anionLab.activeSounds());
       expect(now === 0, `${now} sounds still playing right after turning sound off`);
-      await page.click("#spk-toggle"); await page.click("#spk-btn");   // back on for the persistence check
+      await page.click("#spk-btn");   // back on for the persistence check
     }
     await addProfile(page, "Sound B");
     await soundOn(page, false, 0.8);

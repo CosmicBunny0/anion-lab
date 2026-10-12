@@ -18,3 +18,11 @@ tests/results.json
 # local tool state
 .claude/
 .playwright-mcp/
+
+# anionlab/: page snapshots and screenshots from the update prompts (rebuild the page with `npm run build`)
+anionlab/shots/
+anionlab/before-*.html
+anionlab/after-*.html
+anionlab/publish-*.html
+anionlab/p1-unpublished/
+anionlab/engine-from-page.js
